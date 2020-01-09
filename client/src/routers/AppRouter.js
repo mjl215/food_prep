@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
 import LandingPage from '../components/common/LandingPage';
-
-import Register from '../components/auth/Register'
+import Navbar from '../components/navigation/Navbar';
+import Register from '../components/auth/Register';
+import Login from '../components/auth/Login';
 import PrivateRoute from '../components/common/PrivateRoute';
 
 
@@ -27,11 +28,12 @@ const AppRouter = (props) => {
   return (
     <Router>
       <div>
-        {/* <Navbar /> */}
+        <Navbar /> 
         <Switch>
           <Route exact path='/' component={LandingPage}></Route>
           {/* <PrivateRoute exact path='/post' component={PostDashboard} /> */}
           <Route exact path='/register' component={Register} />
+          <Route exact path='/login' component={Login} />
           {/* <Route exact path='/forecast/:location' component={DetailedForecast} /> */}
         </Switch>
       </div>

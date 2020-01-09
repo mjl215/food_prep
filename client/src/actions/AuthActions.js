@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode';
 
 export const registerUser = (body, config) => async dispatch => {
   try {
-    const res = await axios.post('/user', body, config);
+    const res = await axios.post('/user/register', body, config);
 
     localStorage.setItem('token', JSON.stringify(res.data.token));
     const decoded = jwtDecode(res.data.token);
@@ -19,4 +19,27 @@ export const registerUser = (body, config) => async dispatch => {
   } catch (error) {
     console.log('there has been an error registering: ' + error)
   }
+}
+
+export const loginUser = (body, config) => async dispatch =>  {
+  try {
+    const res = await axios.post('/user/login', body, config);
+    localStorage.setItem('token', JSON.stringify(res.data.token));
+    const decoded = jwtDecode(res.data.token);
+
+    dispatch({
+      type: action_types.LOGIN_SUCCESS,
+      data: decoded
+    })
+
+  } catch (error) {
+    console.log('there has been an error loging into your account ' + error)
+  }
+}
+
+export const logoutUser = () => dispatch => {
+  
+  dispatch({
+    type: action_types.LOGOUT_USER
+  })
 }

@@ -25,6 +25,7 @@ const authReducerDefaultState = {
       //   }
   
       case 'REGISTER_SUCCESS':
+      case 'LOGIN_SUCCESS':
         return {
           authorized: true,
           name: action.data.name,
