@@ -43,15 +43,16 @@ const authReducerDefaultState = {
     //       loading: false
     //     };
       
-    //   case 'LOGOUT_USER':
-    //   case 'CLEAR_USER':
-    //     localStorage.removeItem('token')
-    //     return{
-    //       token: null,
-    //       isAuthenticated: false,
-    //       loading: false,
-    //       user: null
-    //     };
+      case 'LOGOUT_USER':
+    //case 'CLEAR_USER':
+        localStorage.removeItem('token')
+        return{
+          authorized: false,
+          name: '',
+          email: '',
+          userType: '',
+          location: null
+        };
       
       default:
         return state

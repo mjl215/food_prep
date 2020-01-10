@@ -3,31 +3,28 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-
-
+import { logoutUser } from '../../actions/AuthActions';
 
 const Navbar = (props) => {
 
   const onClick = async () => {
-    console.log(props.auth.userType)
-    // try {
+    
+    try {
 
-    //   const token = JSON.parse(localStorage.getItem('token'));
+      const token = JSON.parse(localStorage.getItem('token'));
       
-    //   const config = {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer ${token}`
-    //     }
-    //   }
-
-    //   console.log(config)
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
       
-    //   logoutUser(config)
+      props.logoutUser(config)
 
-    // } catch (error) {
-    //   console.log(error)
-    // }
+    } catch (error) {
+      console.log(error)
+    }
 
   }
   
@@ -99,7 +96,7 @@ const mapStateToProps =(state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  
+  logoutUser: (header) => dispatch(logoutUser(header))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

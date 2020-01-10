@@ -37,9 +37,18 @@ export const loginUser = (body, config) => async dispatch =>  {
   }
 }
 
-export const logoutUser = () => dispatch => {
-  
-  dispatch({
-    type: action_types.LOGOUT_USER
-  })
+
+export const logoutUser = (config) => async dispatch => {
+  console.log('in logout user')
+
+  try {
+    await axios.post('/user/logout', null, config);
+
+    dispatch({
+      type: action_types.LOGOUT_USER,
+    })
+
+  } catch (error) {
+    console.log('there has been an error on logout: ' + error)
+  }
 }

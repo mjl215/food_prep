@@ -7,6 +7,7 @@ import LandingPage from '../components/common/LandingPage';
 import Navbar from '../components/navigation/Navbar';
 import Register from '../components/auth/Register';
 import Login from '../components/auth/Login';
+import UploadRecipe from '../components/recipe/UploadRecipe';
 import PrivateRoute from '../components/common/PrivateRoute';
 
 
@@ -28,7 +29,8 @@ const AppRouter = (props) => {
   return (
     <Router>
       <div>
-        <Navbar /> 
+        <Navbar />
+        <UploadRecipe /> 
         <Switch>
           <Route exact path='/' component={LandingPage}></Route>
           {/* <PrivateRoute exact path='/post' component={PostDashboard} /> */}
