@@ -10,11 +10,18 @@ export default class UploadRecipe extends Component {
     
     }
 
+    componentDidMount = async () => {
+        const res = await axios.get('/recipe/image');
+        res.data.forEach(element => {
+            console.log(element.image.data)
+        });
+    }
+
     onClickHandler = async () => {
         const data = new FormData() 
         data.append('upload', this.state.selectedFile);
 
-        const res = await axios.post('/image', data);
+        const res = await axios.post('/recipe/image', data);
         console.log(res);
     }
 

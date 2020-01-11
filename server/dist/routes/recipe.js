@@ -1,0 +1,15 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const multer_1 = __importDefault(require("multer"));
+const recipe_1 = require("../controllers/recipe");
+const router = express_1.Router();
+const upload = multer_1.default({
+//dest: 'images'
+});
+router.post('/image', upload.single('upload'), recipe_1.uploadRecipe);
+router.get('/image', recipe_1.getAllRecipes);
+exports.default = router;
