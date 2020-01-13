@@ -5,18 +5,12 @@ export default class UploadRecipe extends Component {
     constructor(props) {
         super(props);
             this.state = {
-            selectedFile: null
+            selectedFile: null,
             }
     
     }
 
-    componentDidMount = async () => {
-        const res = await axios.get('/recipe/image');
-        res.data.forEach(element => {
-            console.log(element.image.data)
-        });
-    }
-
+    
     onClickHandler = async () => {
         const data = new FormData() 
         data.append('upload', this.state.selectedFile);
@@ -30,17 +24,19 @@ export default class UploadRecipe extends Component {
             selectedFile: e.target.files[0],
             loaded: 0,
         })
-    }
-
-    
+    };
 
     render() {
+
         return (
-            <form>
-                <p>recipe</p>
+            <div>
+                
+                <form>
                 <input type="file" name="file" onChange={this.onChangeHandler}/>
-                <button type="button" class="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button>
+                <button type="button"  onClick={this.onClickHandler}>Upload</button>
             </form>
+            </div>
+            
         )
     }
 }

@@ -14,5 +14,21 @@ export const getAllRecipes = async (req: Request, res: Response, next: NextFunct
     res.send(recipes);
 }
 
+export const getRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id)
+
+        if(!recipe || !recipe.image){
+            throw new Error();
+        }
+
+        res.set('Content-type', 'image/jpg');
+        res.send(recipe.image);
+
+    } catch (error) {
+        res.status(404).send();
+    }
+}
+
 
 

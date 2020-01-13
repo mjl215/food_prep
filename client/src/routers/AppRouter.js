@@ -30,12 +30,13 @@ const AppRouter = (props) => {
     <Router>
       <div>
         <Navbar />
-        <UploadRecipe /> 
+         
         <Switch>
           <Route exact path='/' component={LandingPage}></Route>
           {/* <PrivateRoute exact path='/post' component={PostDashboard} /> */}
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
+          <Route exact path='/add-recipe' component={UploadRecipe} />
           {/* <Route exact path='/forecast/:location' component={DetailedForecast} /> */}
         </Switch>
       </div>
