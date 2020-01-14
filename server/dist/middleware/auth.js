@@ -8,6 +8,7 @@ const user_1 = __importDefault(require("../models/user"));
 exports.auth = async (req, res, next) => {
     var _a;
     try {
+        console.log('in auth');
         const token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
         if (token) {
             const decoded = jsonwebtoken_1.default.verify(token, 'recipe'); // fix this casting

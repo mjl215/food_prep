@@ -52,3 +52,11 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
         res.status(500).send(e);
     }
 }
+
+export const authUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.send({user: req.user, token: req.token});
+    } catch (e) {
+        console.log(e)
+    }
+}

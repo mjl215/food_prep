@@ -22,7 +22,7 @@ class RecipeDisplay extends Component {
     render() {
 
         const renderRecipe = this.state.images && this.state.images.map((img) =>{
-            return <img src={`http://localhost:3000/recipe/image/${img._id}`}/>}
+            return <img key={img._id} src={`http://localhost:3000/recipe/image/${img._id}`}/>}
             )
 
         return (

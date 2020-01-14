@@ -48,3 +48,11 @@ exports.logoutUser = async (req, res, next) => {
         res.status(500).send(e);
     }
 };
+exports.authUser = async (req, res, next) => {
+    try {
+        res.send({ user: req.user, token: req.token });
+    }
+    catch (e) {
+        console.log(e);
+    }
+};

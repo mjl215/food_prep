@@ -1,22 +1,41 @@
 import { Request, Response, NextFunction } from 'express';
 
+import RecipeImage from '../models/recipeImages';
 import Recipe from '../models/recipe';
 
-export const uploadRecipe = async (req: Request, res: Response, next: NextFunction) => {
-    const recipe = new Recipe();
-    recipe.image = req.file.buffer;
-    await recipe.save();
-    res.send();
+//Add Image for Recipe
+export const uploadRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
+    const recipeImage = new RecipeImage();
+    recipeImage.image = req.file.buffer;
+    const savedImage = await recipeImage.save();
+    res.send(savedImage._id);
 };
 
+//Add Recipe
+export const uploadRecipe = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipe = new Recipe(req.body);
+        await recipe.save();
+        res.send()
+
+    } catch (error) {
+        console.log(error)
+    }
+    
+   
+    
+}
+
+//Get All Recipes
 export const getAllRecipes = async (req: Request, res: Response, next: NextFunction) => {
-    const recipes = await Recipe.find();
+    const recipes = await RecipeImage.find();
     res.send(recipes);
 }
 
+//Get recipe Image
 export const getRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const recipe = await Recipe.findById(req.params.id)
+        const recipe = await RecipeImage.findById(req.params.id)
 
         if(!recipe || !recipe.image){
             throw new Error();

@@ -52,3 +52,20 @@ export const logoutUser = (config) => async dispatch => {
     console.log('there has been an error on logout: ' + error)
   }
 }
+
+export const setUser = (config) => async dispatch => {
+  try {
+    const res = await axios.post('/user/auth', null, config);
+    const decoded = jwtDecode(res.data.token); 
+    console.log(decoded);
+    // dispatch({
+    //   type: action_types.SET_CURRENT_USER,
+    //   data: decoded
+    // })
+  } catch (error) {
+    console.log(error)
+    // dispatch({
+    //   type: action_types.CLEAR_USER
+    // })
+  }
+}

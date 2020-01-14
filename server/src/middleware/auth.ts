@@ -6,7 +6,7 @@ import User  from '../models/user';
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    
+    console.log('in auth');
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if(token){
