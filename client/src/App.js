@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import AppRouter from './routers/AppRouter';
 import { Provider } from 'react-redux';
 
 import configureStore from './store/configureStore';
+import { setUser } from './actions/AuthActions';
 
 const store = configureStore();
 
-function App() {
+
+const  App = () => {
+
+  useEffect(() => {
+    store.dispatch(setUser());
+  }, []);
+
   return (
     <Provider store={store} >
       <AppRouter />

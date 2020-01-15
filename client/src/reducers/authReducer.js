@@ -8,13 +8,13 @@ const authReducerDefaultState = {
   
   const authReducer = (state = authReducerDefaultState, action) => {
     switch (action.type) {
-    //   case 'SET_CURRENT_USER':
-    //     return {
-    //       token: localStorage.getItem('token'),
-    //       isAuthenticated: !isEmpty(action.data),
-    //       loading: false,
-    //       user: action.data
-    //     };
+      // case 'SET_CURRENT_USER':
+      //   return {
+      //     token: localStorage.getItem('token'),
+      //     isAuthenticated: !isEmpty(action.data),
+      //     loading: false,
+      //     user: action.data
+      //   };
   
       // case 'CLEAR_USER': 
       //   return {
@@ -26,6 +26,7 @@ const authReducerDefaultState = {
   
       case 'REGISTER_SUCCESS':
       case 'LOGIN_SUCCESS':
+      case 'SET_CURRENT_USER':
         return {
           authorized: true,
           name: action.data.name,

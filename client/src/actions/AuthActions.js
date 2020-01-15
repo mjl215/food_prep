@@ -53,19 +53,31 @@ export const logoutUser = (config) => async dispatch => {
   }
 }
 
-export const setUser = (config) => async dispatch => {
-  try {
-    const res = await axios.post('/user/auth', null, config);
-    const decoded = jwtDecode(res.data.token); 
-    console.log(decoded);
-    // dispatch({
-    //   type: action_types.SET_CURRENT_USER,
-    //   data: decoded
-    // })
-  } catch (error) {
-    console.log(error)
-    // dispatch({
-    //   type: action_types.CLEAR_USER
-    // })
-  }
+export const setUser = () => async dispatch => {
+
+  const token = JSON.parse(localStorage.getItem('token'));
+
+  if(token){
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+      
+    }
+  
+    try {
+      const res = await axios.post('/user/auth', null, config);
+      const decoded = jwtDecode(res.data.token); 
+      dispatch({
+        type: action_types.SET_CURRENT_USER,
+        data: decoded
+      })
+    } catch (error) {
+      console.log(error)
+      // dispatch({
+      //   type: action_types.CLEAR_USER
+      // })
+    }
+  } 
 }

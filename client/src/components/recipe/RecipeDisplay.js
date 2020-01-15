@@ -14,7 +14,6 @@ class RecipeDisplay extends Component {
 
         const res = await axios.get('/recipe/image');
 
-        console.log(res);
 
         this.setState({images: res.data})
     }
@@ -22,7 +21,7 @@ class RecipeDisplay extends Component {
     render() {
 
         const renderRecipe = this.state.images && this.state.images.map((img) =>{
-            return <img key={img._id} src={`http://localhost:3000/recipe/image/${img._id}`}/>}
+            return <img key={img._id} src={`http://localhost:3000/recipe/image/${img._id}`} alt="recipe img"/>}
             )
 
         return (
