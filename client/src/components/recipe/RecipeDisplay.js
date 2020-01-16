@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import RecipeButtons from './RecipeButtons';
+import RecipeImage from './RecipeImage';
+import RecipeDetails from './RecipeDetails';
+
 class RecipeDisplay extends Component {
     constructor(props) {
         super(props);
             this.state = {
-            images: null
+            recipes: null
             }
     
     }
@@ -15,19 +19,27 @@ class RecipeDisplay extends Component {
         const res = await axios.get('/recipe/image');
 
 
-        this.setState({images: res.data})
+        this.setState({recipes: res.data})
     }
+
+    
 
     render() {
 
-        const renderRecipe = this.state.images && this.state.images.map((img) =>{
-            return <img key={img._id} src={`http://localhost:3000/recipe/image/${img._id}`} alt="recipe img"/>}
-            )
+        const recipeGrid = this.state.recipes && this.state.recipes.map((recipe) => {
+                const {_id, title, costPerMeal, image, vegan, vegetarian} = recipe;
+                return (
+                    <div key={_id}>
+                        <RecipeDetails details={{_id, title, costPerMeal, vegan, vegetarian}}/>
+                        <RecipeImage image={image} />
+                        <RecipeButtons props={_id} />
+                    </div>
+                )
+            })
 
         return (
             <div>
-                {renderRecipe}
-                
+                {this.state.recipes ? recipeGrid : <p> loading recipe</p> }
             </div>
         )
     }

@@ -28,7 +28,7 @@ export const uploadRecipe = async (req: Request, res: Response, next: NextFuncti
 
 //Get All Recipes
 export const getAllRecipes = async (req: Request, res: Response, next: NextFunction) => {
-    const recipes = await RecipeImage.find();
+    const recipes = await Recipe.find();
     res.send(recipes);
 }
 

@@ -25,7 +25,7 @@ exports.uploadRecipe = async (req, res, next) => {
 };
 //Get All Recipes
 exports.getAllRecipes = async (req, res, next) => {
-    const recipes = await recipeImages_1.default.find();
+    const recipes = await recipe_1.default.find();
     res.send(recipes);
 };
 //Get recipe Image

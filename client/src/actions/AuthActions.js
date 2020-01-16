@@ -54,7 +54,7 @@ export const logoutUser = (config) => async dispatch => {
 }
 
 export const setUser = () => async dispatch => {
-
+  console.log('in set user');
   const token = JSON.parse(localStorage.getItem('token'));
 
   if(token){
