@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import RecipeButtons from './RecipeButtons';
-import RecipeImage from './RecipeImage';
+import RecipeImage from '../commonRecipe/RecipeImage';
 import RecipeDetails from './RecipeDetails';
 
 class RecipeDisplay extends Component {
@@ -16,7 +16,7 @@ class RecipeDisplay extends Component {
 
     componentDidMount = async () => {
 
-        const res = await axios.get('/recipe/image');
+        const res = await axios.get('/recipe');
 
 
         this.setState({recipes: res.data})
@@ -32,7 +32,7 @@ class RecipeDisplay extends Component {
                     <div key={_id}>
                         <RecipeDetails details={{_id, title, costPerMeal, vegan, vegetarian}}/>
                         <RecipeImage image={image} />
-                        <RecipeButtons props={_id} />
+                        <RecipeButtons recipeID={_id} />
                     </div>
                 )
             })

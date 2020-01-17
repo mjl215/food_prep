@@ -14,6 +14,7 @@ export const uploadRecipeImage = async (req: Request, res: Response, next: NextF
 //Add Recipe
 export const uploadRecipe = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log(req.body)
         const recipe = new Recipe(req.body);
         await recipe.save();
         res.send()
@@ -47,6 +48,17 @@ export const getRecipeImage = async (req: Request, res: Response, next: NextFunc
     } catch (error) {
         res.status(404).send();
     }
+}
+
+//Get single recipe
+export const getRecipe = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id)
+        res.send(recipe)
+    } catch (error) {
+        console.log(error)
+    }
+    
 }
 
 

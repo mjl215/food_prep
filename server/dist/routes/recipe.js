@@ -10,8 +10,11 @@ const router = express_1.Router();
 const upload = multer_1.default({
 //dest: 'images'
 });
+//POST
 router.post('', recipe_1.uploadRecipe);
 router.post('/image', upload.single('upload'), recipe_1.uploadRecipeImage);
-router.get('/image', recipe_1.getAllRecipes);
+//GET
+router.get('', recipe_1.getAllRecipes);
+router.get('/:id', recipe_1.getRecipe);
 router.get('/image/:id', recipe_1.getRecipeImage);
 exports.default = router;

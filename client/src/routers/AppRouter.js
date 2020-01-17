@@ -10,7 +10,7 @@ import Register from '../components/auth/Register';
 import Login from '../components/auth/Login';
 import UploadRecipe from '../components/recipe/UploadRecipe';
 import PrivateRoute from '../components/auth/PrivateRoute';
-
+import RecipePage from '../components/recipe/recipePage/RecipePage';
 
 const AppRouter = (props) => {
 
@@ -26,7 +26,7 @@ const AppRouter = (props) => {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <PrivateRoute exact path='/add-recipe' userType={['ADMIN', 'SUPPLIER']} component={UploadRecipe} />
-          {/* <Route exact path='/forecast/:location' component={DetailedForecast} /> */}
+          <Route exact path='/recipe/:id' component={RecipePage} />
         </Switch>
       </div>
     </Router>

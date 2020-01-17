@@ -3,13 +3,14 @@ import bcrypt from 'bcrypt';
 import jwt  from 'jsonwebtoken';
 import { ObjectID, ObjectId } from "mongodb";
 
-export interface UserInterface extends Document {
+export interface UserInterface extends mongoose.Document {
     name: string;
     email: string;
     userType: 'ADMIN' | 'SUPLIER' | 'BUYER';
     password: string;
     tokens: {token: string}[];
     location: {lat: number, long: number};
+    basket: {recipe: mongoose.Schema.Types.ObjectId, quantity: number};
     generateAuthToken(): string;
     
 }
@@ -53,7 +54,17 @@ const userSchema: Schema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    basket: [{
+            recipe: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }]
 })
 
 userSchema.methods.generateAuthToken = async function () {

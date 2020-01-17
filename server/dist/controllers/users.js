@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+//Create a User
 exports.createUser = async (req, res, next) => {
     const user = new user_1.default(req.body);
     const token = await user.generateAuthToken();
@@ -18,6 +19,7 @@ exports.createUser = async (req, res, next) => {
         }
     });
 };
+//Login User
 exports.loginUser = async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -36,6 +38,7 @@ exports.loginUser = async (req, res, next) => {
         res.status(400).send();
     }
 };
+//Logout User
 exports.logoutUser = async (req, res, next) => {
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
@@ -48,11 +51,37 @@ exports.logoutUser = async (req, res, next) => {
         res.status(500).send(e);
     }
 };
+//Check Auth of User
 exports.authUser = async (req, res, next) => {
     try {
         res.send({ user: req.user, token: req.token });
     }
     catch (e) {
         console.log(e);
+    }
+};
+//Add User Basked
+exports.addBasket = async (req, res, next) => {
+    try {
+        const user = await user_1.default.updateOne({ email: req.body.user.email }, { basket: [
+                { recipe: req.body.recipeId, quantity: req.body.quantity }
+            ] });
+        if (!user) {
+            throw new Error('user not found');
+        }
+        const updatedUser = await user_1.default.findOne({ email: req.body.user.email });
+        res.send(updatedUser);
+        // const newBasket = {recipe: req.body.recipe, quantity: req.body.quantity}
+        // user.basket = [...user.basket, newBasket];
+    }
+    catch (e) {
+        console.log(e);
+    }
+};
+//Add User Basked
+exports.removeBasket = async (req, res, next) => {
+    try {
+    }
+    catch (e) {
     }
 };

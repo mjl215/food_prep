@@ -1,0 +1,80 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import axios from 'axios';
+
+import RecipeImage from '../commonRecipe/RecipeImage';
+import { setSelectedRecipe } from '../../../actions/RecipeActions';
+
+class RecipePage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            recipe: null,
+            quantity: 0
+            }
+        
+        
+    }
+
+    async componentDidMount(){
+        if (this.props.recipe.selectedRecipeId !== this.props.match.params.id){
+            this.props.setSelectedRecipe(this.props.match.params.id)
+        }
+        const res = await axios.get(`/recipe/${this.props.match.params.id}`);
+        console.log(res)
+        this.setState({
+            recipe: res.data
+        }, () => console.log('set the state'))
+    }
+
+    inputOnChangeHandler = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+          })
+    }
+
+    onClick = (e) => {
+
+    }
+
+    render() {
+
+        if(this.state.recipe){
+
+            const {_id, title, description, ingredients, costPerMeal, image, vegan, vegetarian} = this.state.recipe;
+            const ingredientsRender = ingredients.map((ingredient, i) => {
+                return ingredients[i+1] ? <p key="i">{ingredient}, </p> : <p key="i">{ingredient}.</p>
+             
+            })
+            return (
+                <div>
+                    <h1>Title - {title}</h1>
+                    <h3>Description - {description}</h3>
+                    <RecipeImage image={image} />
+                    {ingredientsRender}
+                    <p>{costPerMeal}</p>
+                    <input 
+                        type="number" 
+                        name="quantity"
+                        onChange={this.inputOnChangeHandler}
+                    />
+                    <button onClick={this.onClick}>Add to Basket</button>
+                </div>
+            )
+        } else {
+            return <p>Loading</p>
+        }
+        
+    }
+}
+
+const mapStateToProps = (state) => ({
+    recipe: state.recipe
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    setSelectedRecipe: (id) => dispatch(setSelectedRecipe(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipePage);

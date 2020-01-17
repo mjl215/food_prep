@@ -27,7 +27,7 @@ export default class UploadRecipe extends Component {
 
             const newRecipe = {
                 title: this.state.recipeTitle,
-                description: this.state.recipeTitle,
+                description: this.state.recipeDescription,
                 costPerMeal: this.state.costPerMeal,
                 ingredients: this.state.ingredients,
                 vegetarian: this.state.vegetarian,

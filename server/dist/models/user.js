@@ -40,6 +40,16 @@ const userSchema = new mongoose_1.default.Schema({
                 type: String,
                 required: true
             }
+        }],
+    basket: [{
+            recipe: {
+                type: mongoose_1.default.Schema.Types.ObjectId,
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
         }]
 });
 userSchema.methods.generateAuthToken = async function () {

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
 import bcrypt from 'bcrypt';
 
+//Create a User
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     const user = new User(req.body);
     const token = await user.generateAuthToken();
@@ -15,6 +16,8 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     });
 };
 
+
+//Login User
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password} = req.body
     
@@ -39,6 +42,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
+//Logout User
 export const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         req.user.tokens = req.user.tokens.filter((token: {token: string}) => {
@@ -53,10 +57,47 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
     }
 }
 
+//Check Auth of User
 export const authUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         res.send({user: req.user, token: req.token});
     } catch (e) {
         console.log(e)
+    }
+}
+
+//Add User Basked
+export const addBasket = async (req: Request, res: Response, next: NextFunction) => {
+    
+    try {
+        const user = await User.updateOne({email: req.body.user.email}, {basket: [
+                {recipe: req.body.recipeId , quantity: req.body.quantity}
+            ]}
+        );
+        
+        if(!user){
+            throw new Error('user not found')
+        }
+
+        const updatedUser = await User.findOne({email: req.body.user.email})
+        res.send(updatedUser);
+        
+        // const newBasket = {recipe: req.body.recipe, quantity: req.body.quantity}
+        // user.basket = [...user.basket, newBasket];
+        
+        
+
+
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+//Add User Basked
+export const removeBasket = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        
+    } catch (e) {
+        
     }
 }
