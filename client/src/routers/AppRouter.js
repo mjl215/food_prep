@@ -11,7 +11,7 @@ import Login from '../components/auth/Login';
 import UploadRecipe from '../components/recipe/UploadRecipe';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import RecipePage from '../components/recipe/recipePage/RecipePage';
-
+import BasketPage from '../components/basket/BasketPage';
 const AppRouter = (props) => {
 
   
@@ -22,11 +22,11 @@ const AppRouter = (props) => {
         <Navbar />
         <Switch>
           <Route exact path='/' component={LandingPage}></Route>
-          {/* <PrivateRoute exact path='/post' component={PostDashboard} /> */}
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <PrivateRoute exact path='/add-recipe' userType={['ADMIN', 'SUPPLIER']} component={UploadRecipe} />
           <Route exact path='/recipe/:id' component={RecipePage} />
+          <Route exact path='/basket' component={BasketPage} />
         </Switch>
       </div>
     </Router>

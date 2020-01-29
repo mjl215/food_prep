@@ -3,7 +3,8 @@ const authReducerDefaultState = {
     name: '',
     email: '',
     userType: '',
-    location: null
+    location: null,
+    basket: []
   };
   
   const authReducer = (state = authReducerDefaultState, action) => {
@@ -23,6 +24,7 @@ const authReducerDefaultState = {
       //     loading: false,
       //     user: false
       //   }
+      
   
       case 'REGISTER_SUCCESS':
       case 'LOGIN_SUCCESS':
@@ -32,7 +34,8 @@ const authReducerDefaultState = {
           name: action.data.name,
           email: action.data.email,
           userType: action.data.userType,
-          location: action.data.location
+          location: action.data.location,
+          basket: action.data.basket
         };
   
     //   case 'REGISTER_FAIL':

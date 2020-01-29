@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { Redirect } from 'react-router-dom';
 
 import {registerUser} from '../../actions/AuthActions';
 
@@ -17,8 +17,9 @@ class Register extends Component {
             long: null
         }
     }
-    
 
+    
+    
     onChange(e){
         
         this.setState({[e.target.name]: e.target.value})
@@ -48,16 +49,17 @@ class Register extends Component {
           }};
         
           this.props.registerUser(body, config);
-        
+          
           //const res = await axios.post('/user', body, config)
-        
-        
-
     }
 
     render() {
-        return (
-            <div>
+      if(this.props.auth.authorized){
+        return <Redirect to='/'/>
+      }
+
+      return (
+      <div>
         <form onSubmit={this.onSubmit}>
             <input
                 type="text"
@@ -91,14 +93,13 @@ class Register extends Component {
                 type="submit"
             />
         </form>
-                
-            </div>
-        )
+      </div>
+      )
     }
 }
 
 const mapStateToProps = (state) => ({
-    
+    auth: state.auth
   })
   
   const mapDispatchToProps = (dispatch) => ({

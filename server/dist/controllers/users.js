@@ -15,7 +15,7 @@ exports.createUser = async (req, res, next) => {
         }
         else {
             console.log('saving');
-            res.send({ token });
+            res.send({ token, user });
         }
     });
 };
@@ -32,7 +32,7 @@ exports.loginUser = async (req, res, next) => {
             throw new Error('Unable to login');
         }
         const token = await user.generateAuthToken();
-        res.send({ token });
+        res.send({ token, user });
     }
     catch (error) {
         res.status(400).send();
@@ -62,10 +62,9 @@ exports.authUser = async (req, res, next) => {
 };
 //Add User Basked
 exports.addBasket = async (req, res, next) => {
+    console.log(req.body);
     try {
-        const user = await user_1.default.updateOne({ email: req.body.user.email }, { basket: [
-                { recipe: req.body.recipeId, quantity: req.body.quantity }
-            ] });
+        const user = await user_1.default.updateOne({ email: req.body.user.email }, { basket: req.body.basket });
         if (!user) {
             throw new Error('user not found');
         }

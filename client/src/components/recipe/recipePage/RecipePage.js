@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import RecipeImage from '../commonRecipe/RecipeImage';
+
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
+import { setUser } from '../../../actions/AuthActions';
 
 class RecipePage extends Component {
     constructor(props) {
@@ -34,8 +36,26 @@ class RecipePage extends Component {
           })
     }
 
-    onClick = (e) => {
+    onClick = async (e) => {
+      //send new basket
+      const body = {
+        user : {
+          email: this.props.auth.email
+        },
+        basket: [...this.props.auth.basket, 
+          {
+            recipe: this.state.recipe._id, 
+            quantity: this.state.quantity
+          }
+        ]
+       
+      }
 
+      const res = await axios.post('/user/basket', body)
+      console.log(res)
+      //update state from db
+      //Make update user router and action
+      this.props.setUser();
     }
 
     render() {
@@ -70,11 +90,13 @@ class RecipePage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    recipe: state.recipe
+    recipe: state.recipe,
+    auth: state.auth
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    setSelectedRecipe: (id) => dispatch(setSelectedRecipe(id))
+    setSelectedRecipe: (id) => dispatch(setSelectedRecipe(id)),
+    setUser: () => dispatch(setUser())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipePage);

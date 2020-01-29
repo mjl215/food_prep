@@ -8,13 +8,11 @@ export const registerUser = (body, config) => async dispatch => {
     const res = await axios.post('/user/register', body, config);
 
     localStorage.setItem('token', JSON.stringify(res.data.token));
-    const decoded = jwtDecode(res.data.token);
+    //const decoded = jwtDecode(res.data.token);
 
-    console.log(res);
-    console.log(decoded);
     dispatch({
       type: action_types.REGISTER_SUCCESS,
-      data: decoded
+      data: res.data.user
     })
   } catch (error) {
     console.log('there has been an error registering: ' + error)
@@ -25,11 +23,11 @@ export const loginUser = (body, config) => async dispatch =>  {
   try {
     const res = await axios.post('/user/login', body, config);
     localStorage.setItem('token', JSON.stringify(res.data.token));
-    const decoded = jwtDecode(res.data.token);
+    //const decoded = jwtDecode(res.data.token);
 
     dispatch({
       type: action_types.LOGIN_SUCCESS,
-      data: decoded
+      data: res.data.user
     })
 
   } catch (error) {
@@ -68,10 +66,10 @@ export const setUser = () => async dispatch => {
   
     try {
       const res = await axios.post('/user/auth', null, config);
-      const decoded = jwtDecode(res.data.token); 
+      //const decoded = jwtDecode(res.data.token); 
       dispatch({
         type: action_types.SET_CURRENT_USER,
-        data: decoded
+        data: res.data.user
       })
     } catch (error) {
       console.log(error)
@@ -81,3 +79,5 @@ export const setUser = () => async dispatch => {
     }
   } 
 }
+
+

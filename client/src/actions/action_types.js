@@ -4,6 +4,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const CLEAR_USER = 'CLEAR_USER'
+export const UPDATE_USER = 'UPDATE_USER'
 
 //Recipes
 export const SET_SELECTED_RECIPE = 'SET_SELECTED_RECIPE'

@@ -11,7 +11,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
             res.send(err);
         } else {
             console.log('saving')
-            res.send({token});
+            res.send({token, user});
         }
     });
 };
@@ -35,7 +35,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     }
     
     const token = await user.generateAuthToken();
-    res.send({token});
+    res.send({token, user});
 
     } catch (error) {
         res.status(400).send();
@@ -68,11 +68,11 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
 
 //Add User Basked
 export const addBasket = async (req: Request, res: Response, next: NextFunction) => {
-    
+    console.log(req.body)
     try {
-        const user = await User.updateOne({email: req.body.user.email}, {basket: [
-                {recipe: req.body.recipeId , quantity: req.body.quantity}
-            ]}
+        const user = await User.updateOne(
+          {email: req.body.user.email}, 
+          {basket: req.body.basket}
         );
         
         if(!user){

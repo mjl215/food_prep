@@ -27,6 +27,8 @@ const Navbar = (props) => {
     }
 
   }
+
+  const basketSize = props.auth.basket.length === 1 ? ` ${props.auth.basket.length} item` : ` ${props.auth.basket.length} items` ;
   
 
   const supplierLinks = (
@@ -44,6 +46,7 @@ const Navbar = (props) => {
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/post">Posts</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/add-recipe">Add recipe</Link></li>
+      <li className="navbar__list__item"><Link className="navbar__list__link" to="/basket">Basket - {basketSize}</Link></li>
       <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>
     </ul>
     
@@ -53,8 +56,10 @@ const Navbar = (props) => {
     <ul className="navbar__list">
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/post">Posts</Link></li>
-      <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>
+      <li className="navbar__list__item"><Link className="navbar__list__link" to="/basket">Basket - {basketSize}</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/add-recipe">Add recipe</Link></li>
+      <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>
+      
     </ul>
     
   );
