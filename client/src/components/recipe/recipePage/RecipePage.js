@@ -37,11 +37,18 @@ class RecipePage extends Component {
     }
 
     onClick = async (e) => {
+
+      const token = JSON.parse(localStorage.getItem('token'));
+      
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      
       //send new basket
       const body = {
-        user : {
-          email: this.props.auth.email
-        },
         basket: [...this.props.auth.basket, 
           {
             recipe: this.state.recipe._id, 
@@ -51,7 +58,7 @@ class RecipePage extends Component {
        
       }
 
-      const res = await axios.post('/user/basket', body)
+      const res = await axios.post('/user/basket', body, config)
       console.log(res)
       //update state from db
       //Make update user router and action

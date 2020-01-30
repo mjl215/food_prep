@@ -10,7 +10,7 @@ export interface UserInterface extends mongoose.Document {
     password: string;
     tokens: {token: string}[];
     location: {lat: number, long: number};
-    basket: {recipe: mongoose.Schema.Types.ObjectId, quantity: number};
+    basket: {_id:mongoose.Schema.Types.ObjectId, recipe: mongoose.Schema.Types.ObjectId, quantity: number};
     generateAuthToken(): string;
     
 }

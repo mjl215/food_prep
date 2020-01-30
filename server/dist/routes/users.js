@@ -8,5 +8,6 @@ router.post('/register', users_1.createUser);
 router.post('/login', users_1.loginUser);
 router.post('/logout', auth_1.auth, users_1.logoutUser);
 router.post('/auth', auth_1.auth, users_1.authUser);
-router.post('/basket', users_1.addBasket);
+router.post('/basket', auth_1.auth, users_1.addBasket);
+router.patch('/basket', auth_1.auth, users_1.editBasketItem);
 exports.default = router;

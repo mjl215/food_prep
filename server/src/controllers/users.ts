@@ -68,10 +68,10 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
 
 //Add User Basked
 export const addBasket = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body)
+    
     try {
         const user = await User.updateOne(
-          {email: req.body.user.email}, 
+          {_id: req.user.id}, 
           {basket: req.body.basket}
         );
         
@@ -79,21 +79,46 @@ export const addBasket = async (req: Request, res: Response, next: NextFunction)
             throw new Error('user not found')
         }
 
-        const updatedUser = await User.findOne({email: req.body.user.email})
+        const updatedUser = await User.findOne({_id: req.user.id})
         res.send(updatedUser);
         
         // const newBasket = {recipe: req.body.recipe, quantity: req.body.quantity}
         // user.basket = [...user.basket, newBasket];
-        
-        
-
-
     } catch (e) {
         console.log(e)
     }
 }
 
-//Add User Basked
+//Edit basket item
+export const editBasketItem = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    console.log(req.body)
+    //const user = await User.findOneAndUpdate({}, { })
+    
+  //   if(!user){
+  //     throw new Error('user not found')
+  // }
+
+  
+
+  // console.log(user._id)
+
+  res.send();
+  } catch (e) {
+      
+  }
+}
+//remove basket item
+export const removeBasketItem = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+      
+  } catch (e) {
+      
+  }
+}
+
+//Remove basket
 export const removeBasket = async (req: Request, res: Response, next: NextFunction) => {
     try {
         
