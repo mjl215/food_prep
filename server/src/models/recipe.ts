@@ -7,7 +7,8 @@ export interface RecipeInterface extends Document {
     ingredients: string[];
     vegetarian: boolean;
     vegan: boolean;
-    image:  mongoose.Schema.Types.ObjectId;
+    image: mongoose.Schema.Types.ObjectId;
+    owner: mongoose.Schema.Types.ObjectId;
 }
 
 export interface RecipeModelInterface extends Model<RecipeInterface> {
@@ -44,6 +45,10 @@ const recipeSchema: Schema = new mongoose.Schema({
     },
     image : {
         type: mongoose.Schema.Types.ObjectId
+    }, 
+    owner : {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }
 })
 

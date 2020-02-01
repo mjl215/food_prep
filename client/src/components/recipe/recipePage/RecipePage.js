@@ -76,10 +76,10 @@ class RecipePage extends Component {
             })
             return (
                 <div>
-                    <h1>Title - {title}</h1>
-                    <h3>Description - {description}</h3>
-                    <RecipeImage image={image} />
+                    <h1>{title}</h1>
+                    <h3>{description}</h3>
                     {ingredientsRender}
+                    <RecipeImage image={image} />
                     <p>{costPerMeal}</p>
                     <input 
                         type="number" 

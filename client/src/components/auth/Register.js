@@ -13,12 +13,12 @@ class Register extends Component {
             name: '',
             password: '',
             confirmPassword: '',
-            lat: null,
-            long: null
+            lat: undefined,
+            long: undefined,
+            userType: ""
         }
     }
 
-    
     
     onChange(e){
         
@@ -37,7 +37,7 @@ class Register extends Component {
         const user = {
             name: this.state.name,
             email: this.state.email,
-            userType: 'ADMIN',
+            userType: this.state.userType,
             password: this.state.password,
         };
 
@@ -53,48 +53,84 @@ class Register extends Component {
           //const res = await axios.post('/user', body, config)
     }
 
-    render() {
-      if(this.props.auth.authorized){
-        return <Redirect to='/'/>
-      }
+    onUserSelectionButton = (e) => {
+        console.log('hi')
+        this.setState({
+            userType: e.target.value
+        })
+    }
 
-      return (
-      <div>
-        <form onSubmit={this.onSubmit}>
-            <input
-                type="text"
-                name="name"
-                placeholder="name"
-                value={this.state.name}
-                onChange={(e) => this.onChange(e)}
-            />
-            <input
-                type="email"
-                name="email"
-                placeholder="enter email"
-                value={this.state.email}
-                onChange={(e) => this.onChange(e)}
-            />
-            <input
-                type="password"
-                name="password"
-                placeholder="enter password"
-                value={this.state.password}
-                onChange={(e) => this.onChange(e)}
-            />
-            <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={this.state.confirmPassword}
-                onChange={(e) => this.onChange(e)}
-            />
-            <input
-                type="submit"
-            />
-        </form>
-      </div>
-      )
+    render() {
+        if(this.props.auth.authorized){
+            return <Redirect to='/'/>
+        }
+
+        if(this.state.userType == ""){
+            return (
+                <div>
+                    <h2>Would you like to register as a Customer or Chef</h2>
+                    <button 
+                        onClick={(e) => this.onUserSelectionButton(e)}
+                        value='BUYER'
+                    >
+                            Customer
+                        </button>
+                    <button
+                        onClick={(e) => this.onUserSelectionButton(e)}
+                        value='SUPLIER'
+                    >
+                        Chef
+                    </button>
+                </div>
+            )
+        }
+
+
+        if(this.state.userType === 'BUYER' || 'SUPPLIER'){
+            return (
+                <div>
+                <form onSubmit={this.onSubmit}>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="name"
+                        value={this.state.name}
+                        onChange={(e) => this.onChange(e)}
+                    />
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="enter email"
+                        value={this.state.email}
+                        onChange={(e) => this.onChange(e)}
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="enter password"
+                        value={this.state.password}
+                        onChange={(e) => this.onChange(e)}
+                    />
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        value={this.state.confirmPassword}
+                        onChange={(e) => this.onChange(e)}
+                    />
+                    <input
+                        type="submit"
+                    />
+                </form>
+                <button
+                        value={undefined}
+                        onClick={(e) => this.onUserSelectionButton(e)}
+                    >
+                        back
+                </button>
+                </div>
+                )
+        }
     }
 }
 

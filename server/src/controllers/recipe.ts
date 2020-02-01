@@ -14,8 +14,9 @@ export const uploadRecipeImage = async (req: Request, res: Response, next: NextF
 //Add Recipe
 export const uploadRecipe = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body)
-        const recipe = new Recipe(req.body);
+        const recipeInfo = req.body
+        recipeInfo.owner = req.user._id
+        const recipe = new Recipe(recipeInfo);
         await recipe.save();
         res.send()
 

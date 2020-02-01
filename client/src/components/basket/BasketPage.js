@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import BasketItem from './BasketItem';
 
@@ -12,10 +13,26 @@ class BasketPage extends Component {
     
   }
 
+  async onCheckout(){
+
+    const token = JSON.parse(localStorage.getItem('token'));
+      
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }
+
+    const res = await axios.post('user/basket/checkout', null, config)
+
+    console.log(res);
+  }
+
 
   render() {
 
-    const basketItems = this.props.auth.basket.length > 0 && this.props.auth.basket.map((item) => {
+    const basketItems = this.props.auth.basket && this.props.auth.basket.map((item) => {
       return <BasketItem key={item._id} item={item}/>
     })
     console.log(this.props.auth)
@@ -24,6 +41,7 @@ class BasketPage extends Component {
       <div>
         <p>Basket page</p>
         {basketItems ? basketItems : <p>no items in basket</p>}
+        <button onClick={this.onCheckout}>Checkout</button>
       </div>
     )
   }

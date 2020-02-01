@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 export default (db:string) => {
     const connect = () => {
         mongoose.connect(db, {

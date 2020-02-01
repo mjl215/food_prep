@@ -43,8 +43,7 @@ const Navbar = (props) => {
   const supplierLinks = (
     <ul className="navbar__list">
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
-      <li className="navbar__list__item"><Link className="navbar__list__link" to="/post">Posts</Link></li>
-      <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>
+      {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/add-recipe">Add recipe</Link></li>
     </ul>
     
@@ -53,10 +52,8 @@ const Navbar = (props) => {
   const buyerLinks = (
     <ul className="navbar__list">
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
-      <li className="navbar__list__item"><Link className="navbar__list__link" to="/post">Posts</Link></li>
-      <li className="navbar__list__item"><Link className="navbar__list__link" to="/add-recipe">Add recipe</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/basket">Basket - {basketSize()}</Link></li>
-      <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>
+      {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
     </ul>
     
   );
@@ -64,10 +61,9 @@ const Navbar = (props) => {
   const adminLinks = (
     <ul className="navbar__list">
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
-      <li className="navbar__list__item"><Link className="navbar__list__link" to="/post">Posts</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/basket">Basket - {basketSize()}</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/add-recipe">Add recipe</Link></li>
-      <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>
+      {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
       
     </ul>
     
@@ -78,7 +74,7 @@ const Navbar = (props) => {
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/login">Login</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/register">Register</Link></li>
-      <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>
+      {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
     </ul> 
   )
 

@@ -6,7 +6,7 @@ import React from 'react';
 
     return (
         <div>
-            <p>aa {title} -- £{costPerMeal} per meal</p>
+            <p>{title} -- £{costPerMeal} per meal</p>
             {vegetarian && <p>vegetarian</p>}
             {vegan && <p>vegan</p>}
         </div>

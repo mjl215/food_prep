@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../models/user"));
+const order_1 = __importDefault(require("../models/order"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //Create a User
 exports.createUser = async (req, res, next) => {
@@ -74,6 +75,23 @@ exports.addBasket = async (req, res, next) => {
     }
     catch (e) {
         console.log(e);
+    }
+};
+exports.checkout = async (req, res, next) => {
+    try {
+        console.log('checkout');
+        const newOrder = {
+            recipe: req.user._id,
+            buyer: req.user._id,
+            suplier: req.user._id,
+            quantity: 1,
+            status: 'OPEN'
+        };
+        const order = new order_1.default(newOrder);
+        console.log(order);
+        res.send(order);
+    }
+    catch (e) {
     }
 };
 //Edit basket item

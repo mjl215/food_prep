@@ -61,7 +61,7 @@ userSchema.methods.generateAuthToken = async function () {
         userType: user.userType,
         location: user.location,
         basket: user.basket
-    }, 'recipe', { expiresIn: 60 * 15 });
+    }, 'recipe');
     user.tokens = [...user.tokens, { token }];
     await user.save();
     return token;

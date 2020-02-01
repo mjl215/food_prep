@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
+import Order from '../models/order'
 import bcrypt from 'bcrypt';
 
 //Create a User
@@ -86,6 +87,24 @@ export const addBasket = async (req: Request, res: Response, next: NextFunction)
         // user.basket = [...user.basket, newBasket];
     } catch (e) {
         console.log(e)
+    }
+}
+
+export const checkout = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log('checkout');
+        const newOrder = {
+            recipe: req.user._id,
+            buyer: req.user._id,
+            suplier: req.user._id,
+            quantity: 1,
+            status: 'OPEN'
+        }
+        const order = new Order(newOrder);
+        console.log(order);
+        res.send(order)
+    } catch (e) {
+        
     }
 }
 
