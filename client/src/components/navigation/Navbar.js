@@ -43,8 +43,9 @@ const Navbar = (props) => {
   const supplierLinks = (
     <ul className="navbar__list">
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
-      {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/add-recipe">Add recipe</Link></li>
+      <li className="navbar__list__item"><Link className="navbar__list__link" to="/user/orders">Orders</Link></li>
+      {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
     </ul>
     
   );
@@ -53,6 +54,7 @@ const Navbar = (props) => {
     <ul className="navbar__list">
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/basket">Basket - {basketSize()}</Link></li>
+      <li className="navbar__list__item"><Link className="navbar__list__link" to="/user/orders">Orders</Link></li>
       {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
     </ul>
     
@@ -63,6 +65,7 @@ const Navbar = (props) => {
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/">Home</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/basket">Basket - {basketSize()}</Link></li>
       <li className="navbar__list__item"><Link className="navbar__list__link" to="/add-recipe">Add recipe</Link></li>
+      <li className="navbar__list__item"><Link className="navbar__list__link" to="/user/orders">Orders</Link></li>
       {props.auth.authorized && <li className="navbar__list__item navbar__list__link" onClick={onClick}>logout</li>}
       
     </ul>
@@ -84,7 +87,7 @@ const Navbar = (props) => {
     switch(user){
       case 'ADMIN':
         return adminLinks;
-      case 'SUPPLIER':
+      case 'SUPLIER':
         return supplierLinks;
       case 'BUYER':
         return buyerLinks;

@@ -49,6 +49,10 @@ const userSchema = new mongoose_1.default.Schema({
             quantity: {
                 type: Number,
                 required: true
+            },
+            owner: {
+                type: mongoose_1.default.Schema.Types.ObjectId,
+                required: true
             }
         }]
 });

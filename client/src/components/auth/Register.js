@@ -65,7 +65,7 @@ class Register extends Component {
             return <Redirect to='/'/>
         }
 
-        if(this.state.userType == ""){
+        if(this.state.userType === ""){
             return (
                 <div>
                     <h2>Would you like to register as a Customer or Chef</h2>

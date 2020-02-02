@@ -52,7 +52,8 @@ class RecipePage extends Component {
         basket: [...this.props.auth.basket, 
           {
             recipe: this.state.recipe._id, 
-            quantity: this.state.quantity
+            quantity: this.state.quantity,
+            owner: this.state.recipe.owner
           }
         ]
        
@@ -69,7 +70,7 @@ class RecipePage extends Component {
 
         if(this.state.recipe){
 
-            const {_id, title, description, ingredients, costPerMeal, image, vegan, vegetarian} = this.state.recipe;
+            const {title, description, ingredients, costPerMeal, image, vegan, vegetarian} = this.state.recipe;
             const ingredientsRender = ingredients.map((ingredient, i) => {
                 return ingredients[i+1] ? <p key="i">{ingredient}, </p> : <p key="i">{ingredient}.</p>
              
@@ -78,6 +79,8 @@ class RecipePage extends Component {
                 <div>
                     <h1>{title}</h1>
                     <h3>{description}</h3>
+                    {vegetarian && <h3>vegetarian</h3>}
+                    {vegan && <h3>Vegan</h3>}
                     {ingredientsRender}
                     <RecipeImage image={image} />
                     <p>{costPerMeal}</p>

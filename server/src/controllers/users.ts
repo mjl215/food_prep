@@ -69,11 +69,11 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
 
 //Add User Basked
 export const addBasket = async (req: Request, res: Response, next: NextFunction) => {
-    
+    console.log(req.body.basket);
     try {
         const user = await User.updateOne(
-          {_id: req.user.id}, 
-          {basket: req.body.basket}
+            {_id: req.user.id}, 
+            {basket: req.body.basket}
         );
         
         if(!user){
@@ -92,17 +92,31 @@ export const addBasket = async (req: Request, res: Response, next: NextFunction)
 
 export const checkout = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log('checkout');
-        const newOrder = {
-            recipe: req.user._id,
-            buyer: req.user._id,
-            suplier: req.user._id,
-            quantity: 1,
-            status: 'OPEN'
-        }
-        const order = new Order(newOrder);
-        console.log(order);
-        res.send(order)
+
+        const basket = req.body.basket
+        basket.forEach((basketItem: any) => {
+            
+
+                const newOrder = {
+                    recipe: basketItem.recipe,
+                    buyer: req.user._id,
+                    suplier: basketItem.owner,
+                    quantity: basketItem.quantity,
+                    status: 'OPEN'
+                }
+    
+                const order = new Order(newOrder);
+                order.save();
+        });
+        
+        const user = await User.updateOne(
+            {_id: req.user.id}, 
+            {basket: []}
+        );
+
+        res.send();
+
+        
     } catch (e) {
         
     }
@@ -110,31 +124,31 @@ export const checkout = async (req: Request, res: Response, next: NextFunction) 
 
 //Edit basket item
 export const editBasketItem = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+    try {
 
-    console.log(req.body)
+        console.log(req.body)
     //const user = await User.findOneAndUpdate({}, { })
     
   //   if(!user){
   //     throw new Error('user not found')
   // }
 
-  
+
 
   // console.log(user._id)
 
-  res.send();
-  } catch (e) {
-      
-  }
+        res.send();
+    } catch (e) {
+        
+    }
 }
 //remove basket item
 export const removeBasketItem = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-      
-  } catch (e) {
-      
-  }
+    try {
+        
+    } catch (e) {
+        
+    }
 }
 
 //Remove basket

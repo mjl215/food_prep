@@ -10,7 +10,7 @@ export interface UserInterface extends mongoose.Document {
     password: string;
     tokens: {token: string}[];
     location: {lat: number, long: number};
-    basket: {_id:mongoose.Schema.Types.ObjectId, recipe: mongoose.Schema.Types.ObjectId, quantity: number};
+    basket: {recipe: mongoose.Schema.Types.ObjectId, quantity: number, owner: mongoose.Schema.Types.ObjectId};
     generateAuthToken(): string;
     
 }
@@ -62,6 +62,10 @@ const userSchema: Schema = new mongoose.Schema({
             },
             quantity: {
                 type: Number,
+                required: true
+            },
+            owner: {
+                type: mongoose.Schema.Types.ObjectId,
                 required: true
             }
         }]

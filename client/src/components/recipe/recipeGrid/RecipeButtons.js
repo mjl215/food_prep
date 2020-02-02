@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
 
 const RecipeButtons = (props) => {
-    console.log(props);
 
     const onClick = async () => {
         props.setSelectedRecipe(props.recipeID)

@@ -3,10 +3,17 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import BasketItem from './BasketItem';
+import { setUser } from '../../actions/AuthActions';
 
 class BasketPage extends Component {
   constructor(props){
     super(props)  
+
+    this.state = {
+      errors: undefined
+    }
+
+    this.onCheckout = this.onCheckout.bind(this);
   }
 
   componentDidMount(){
@@ -14,7 +21,7 @@ class BasketPage extends Component {
   }
 
   async onCheckout(){
-
+    
     const token = JSON.parse(localStorage.getItem('token'));
       
     const config = {
@@ -24,9 +31,14 @@ class BasketPage extends Component {
       }
     }
 
-    const res = await axios.post('user/basket/checkout', null, config)
+    const body = {
+      basket: this.props.auth.basket
+    }
 
-    console.log(res);
+    await axios.post('user/basket/checkout', body, config)
+
+    this.props.setUser();
+    
   }
 
 
@@ -35,7 +47,6 @@ class BasketPage extends Component {
     const basketItems = this.props.auth.basket && this.props.auth.basket.map((item) => {
       return <BasketItem key={item._id} item={item}/>
     })
-    console.log(this.props.auth)
 
     return (
       <div>
@@ -52,7 +63,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+  setUser: () => dispatch(setUser())
 })
 
 

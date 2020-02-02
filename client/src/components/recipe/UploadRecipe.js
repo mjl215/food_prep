@@ -13,7 +13,6 @@ export default class UploadRecipe extends Component {
             vegetarian: false,
             vegan: false
             }
-    
     }
 
     

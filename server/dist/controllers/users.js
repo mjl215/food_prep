@@ -63,6 +63,7 @@ exports.authUser = async (req, res, next) => {
 };
 //Add User Basked
 exports.addBasket = async (req, res, next) => {
+    console.log(req.body.basket);
     try {
         const user = await user_1.default.updateOne({ _id: req.user.id }, { basket: req.body.basket });
         if (!user) {
@@ -79,17 +80,20 @@ exports.addBasket = async (req, res, next) => {
 };
 exports.checkout = async (req, res, next) => {
     try {
-        console.log('checkout');
-        const newOrder = {
-            recipe: req.user._id,
-            buyer: req.user._id,
-            suplier: req.user._id,
-            quantity: 1,
-            status: 'OPEN'
-        };
-        const order = new order_1.default(newOrder);
-        console.log(order);
-        res.send(order);
+        const basket = req.body.basket;
+        basket.forEach((basketItem) => {
+            const newOrder = {
+                recipe: basketItem.recipe,
+                buyer: req.user._id,
+                suplier: basketItem.owner,
+                quantity: basketItem.quantity,
+                status: 'OPEN'
+            };
+            const order = new order_1.default(newOrder);
+            order.save();
+        });
+        const user = await user_1.default.updateOne({ _id: req.user.id }, { basket: [] });
+        res.send();
     }
     catch (e) {
     }

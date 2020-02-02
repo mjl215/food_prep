@@ -21,7 +21,7 @@ class BasketItem extends Component {
 
   async componentDidMount(){
     const res = await axios.get(`/recipe/${this.props.item.recipe}`);
-    console.log(res)
+
     this.setState({
       title: res.data.title,
       costPerMeal: res.data.costPerMeal,

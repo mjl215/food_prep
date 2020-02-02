@@ -5,21 +5,36 @@ import { connect } from 'react-redux';
 
 const PrivateRoute = ({ component: Component, auth, userType, setUser, ...rest }) => {
 
-
-    const correctUserType = userType.includes(auth.userType);
-
-    return (
+    if(userType){
+      const correctUserType = userType.includes(auth.userType);
+      return (
         <Route
-    {...rest}
-    render={props => !auth.authorized || !correctUserType ? (
-        <Redirect to="/" />
-      ) : (
-        <Component {...props} />
-        )
+          {...rest}
+          render={props => !auth.authorized || !correctUserType ? (
+              <Redirect to="/" />
+            ) : (
+              <Component {...props} />
+              )
+          }
+          
+        />
+      )
+    } else {
+      
+      return (
+        <Route
+          {...rest}
+          render={props => !auth.authorized ? (
+              <Redirect to="/" />
+            ) : (
+              <Component {...props} />
+              )
+          }
+          
+        />
+      )
     }
     
-  />
-    )
 }
     
   

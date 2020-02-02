@@ -1,7 +1,5 @@
 import * as action_types from './action_types';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-
 
 export const registerUser = (body, config) => async dispatch => {
   try {
@@ -52,7 +50,6 @@ export const logoutUser = (config) => async dispatch => {
 }
 
 export const setUser = () => async dispatch => {
-  console.log('in set user');
   const token = JSON.parse(localStorage.getItem('token'));
 
   if(token){
