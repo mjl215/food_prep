@@ -56,6 +56,16 @@ const userSchema = new mongoose_1.default.Schema({
             }
         }]
 });
+userSchema.virtual('buyerOrder', {
+    ref: 'Order',
+    localField: '_id',
+    foreignField: 'buyer'
+});
+userSchema.virtual('suplierOrder', {
+    ref: 'Order',
+    localField: '_id',
+    foreignField: 'suplier'
+});
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jsonwebtoken_1.default.sign({

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
-import Order from '../models/order'
+import Order from '../models/order';
 import bcrypt from 'bcrypt';
 
 //Create a User
@@ -11,7 +11,6 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         if (err) {
             res.send(err);
         } else {
-            console.log('saving')
             res.send({token, user});
         }
     });
@@ -67,95 +66,5 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
-//Add User Basked
-export const addBasket = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body.basket);
-    try {
-        const user = await User.updateOne(
-            {_id: req.user.id}, 
-            {basket: req.body.basket}
-        );
-        
-        if(!user){
-            throw new Error('user not found')
-        }
-
-        const updatedUser = await User.findOne({_id: req.user.id})
-        res.send(updatedUser);
-        
-        // const newBasket = {recipe: req.body.recipe, quantity: req.body.quantity}
-        // user.basket = [...user.basket, newBasket];
-    } catch (e) {
-        console.log(e)
-    }
-}
-
-export const checkout = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-
-        const basket = req.body.basket
-        basket.forEach((basketItem: any) => {
-            
-
-                const newOrder = {
-                    recipe: basketItem.recipe,
-                    buyer: req.user._id,
-                    suplier: basketItem.owner,
-                    quantity: basketItem.quantity,
-                    status: 'OPEN'
-                }
-    
-                const order = new Order(newOrder);
-                order.save();
-        });
-        
-        const user = await User.updateOne(
-            {_id: req.user.id}, 
-            {basket: []}
-        );
-
-        res.send();
-
-        
-    } catch (e) {
-        
-    }
-}
-
-//Edit basket item
-export const editBasketItem = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-
-        console.log(req.body)
-    //const user = await User.findOneAndUpdate({}, { })
-    
-  //   if(!user){
-  //     throw new Error('user not found')
-  // }
 
 
-
-  // console.log(user._id)
-
-        res.send();
-    } catch (e) {
-        
-    }
-}
-//remove basket item
-export const removeBasketItem = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        
-    } catch (e) {
-        
-    }
-}
-
-//Remove basket
-export const removeBasket = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        
-    } catch (e) {
-        
-    }
-}

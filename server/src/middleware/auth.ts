@@ -15,10 +15,10 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         if (!user) {
             throw new Error();
         }
-    
+        
         req.token = token;
         req.user = user;
-    
+
         next();
     }
   } catch (error) {

@@ -12,6 +12,8 @@ export interface UserInterface extends mongoose.Document {
     location: {lat: number, long: number};
     basket: {recipe: mongoose.Schema.Types.ObjectId, quantity: number, owner: mongoose.Schema.Types.ObjectId};
     generateAuthToken(): string;
+    buyerOrder(): any;
+    suplierOrder(): any;
     
 }
 
@@ -70,6 +72,18 @@ const userSchema: Schema = new mongoose.Schema({
             }
         }]
 })
+
+userSchema.virtual('buyerOrder', {
+    ref: 'Order',
+    localField: '_id',
+    foreignField: 'buyer'
+    })
+
+userSchema.virtual('suplierOrder', {
+    ref: 'Order',
+    localField: '_id',
+    foreignField: 'suplier'
+    })
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
