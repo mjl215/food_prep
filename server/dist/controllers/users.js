@@ -7,6 +7,7 @@ const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //Create a User
 exports.createUser = async (req, res, next) => {
+    console.log(req.body);
     const user = new user_1.default(req.body);
     const token = await user.generateAuthToken();
     user.save((err) => {

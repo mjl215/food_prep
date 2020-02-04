@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 
 //Create a User
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body)
     const user = new User(req.body);
     const token = await user.generateAuthToken();
     user.save((err: any) => {

@@ -29,10 +29,20 @@ const userSchema = new mongoose_1.default.Schema({
     },
     location: {
         lat: {
-            type: Number
+            type: Number,
+            required: true
         },
-        long: {
-            type: Number
+        lng: {
+            type: Number,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        },
+        addressId: {
+            type: String,
+            required: true
         }
     },
     tokens: [{

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import {registerUser} from '../../actions/AuthActions';
+import Axios from 'axios';
 
 class Register extends Component {
     constructor(props){
@@ -13,10 +14,17 @@ class Register extends Component {
             name: '',
             password: '',
             confirmPassword: '',
-            lat: undefined,
-            long: undefined,
+            lat: null,
+            lng: null,
+            enteredAddress: '',
+            suggestedAdresses: [],
+            selectedAddress: '',
+            selectedAddressId: '',
             userType: ""
         }
+
+        this.onSearchAddress = this.onSearchAddress.bind(this);
+        this.selectAddress = this.selectAddress.bind(this);
     }
 
     
@@ -39,6 +47,13 @@ class Register extends Component {
             email: this.state.email,
             userType: this.state.userType,
             password: this.state.password,
+            location: {
+                lat: this.state.lat,
+                lng: this.state.lng,
+                address: this.state.selectedAddress,
+                addressId: this.state.selectedAddressId
+            }
+            
         };
 
         const body = JSON.stringify(user);
@@ -59,6 +74,26 @@ class Register extends Component {
             userType: e.target.value
         })
     }
+
+    async onSearchAddress(){
+        const res = await Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(this.state.enteredAddress)}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`);
+
+
+        this.setState({
+            suggestedAdresses: res.data.results
+        })
+    }
+
+    selectAddress(addressId, address, lat, lng){
+        this.setState({
+            selectedAddressId: addressId,
+            selectedAddress: address,
+            lat,
+            lng
+        })
+    }
+
+
 
     render() {
         if(this.props.auth.authorized){
@@ -122,6 +157,30 @@ class Register extends Component {
                         type="submit"
                     />
                 </form>
+                <div>
+                    <input 
+                        type="address"
+                        name="enteredAddress"
+                        placeholder="address"
+                        value={this.state.enteredAddress}
+                        onChange={(e) => this.onChange(e)}
+                    />
+                    <button onClick={this.onSearchAddress}>search address</button>
+                    {this.state.suggestedAdresses && this.state.suggestedAdresses.map((addr) => {
+                        const {lat, lng} = addr.geometry.location;
+                        const {place_id: id, formatted_address: address} = addr
+                        
+                        return ( 
+                            <p 
+                                key={addr.place_id}
+                                onClick={() => this.selectAddress(id, address, lat, lng)}
+                            >
+                                {addr.formatted_address}
+                            </p>
+                        )
+                    })}
+                </div>
+                
                 <button
                         value={undefined}
                         onClick={(e) => this.onUserSelectionButton(e)}
