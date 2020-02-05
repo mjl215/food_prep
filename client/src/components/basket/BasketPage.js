@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import BasketItem from './BasketItem';
+import BasketSuplierContainer from './BasketSuplierContainer';
 import { setUser } from '../../actions/AuthActions';
 
 class BasketPage extends Component {
@@ -44,14 +44,30 @@ class BasketPage extends Component {
 
   render() {
 
-    const basketItems = this.props.auth.basket && this.props.auth.basket.map((item) => {
-      return <BasketItem key={item._id} item={item}/>
-    })
+    const recipeOwnerArray = this.props.auth.basket.length > 0 && Object.values(this.props.auth.basket.reduce((result, {_id, recipe, quantity, owner, basketId}) => {
+      if(!result[owner]){
+        result[owner] = {
+          owner,
+          orders: []
+        }
+      };
+
+      result[owner].orders.push({
+        _id,
+        recipe,
+        quantity,
+        owner,
+        basketId
+      });
+        return result;
+    }, {})); 
+
+    const BasketContainers = recipeOwnerArray && recipeOwnerArray.map((item) => <BasketSuplierContainer key={item.owner} orders={item.orders}/>)
 
     return (
       <div>
         <p>Basket page</p>
-        {basketItems ? basketItems : <p>no items in basket</p>}
+        {BasketContainers}
         <button onClick={this.onCheckout}>Checkout</button>
       </div>
     )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import axios from 'axios';
+import uuid from "uuid";
 
 import RecipeImage from '../commonRecipe/RecipeImage';
 
@@ -53,14 +54,14 @@ class RecipePage extends Component {
           {
             recipe: this.state.recipe._id, 
             quantity: this.state.quantity,
-            owner: this.state.recipe.owner
+            owner: this.state.recipe.owner,
+            basketId: uuid.v4()
           }
         ]
-       
       }
 
-      const res = await axios.post('/user/basket', body, config)
-      console.log(res)
+
+      await axios.post('/user/basket', body, config)
       //update state from db
       //Make update user router and action
       this.props.setUser();

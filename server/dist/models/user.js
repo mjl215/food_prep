@@ -63,6 +63,10 @@ const userSchema = new mongoose_1.default.Schema({
             owner: {
                 type: mongoose_1.default.Schema.Types.ObjectId,
                 required: true
+            },
+            basketId: {
+                type: String,
+                required: true
             }
         }]
 });
@@ -78,17 +82,22 @@ userSchema.virtual('suplierOrder', {
 });
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
-    const token = jsonwebtoken_1.default.sign({
-        _id: user._id.toString(),
-        name: user.name,
-        email: user.email,
-        userType: user.userType,
-        location: user.location,
-        basket: user.basket
-    }, 'recipe');
-    user.tokens = [...user.tokens, { token }];
-    await user.save();
-    return token;
+    try {
+        const token = jsonwebtoken_1.default.sign({
+            _id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            userType: user.userType,
+            location: user.location,
+            basket: user.basket
+        }, 'recipe');
+        user.tokens = [...user.tokens, { token }];
+        await user.save();
+        return token;
+    }
+    catch (error) {
+        console.log(error);
+    }
 };
 //Add types
 userSchema.methods.toJSON = function () {

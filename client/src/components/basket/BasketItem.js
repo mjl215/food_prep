@@ -87,18 +87,26 @@ class BasketItem extends Component {
     const price = costPerMeal * quantity;
 
     return (
-      <div>
-        <RecipeImage image={image} />
-        <Link to={`/recipe/${recipeId}`}>
-          <p>{title}</p>
-        </Link>
-        <p>£{costPerMeal}</p>
-        <div>
-          <button onClick={() => this.onChangeQuantity(1)}>+</button>
-          <p>{quantity}</p>
-          <button onClick={() => this.onChangeQuantity(-1)}>-</button>
+      <div >
+        <div style={{display: 'inline-block'}}>
+          <RecipeImage image={image} />
         </div>
-        <p>£{price}</p>
+        <Link to={`/recipe/${recipeId}`}>
+          <p style={{display: 'inline-block'}}>{title}</p>
+        </Link>
+        <p style={{display: 'inline-block'}}>£{costPerMeal}</p>
+        <div style={{display: 'inline-block'}}>
+          <button 
+            onClick={() => this.onChangeQuantity(1)}
+            style={{display: 'inline-block'}}
+          >+</button>
+          <p style={{display: 'inline-block'}}>{quantity}</p>
+          <button 
+            onClick={() => this.onChangeQuantity(-1)}
+            style={{display: 'inline-block'}}
+          >-</button>
+        </div>
+        <p style={{display: 'inline-block'}}> £{price}</p>
         <button onClick={() => this.onDeleteItem()}>Remove Item</button>
       </div>
     )

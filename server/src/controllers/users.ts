@@ -20,6 +20,8 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
 //Login User
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+    
+    
     const { email, password} = req.body
     
     try {
@@ -30,12 +32,13 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     }
 
     const isMatch = await bcrypt.compare(password, user.password)
-
+    
     if (!isMatch) {
         throw new Error('Unable to login');
     }
     
     const token = await user.generateAuthToken();
+    
     res.send({token, user});
 
     } catch (error) {

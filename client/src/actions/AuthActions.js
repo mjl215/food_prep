@@ -50,20 +50,23 @@ export const logoutUser = (config) => async dispatch => {
 }
 
 export const setUser = () => async dispatch => {
-  const token = JSON.parse(localStorage.getItem('token'));
-
-  if(token){
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-      
-    }
+  
+  
+  
   
     try {
+      const token = JSON.parse(localStorage.getItem('token'));
+
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+        
+      }
       const res = await axios.post('/user/auth', null, config);
-      //const decoded = jwtDecode(res.data.token); 
+
       dispatch({
         type: action_types.SET_CURRENT_USER,
         data: res.data.user
@@ -74,7 +77,7 @@ export const setUser = () => async dispatch => {
       //   type: action_types.CLEAR_USER
       // })
     }
-  } 
+  
 }
 
 

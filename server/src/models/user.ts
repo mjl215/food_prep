@@ -10,7 +10,7 @@ export interface UserInterface extends mongoose.Document {
     password: string;
     tokens: {token: string}[];
     location: {lat: number, lng: number, address: string, addressId: string};
-    basket: {recipe: mongoose.Schema.Types.ObjectId, quantity: number, owner: mongoose.Schema.Types.ObjectId};
+    basket: {recipe: mongoose.Schema.Types.ObjectId, quantity: number, owner: mongoose.Schema.Types.ObjectId, basketId: string};
     generateAuthToken(): string;
     buyerOrder(): any;
     suplierOrder(): any;
@@ -79,6 +79,10 @@ const userSchema: Schema = new mongoose.Schema({
             owner: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true
+            },
+            basketId: {
+                type: String,
+                required: true
             }
         }]
 })
@@ -96,20 +100,28 @@ userSchema.virtual('suplierOrder', {
     })
 
 userSchema.methods.generateAuthToken = async function () {
+    
     const user = this;
-    const token = jwt.sign({ 
-        _id: user._id.toString(),
-        name: user.name,
-        email: user.email,
-        userType: user.userType,
-        location: user.location,
-        basket: user.basket                       
-    }, 'recipe');
 
-    user.tokens = [...user.tokens, { token }];
-    await user.save();
-
-    return token;
+    try {
+        const token = jwt.sign({ 
+            _id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            userType: user.userType,
+            location: user.location,
+            basket: user.basket                       
+        }, 'recipe');
+    
+        
+        user.tokens = [...user.tokens, { token }];
+        await user.save();
+        
+        return token;
+    } catch (error) {
+        console.log(error);
+    }
+    
 };
 
   //Add types
