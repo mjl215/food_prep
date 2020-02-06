@@ -82,12 +82,26 @@ class BasketItem extends Component {
     this.props.setUser();  
   }
 
+  dragStart(e){
+    const target = e.target;
+    e.dataTransfer.setData('order_id', target.id);
+    
+    // setTimeout(() => {
+    //   target.style.display = "none"
+    // }, 0);
+  }
+
   render() {
-    const {title, costPerMeal, quantity, recipeId, image} = this.state
+    const {title, costPerMeal, quantity, recipeId, image, id} = this.state
     const price = costPerMeal * quantity;
 
     return (
-      <div >
+      <div 
+        draggable="true" 
+        style={{margin: '10px', border:'2px solid grey'}}
+        onDragStart={this.dragStart}
+        id={id}
+      >
         <div style={{display: 'inline-block'}}>
           <RecipeImage image={image} />
         </div>
