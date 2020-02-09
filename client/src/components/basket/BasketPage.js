@@ -62,7 +62,7 @@ class BasketPage extends Component {
         return result;
     }, {})); 
 
-    const BasketContainers = recipeOwnerArray && recipeOwnerArray.map((item) => <BasketSuplierContainer key={item.owner} orders={item.orders}/>)
+    const BasketContainers = recipeOwnerArray && recipeOwnerArray.map((item) => <BasketSuplierContainer key={item.owner} orders={item.orders} owner={item.owner}/>)
 
     return (
       <div>

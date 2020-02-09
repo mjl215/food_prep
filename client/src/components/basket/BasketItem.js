@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import uuid from "uuid";
 
 import RecipeImage from '../recipe/commonRecipe/RecipeImage';
 import { setUser } from '../../actions/AuthActions';
+
+
 class BasketItem extends Component {
   constructor(props){
     super(props)  
@@ -12,11 +15,16 @@ class BasketItem extends Component {
     this.state = {
       id: this.props.item._id,
       recipeId: this.props.item.recipe,
+      basketId: this.props.item.basketId,
+      owner: this.props.item.owner,
       title: null,
       costPerMeal: null,
       image: null,
       quantity: this.props.item.quantity
     }
+
+    this.dragStart = this.dragStart.bind(this);
+    this.splitOrder = this.splitOrder.bind(this);
   }
 
   async componentDidMount(){
@@ -84,15 +92,40 @@ class BasketItem extends Component {
 
   dragStart(e){
     const target = e.target;
-    e.dataTransfer.setData('order_id', target.id);
+    e.dataTransfer.setData('order_id', this.state.id);
+    e.dataTransfer.setData('basket_id', this.state.basketId);
+    e.dataTransfer.setData('owner_id', this.state.owner)
     
     // setTimeout(() => {
     //   target.style.display = "none"
     // }, 0);
   }
 
+  async splitOrder(){
+
+    const basket = this.props.auth.basket
+    basket[basket.findIndex((el) => el._id === this.state.id)].basketId = uuid.v4();
+
+    const token = JSON.parse(localStorage.getItem('token'));
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }
+
+    const body = {
+      basket: basket
+    }
+
+    await axios.post('/user/basket', body, config);
+    this.props.setUser(); ;
+    
+  }
+
   render() {
-    const {title, costPerMeal, quantity, recipeId, image, id} = this.state
+    const {title, costPerMeal, quantity, recipeId, image, id, basketId} = this.state
     const price = costPerMeal * quantity;
 
     return (
@@ -100,7 +133,7 @@ class BasketItem extends Component {
         draggable="true" 
         style={{margin: '10px', border:'2px solid grey'}}
         onDragStart={this.dragStart}
-        id={id}
+        id={basketId}
       >
         <div style={{display: 'inline-block'}}>
           <RecipeImage image={image} />
@@ -120,6 +153,12 @@ class BasketItem extends Component {
             style={{display: 'inline-block'}}
           >-</button>
         </div>
+        <button
+          onClick={this.splitOrder}
+          style={{display: 'inline-block'}}
+        >
+          split to sperate order
+        </button>
         <p style={{display: 'inline-block'}}> £{price}</p>
         <button onClick={() => this.onDeleteItem()}>Remove Item</button>
       </div>

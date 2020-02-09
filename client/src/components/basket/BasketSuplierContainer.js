@@ -13,10 +13,12 @@ class BasketSuplierContainer extends Component {
 
   render() {
     
+
     const jointOrderSplit = this.props.orders.length > 0 && Object.values(this.props.orders.reduce((result, {_id, recipe, quantity, owner, basketId}) => {
       if(!result[basketId]){
         result[basketId] = {
           basketId,
+          owner,
           orders: []
         }
       };
@@ -36,7 +38,8 @@ class BasketSuplierContainer extends Component {
     })
 
     return (
-      <div style={{border: 'thin black solid'}}>
+      <div style={{border: 'thin black solid', padding: '30px'}}>
+        <h1>orders from {this.props.owner}</h1>
         {basketItems ? basketItems : <p>no items in basket</p>}
       </div>
     )
