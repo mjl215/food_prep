@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../models/user"));
+const order_1 = __importDefault(require("../models/order"));
 exports.getOrders = async (req, res, next) => {
     try {
         if (req.user.userType === 'BUYER') {
@@ -30,9 +31,10 @@ exports.getOrders = async (req, res, next) => {
 exports.completeOrder = async (req, res, next) => {
     try {
         console.log(req.params.id);
-        res.send('hi');
+        const order = order_1.default.findByIdAndUpdate(req.params.id, { status: 'COMPLETE' });
         //const order = Order.findByIdAndUpdate
     }
     catch (error) {
+        console.log(error);
     }
 };

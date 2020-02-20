@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import  axios from 'axios';
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import RecipeImage from '../recipe/commonRecipe/RecipeImage';
 
@@ -34,6 +35,7 @@ async onMarkComplete(){
 
 
   render() {
+
     if(this.state.loading){
       return <h3>Loading Order</h3>
     } else {
@@ -43,14 +45,14 @@ async onMarkComplete(){
       const { userType } = this.props.auth;
       const totalCost = costPerMeal *  quantity;
 
-      const buttons = userType === 'SUPLIER' || 'ADMIN' ? (
-        <Fragment>
-          <button>Details</button>
+      console.log(userType);
+
+      const suplierButtons =  (
           <button onClick={this.onMarkComplete}>Mark Complete</button>
-        </Fragment>
-        
-      ) : (
-        <button>Cancel</button>
+      ) 
+
+      const buyerButton = (
+        <button>cancel</button>
       )
 
       return (
@@ -61,7 +63,9 @@ async onMarkComplete(){
             <h4>{quantity}</h4>
             <h4>£{totalCost}</h4>
             <h4>{status}</h4>
-            {buttons}
+            <Link to={`/order/${this.props.order._id}`}><button>Details</button></Link>
+            {userType === 'BUYER' ? buyerButton: suplierButtons}
+            
           </div>
       )
     }

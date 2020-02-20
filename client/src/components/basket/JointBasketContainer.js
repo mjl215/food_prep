@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setUser } from '../../actions/AuthActions';
 import BasketItem from './BasketItem';
 
-class JointOrderContainer extends Component {
+class JointBasketContainer extends Component {
   constructor(props){
     super(props)  
 
@@ -88,4 +88,4 @@ const mapDispatchToProps = (dispatch) => ({
   setUser: () => dispatch(setUser())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(JointOrderContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(JointBasketContainer);

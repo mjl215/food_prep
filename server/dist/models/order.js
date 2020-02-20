@@ -24,6 +24,10 @@ const OrderSchema = new mongoose_1.default.Schema({
     status: {
         type: String,
         required: true
+    },
+    basketId: {
+        type: String,
+        required: true
     }
 });
 const Order = mongoose_1.default.model("Order", OrderSchema);

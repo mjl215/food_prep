@@ -34,11 +34,14 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
 export const completeOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(req.params.id)
-    res.send('hi');
+    
+    const order = Order.findByIdAndUpdate(req.params.id, {status: 'COMPLETE'})
+    
+
     //const order = Order.findByIdAndUpdate
 
   } catch (error) {
-      
+      console.log(error);
   }
 }
 

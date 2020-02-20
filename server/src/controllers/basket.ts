@@ -29,6 +29,7 @@ export const checkout = async (req: Request, res: Response, next: NextFunction) 
   try {
 
       const basket = req.body.basket
+      console.log(basket);
       basket.forEach((basketItem: any) => {
           
 
@@ -37,7 +38,8 @@ export const checkout = async (req: Request, res: Response, next: NextFunction) 
                   buyer: req.user._id,
                   suplier: basketItem.owner,
                   quantity: basketItem.quantity,
-                  status: 'OPEN'
+                  status: 'OPEN',
+                  basketId: basketItem.basketId
               }
   
               const order = new Order(newOrder);

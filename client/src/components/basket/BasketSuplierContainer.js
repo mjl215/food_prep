@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import JointOrderContainer from './JointOrderContainer';
+import JointBasketContainer from './JointBasketContainer';
 
 class BasketSuplierContainer extends Component {
   constructor(props){
@@ -34,7 +34,7 @@ class BasketSuplierContainer extends Component {
     }, {})); 
 
     const basketItems = jointOrderSplit && jointOrderSplit.map((item) => {
-      return <JointOrderContainer key={item.basketId} item={item}/>
+      return <JointBasketContainer key={item.basketId} item={item}/>
     })
 
     return (

@@ -24,13 +24,15 @@ exports.addBasket = async (req, res, next) => {
 exports.checkout = async (req, res, next) => {
     try {
         const basket = req.body.basket;
+        console.log(basket);
         basket.forEach((basketItem) => {
             const newOrder = {
                 recipe: basketItem.recipe,
                 buyer: req.user._id,
                 suplier: basketItem.owner,
                 quantity: basketItem.quantity,
-                status: 'OPEN'
+                status: 'OPEN',
+                basketId: basketItem.basketId
             };
             const order = new order_1.default(newOrder);
             order.save();
