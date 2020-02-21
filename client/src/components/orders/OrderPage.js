@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import OrderItem from './OrderItem';
+import JointOrder from './JointOrder';
 
 class OrderPage extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ async componentDidMount(){
 
   render() {
 
-    const orderDisplay = this.state.orders ? this.state.orders.map((order) => <OrderItem key={order._id} order={order} />) : <h1>No orders</h1>
+    // const orderDisplay = this.state.orders ? this.state.orders.map((order) => <OrderItem key={order._id} order={order} />) : <h1>No orders</h1>
     
     const jointOrders = this.state.orders && Object.values(this.state.orders.reduce((result, {_id, recipe, quantity, buyer, suplier, basketId, status}) => {
       if(!result[basketId]){
@@ -54,12 +54,13 @@ async componentDidMount(){
         return result;
     }, {}))
 
-    console.log(jointOrders)
+    const jointOrderDisplay = jointOrders ? jointOrders.map((order) => <JointOrder key={order.basketId} order={order} />) : <h1>no orders</h1>
 
+    
     return (
       <div>
         <h1>Your Orders</h1>
-        {orderDisplay}
+        {jointOrderDisplay}
       </div>
     )
   }

@@ -45,8 +45,6 @@ async onMarkComplete(){
       const { userType } = this.props.auth;
       const totalCost = costPerMeal *  quantity;
 
-      console.log(userType);
-
       const suplierButtons =  (
           <button onClick={this.onMarkComplete}>Mark Complete</button>
       ) 
@@ -57,13 +55,15 @@ async onMarkComplete(){
 
       return (
         <div>
-            <h3>{title}</h3>
-            <RecipeImage image={image} />
-            <h4>£{costPerMeal}</h4>
-            <h4>{quantity}</h4>
-            <h4>£{totalCost}</h4>
-            <h4>{status}</h4>
-            <Link to={`/order/${this.props.order._id}`}><button>Details</button></Link>
+            <h3 style={{display: 'inline-block', margin: '10px'}}>{title}</h3>
+            <div style={{display: 'inline-block', margin: '10px'}}>
+              <RecipeImage image={image} />
+            </div>
+            <h4 style={{display: 'inline-block', margin: '10px'}}>£{costPerMeal}</h4>
+            <h4 style={{display: 'inline-block', margin: '10px'}}>{quantity}</h4>
+            <h4 style={{display: 'inline-block', margin: '10px'}}>£{totalCost}</h4>
+            <h4 style={{display: 'inline-block', margin: '10px'}}> {status}</h4>
+            <Link to={`/order/${this.props.order._id}`}><button style={{display: 'inline-block', margin: '10px'}}>Details</button></Link>
             {userType === 'BUYER' ? buyerButton: suplierButtons}
             
           </div>
