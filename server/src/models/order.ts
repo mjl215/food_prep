@@ -5,9 +5,11 @@ export interface OrderInterface extends Document {
     buyer: mongoose.Schema.Types.ObjectId;
     suplier: mongoose.Schema.Types.ObjectId;
     quantity: number;
-    status: 'OPEN' | 'COMPLETE' | 'CANCELED',
+    status: 'PENDING CONFIRMATION' | 'OPEN' | 'COMPLETE' | 'CANCELED',
     orderId: string,
-    costPerMeal: number
+    costPerMeal: number,
+    prepTime: number
+    created: Date
 }
 
 export interface OrderModelInterface extends Model<OrderInterface> {
@@ -42,6 +44,14 @@ const OrderSchema: Schema = new mongoose.Schema({
     costPerMeal: {
       type: Number,
       required: true
+    }, 
+    prepTime: {
+      type: Number,
+      required: true
+    },
+    created: {
+      type: Date,
+      default: Date.now
     }
 
 })

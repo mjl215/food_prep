@@ -40,7 +40,8 @@ export const checkout = async (req: Request, res: Response, next: NextFunction) 
                   quantity: basketItem.quantity,
                   status: 'OPEN',
                   orderId: basketItem.basketId,
-                  costPerMeal: basketItem.costPerMeal
+                  costPerMeal: basketItem.costPerMeal,
+                  prepTime: basketItem.basePrepTime + (basketItem.additionalPrepTime * (basketItem.quantity-1))
               }
   
               const order = new Order(newOrder);

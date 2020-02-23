@@ -38,6 +38,14 @@ const recipeSchema = new mongoose_1.default.Schema({
     owner: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         required: true
+    },
+    basePrepTime: {
+        type: Number,
+        required: true
+    },
+    additionalPrepTime: {
+        type: Number,
+        required: true
     }
 });
 const Recipe = mongoose_1.default.model("Recipe", recipeSchema);

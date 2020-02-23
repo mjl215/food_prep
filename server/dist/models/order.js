@@ -32,6 +32,14 @@ const OrderSchema = new mongoose_1.default.Schema({
     costPerMeal: {
         type: Number,
         required: true
+    },
+    prepTime: {
+        type: Number,
+        required: true
+    },
+    created: {
+        type: Date,
+        default: Date.now
     }
 });
 const Order = mongoose_1.default.model("Order", OrderSchema);

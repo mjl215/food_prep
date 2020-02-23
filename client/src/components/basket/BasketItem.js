@@ -20,7 +20,9 @@ class BasketItem extends Component {
       title: null,
       costPerMeal: null,
       image: null,
-      quantity: this.props.item.quantity
+      quantity: this.props.item.quantity,
+      basePrepTime: this.props.item.basePrepTime,
+      additionalPrepTime: this.props.item.additionalPrepTime
     }
 
     this.dragStart = this.dragStart.bind(this);
@@ -128,7 +130,7 @@ class BasketItem extends Component {
   }
 
   render() {
-    const {title, costPerMeal, quantity, recipeId, image, id, basketId} = this.state
+    const {title, costPerMeal, quantity, recipeId, image, id, basketId, basePrepTime, additionalPrepTime} = this.state
     const price = costPerMeal * quantity;
 
     return (
@@ -156,13 +158,14 @@ class BasketItem extends Component {
             style={{display: 'inline-block'}}
           >-</button>
         </div>
+        <p style={{display: 'inline-block'}}>Prep Time: {basePrepTime + (additionalPrepTime * (quantity-1))} mins</p>
+        <p style={{display: 'inline-block'}}> £{price}</p>
         <button
           onClick={this.splitOrder}
           style={{display: 'inline-block'}}
         >
           split to sperate order
         </button>
-        <p style={{display: 'inline-block'}}> £{price}</p>
         <button onClick={() => this.onDeleteItem()}>Remove Item</button>
       </div>
     )

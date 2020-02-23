@@ -68,6 +68,14 @@ const userSchema = new mongoose_1.default.Schema({
                 type: Number,
                 required: true
             },
+            basePrepTime: {
+                type: Number,
+                required: true
+            },
+            additionalPrepTime: {
+                type: Number,
+                required: true
+            },
             basketId: {
                 type: String,
                 required: true

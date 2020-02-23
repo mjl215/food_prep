@@ -14,7 +14,7 @@ class RecipePage extends Component {
 
         this.state = {
             recipe: null,
-            quantity: 0
+            quantity: 1
             }
         
         
@@ -56,6 +56,8 @@ class RecipePage extends Component {
             quantity: this.state.quantity,
             owner: this.state.recipe.owner,
             costPerMeal: this.state.recipe.costPerMeal,
+            basePrepTime: this.state.recipe.basePrepTime,
+            additionalPrepTime: this.state.recipe.additionalPrepTime,
             basketId: uuid.v4()
           }
         ]
@@ -72,7 +74,7 @@ class RecipePage extends Component {
 
         if(this.state.recipe){
 
-            const {title, description, ingredients, costPerMeal, image, vegan, vegetarian} = this.state.recipe;
+            const {title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state.recipe;
             const ingredientsRender = ingredients.map((ingredient, i) => {
                 return ingredients[i+1] ? <p key="i">{ingredient}, </p> : <p key="i">{ingredient}.</p>
              
@@ -86,10 +88,12 @@ class RecipePage extends Component {
                     {ingredientsRender}
                     <RecipeImage image={image} />
                     <p>{costPerMeal}</p>
+                    <p>Eastimated Prep Time -  {basePrepTime + (additionalPrepTime * (this.state.quantity-1))} minutes</p>
                     <input 
                         type="number" 
                         name="quantity"
                         onChange={this.inputOnChangeHandler}
+                        value={this.state.quantity}
                     />
                     <button onClick={this.onClick}>Add to Basket</button>
                 </div>

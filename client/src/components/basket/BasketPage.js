@@ -44,23 +44,26 @@ class BasketPage extends Component {
 
   render() {
 
-    const recipeOwnerArray = this.props.auth.basket.length > 0 && Object.values(this.props.auth.basket.reduce((result, {_id, recipe, quantity, owner, basketId, costPerMeal}) => {
-      if(!result[owner]){
-        result[owner] = {
-          owner,
-          orders: []
-        }
-      };
+    const recipeOwnerArray = this.props.auth.basket.length > 0 && Object.values(this.props.auth.basket.reduce((result, 
+      {_id, recipe, quantity, owner, basketId, costPerMeal, basePrepTime, additionalPrepTime}) => {
+        if(!result[owner]){
+          result[owner] = {
+            owner,
+            orders: []
+          }
+        };
 
-      result[owner].orders.push({
-        _id,
-        recipe,
-        quantity,
-        owner,
-        basketId,
-        costPerMeal
-      });
-        return result;
+        result[owner].orders.push({
+          _id,
+          recipe,
+          quantity,
+          owner,
+          basketId,
+          costPerMeal,
+          basePrepTime, 
+          additionalPrepTime
+        });
+          return result;
     }, {})); 
 
     const BasketContainers = recipeOwnerArray && recipeOwnerArray.map((item) => <BasketSuplierContainer key={item.owner} orders={item.orders} owner={item.owner}/>)

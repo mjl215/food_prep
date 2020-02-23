@@ -34,7 +34,7 @@ async componentDidMount(){
 
     // const orderDisplay = this.state.orders ? this.state.orders.map((order) => <OrderItem key={order._id} order={order} />) : <h1>No orders</h1>
     
-    const jointOrders = this.state.orders && Object.values(this.state.orders.reduce((result, {_id, recipe, quantity, buyer, suplier, orderId, status}) => {
+    const jointOrders = this.state.orders && Object.values(this.state.orders.reduce((result, {_id, recipe, quantity, buyer, suplier, orderId, status, prepTime}) => {
       if(!result[orderId]){
         result[orderId] = {
           orderId,
@@ -49,7 +49,8 @@ async componentDidMount(){
         orderId,
         buyer,
         suplier,
-        status
+        status,
+        prepTime
       });
         return result;
     }, {}))

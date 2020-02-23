@@ -11,7 +11,9 @@ export default class UploadRecipe extends Component {
             costPerMeal: 0,
             ingredients: "",
             vegetarian: false,
-            vegan: false
+            vegan: false,
+            basePrepTime: 0,
+            additionalPrepTime: 0
             }
     }
 
@@ -40,7 +42,9 @@ export default class UploadRecipe extends Component {
                 ingredients: this.state.ingredients,
                 vegetarian: this.state.vegetarian,
                 vegan: this.state.vegan,
-                image: imageRes.data
+                image: imageRes.data,
+                basePrepTime: this.state.basePrepTime,
+                additionalPrepTime: this.state.additionalPrepTime
             }
 
             const recipeRes = await axios.post('/recipe', newRecipe, config);
@@ -55,7 +59,9 @@ export default class UploadRecipe extends Component {
                     costPerMeal: 0,
                     ingredients: "",
                     vegetarian: false,
-                    vegan: false
+                    vegan: false,
+                    basePrepTime: 0,
+                    additionalPrepTime: 0
                 })
 
                 document.getElementById("recipeImage").value = "";
@@ -92,13 +98,16 @@ export default class UploadRecipe extends Component {
             <div >
                 
                 <form>
-                    <input 
-                        type="text" 
-                        placeholder="Meal Title" 
-                        name="recipeTitle"
-                        onChange={this.inputOnChangeHandler}
-                        value={this.state.recipeTitle}
-                    />
+                    <div>
+                        <input 
+                            type="text" 
+                            placeholder="Meal Title" 
+                            name="recipeTitle"
+                            onChange={this.inputOnChangeHandler}
+                            value={this.state.recipeTitle}
+                        />
+                    </div>
+                    <div>
                     <textarea 
                         rows="5" 
                         cols="50" 
@@ -107,20 +116,46 @@ export default class UploadRecipe extends Component {
                         onChange={this.inputOnChangeHandler} 
                         value={this.state.recipeDescription}
                     />
-                    <input 
-                        type="number" 
-                        placeholder="cost per meal" 
-                        name="costPerMeal" 
-                        onChange={this.inputOnChangeHandler} 
-                        value={this.state.costPerMeal}
-                    />
-                    <textarea 
-                        rows="5" cols="50" 
-                        placeholder="Meal ingredients (please separate with ," 
-                        name="ingredients"
-                        onChange={this.inputOnChangeHandler}
-                        value={this.state.ingredients}
-                    />
+                    </div>
+                    <div>
+                        <p>meal cost</p>
+                        <input 
+                            type="number" 
+                            placeholder="cost per meal" 
+                            name="costPerMeal" 
+                            onChange={this.inputOnChangeHandler} 
+                            value={this.state.costPerMeal}
+                        />
+                    </div>
+                    <div>
+                        <textarea 
+                            rows="5" cols="50" 
+                            placeholder="Meal ingredients (please separate with ," 
+                            name="ingredients"
+                            onChange={this.inputOnChangeHandler}
+                            value={this.state.ingredients}
+                        />
+                    </div>
+                    <div>
+                        <p>Prep time for 1 meal</p>
+                        <input 
+                            type="number" 
+                            placeholder="base prep time" 
+                            name="basePrepTime" 
+                            onChange={this.inputOnChangeHandler} 
+                            value={this.state.basePrepTime}
+                        />
+                    </div>
+                    <div>
+                        <p>additional prep time per meal</p>
+                        <input 
+                            type="number" 
+                            placeholder="additional prep time" 
+                            name="additionalPrepTime" 
+                            onChange={this.inputOnChangeHandler} 
+                            value={this.state.additionalPrepTime}
+                        />
+                    </div>
                     <div>
                         <input 
                             type="checkbox"  

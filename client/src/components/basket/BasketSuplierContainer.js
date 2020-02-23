@@ -14,24 +14,27 @@ class BasketSuplierContainer extends Component {
   render() {
     
 
-    const jointOrderSplit = this.props.orders.length > 0 && Object.values(this.props.orders.reduce((result, {_id, recipe, quantity, owner, basketId, costPerMeal}) => {
-      if(!result[basketId]){
-        result[basketId] = {
-          basketId,
-          owner,
-          orders: []
-        }
-      };
+    const jointOrderSplit = this.props.orders.length > 0 && Object.values(this.props.orders.reduce((result,
+      {_id, recipe, quantity, owner, basketId, costPerMeal, basePrepTime, additionalPrepTime}) => {
+        if(!result[basketId]){
+          result[basketId] = {
+            basketId,
+            owner,
+            orders: []
+          }
+        };
 
-      result[basketId].orders.push({
-        _id,
-        recipe,
-        quantity,
-        owner,
-        basketId,
-        costPerMeal
-      });
-        return result;
+        result[basketId].orders.push({
+          _id,
+          recipe,
+          quantity,
+          owner,
+          basketId,
+          costPerMeal,
+          basePrepTime, 
+          additionalPrepTime
+        });
+          return result;
     }, {})); 
 
     const basketItems = jointOrderSplit && jointOrderSplit.map((item) => {

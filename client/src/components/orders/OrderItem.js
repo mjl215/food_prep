@@ -41,7 +41,7 @@ async onMarkComplete(){
     } else {
 
       const {title, costPerMeal, image} = this.state.recipe;
-      const { quantity, status } = this.props.order;
+      const { quantity, status, prepTime } = this.props.order;
       const { userType } = this.props.auth;
       const totalCost = costPerMeal *  quantity;
 
@@ -62,6 +62,7 @@ async onMarkComplete(){
             <h4 style={{display: 'inline-block', margin: '10px'}}>£{costPerMeal}</h4>
             <h4 style={{display: 'inline-block', margin: '10px'}}>{quantity}</h4>
             <h4 style={{display: 'inline-block', margin: '10px'}}>£{totalCost}</h4>
+            <h4 style={{display: 'inline-block', margin: '10px'}}>{prepTime} mins</h4>
             <h4 style={{display: 'inline-block', margin: '10px'}}> {status}</h4>
             <Link to={`/order/${this.props.order.orderId}`}><button style={{display: 'inline-block', margin: '10px'}}>Details</button></Link>
             {userType === 'BUYER' ? buyerButton: suplierButtons}

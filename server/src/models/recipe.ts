@@ -9,6 +9,8 @@ export interface RecipeInterface extends Document {
     vegan: boolean;
     image: mongoose.Schema.Types.ObjectId;
     owner: mongoose.Schema.Types.ObjectId;
+    basePrepTime: number,
+    additionalPrepTime: number
 }
 
 export interface RecipeModelInterface extends Model<RecipeInterface> {
@@ -48,6 +50,14 @@ const recipeSchema: Schema = new mongoose.Schema({
     }, 
     owner : {
         type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    basePrepTime: {
+        type: Number,
+        required: true
+    },
+    additionalPrepTime: {
+        type: Number,
         required: true
     }
 })
