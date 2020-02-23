@@ -55,6 +55,7 @@ class RecipePage extends Component {
             recipe: this.state.recipe._id, 
             quantity: this.state.quantity,
             owner: this.state.recipe.owner,
+            costPerMeal: this.state.recipe.costPerMeal,
             basketId: uuid.v4()
           }
         ]

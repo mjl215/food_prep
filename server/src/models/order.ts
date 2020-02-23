@@ -6,7 +6,8 @@ export interface OrderInterface extends Document {
     suplier: mongoose.Schema.Types.ObjectId;
     quantity: number;
     status: 'OPEN' | 'COMPLETE' | 'CANCELED',
-    basketId: string
+    orderId: string,
+    costPerMeal: number
 }
 
 export interface OrderModelInterface extends Model<OrderInterface> {
@@ -34,8 +35,12 @@ const OrderSchema: Schema = new mongoose.Schema({
       type: String,
       required: true
     },
-    basketId: {
+    orderId: {
       type: String,
+      required: true
+    },
+    costPerMeal: {
+      type: Number,
       required: true
     }
 

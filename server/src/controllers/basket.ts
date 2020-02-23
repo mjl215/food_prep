@@ -39,7 +39,8 @@ export const checkout = async (req: Request, res: Response, next: NextFunction) 
                   suplier: basketItem.owner,
                   quantity: basketItem.quantity,
                   status: 'OPEN',
-                  basketId: basketItem.basketId
+                  orderId: basketItem.basketId,
+                  costPerMeal: basketItem.costPerMeal
               }
   
               const order = new Order(newOrder);

@@ -55,7 +55,10 @@ class BasketItem extends Component {
       const index = basket.findIndex((i) => i._id === this.state.id)
 
       if(index !== -1){
-        basket[index] = {_id: this.state.id, recipe: this.state.recipeId, quantity: this.state.quantity}
+        basket[index] = {
+          ...basket[index], 
+          quantity: this.state.quantity
+        }
 
         const body = {
           basket

@@ -61,10 +61,13 @@ class JointBasketContainer extends Component {
 
     const basketId = this.props.item.basketId;
     
-    console.log(this.props.auth.basket);
+    console.log(this.props.item.orders);
     const basket = this.props.item.orders.map((order) => {
       return <BasketItem key={order._id} item={order}/>
     })
+
+    const totalCost = this.props.item.orders.reduce((sum, order) => sum + (order.quantity * order.costPerMeal), 0)
+    console.log(totalCost);
 
     return (
       <div 
@@ -74,7 +77,7 @@ class JointBasketContainer extends Component {
         id={basketId}
       >
         {basket}
-    <h2> total £{}</h2>
+    <h2> Total for this order £{totalCost}</h2>
       </div>
     )
   }

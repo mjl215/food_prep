@@ -25,8 +25,12 @@ const OrderSchema = new mongoose_1.default.Schema({
         type: String,
         required: true
     },
-    basketId: {
+    orderId: {
         type: String,
+        required: true
+    },
+    costPerMeal: {
+        type: Number,
         required: true
     }
 });

@@ -63,7 +63,7 @@ async onMarkComplete(){
             <h4 style={{display: 'inline-block', margin: '10px'}}>{quantity}</h4>
             <h4 style={{display: 'inline-block', margin: '10px'}}>£{totalCost}</h4>
             <h4 style={{display: 'inline-block', margin: '10px'}}> {status}</h4>
-            <Link to={`/order/${this.props.order._id}`}><button style={{display: 'inline-block', margin: '10px'}}>Details</button></Link>
+            <Link to={`/order/${this.props.order.orderId}`}><button style={{display: 'inline-block', margin: '10px'}}>Details</button></Link>
             {userType === 'BUYER' ? buyerButton: suplierButtons}
             
           </div>

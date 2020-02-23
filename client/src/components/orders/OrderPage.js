@@ -34,19 +34,19 @@ async componentDidMount(){
 
     // const orderDisplay = this.state.orders ? this.state.orders.map((order) => <OrderItem key={order._id} order={order} />) : <h1>No orders</h1>
     
-    const jointOrders = this.state.orders && Object.values(this.state.orders.reduce((result, {_id, recipe, quantity, buyer, suplier, basketId, status}) => {
-      if(!result[basketId]){
-        result[basketId] = {
-          basketId,
+    const jointOrders = this.state.orders && Object.values(this.state.orders.reduce((result, {_id, recipe, quantity, buyer, suplier, orderId, status}) => {
+      if(!result[orderId]){
+        result[orderId] = {
+          orderId,
           orders: []
         }
       };
 
-      result[basketId].orders.push({
+      result[orderId].orders.push({
         _id,
         recipe,
         quantity,
-        basketId,
+        orderId,
         buyer,
         suplier,
         status
@@ -54,7 +54,7 @@ async componentDidMount(){
         return result;
     }, {}))
 
-    const jointOrderDisplay = jointOrders ? jointOrders.map((order) => <JointOrder key={order.basketId} order={order} />) : <h1>no orders</h1>
+    const jointOrderDisplay = jointOrders ? jointOrders.map((order) => <JointOrder key={order.orderId} order={order} />) : <h1>no orders</h1>
 
     
     return (

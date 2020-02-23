@@ -44,7 +44,7 @@ class BasketPage extends Component {
 
   render() {
 
-    const recipeOwnerArray = this.props.auth.basket.length > 0 && Object.values(this.props.auth.basket.reduce((result, {_id, recipe, quantity, owner, basketId}) => {
+    const recipeOwnerArray = this.props.auth.basket.length > 0 && Object.values(this.props.auth.basket.reduce((result, {_id, recipe, quantity, owner, basketId, costPerMeal}) => {
       if(!result[owner]){
         result[owner] = {
           owner,
@@ -57,18 +57,20 @@ class BasketPage extends Component {
         recipe,
         quantity,
         owner,
-        basketId
+        basketId,
+        costPerMeal
       });
         return result;
     }, {})); 
 
     const BasketContainers = recipeOwnerArray && recipeOwnerArray.map((item) => <BasketSuplierContainer key={item.owner} orders={item.orders} owner={item.owner}/>)
-
+    const totalcost = this.props.auth.basket.length > 0 && this.props.auth.basket.reduce((sum, item) => sum + (item.quantity * item.costPerMeal), 0)
     return (
       <div>
         <p>Basket page</p>
         {BasketContainers}
         <button onClick={this.onCheckout}>Checkout</button>
+        <h2>Total £{totalcost}</h2>
       </div>
     )
   }
