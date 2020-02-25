@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-
-
 import LandingPage from '../components/common/LandingPage';
 import Navbar from '../components/navigation/Navbar';
 import Register from '../components/auth/Register';
@@ -17,7 +15,7 @@ import OrderPage from '../components/orders/OrderPage';
 const AppRouter = (props) => {
   return (
     <Router>
-      <div>
+      <div className="grid">
         <Navbar />
         <Switch>
           <Route exact path='/' component={LandingPage}></Route>

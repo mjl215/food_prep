@@ -99,7 +99,7 @@ const Navbar = (props) => {
   return (
     <div className="navbar">
       <div className="navbar__title__container">
-        <h1 className="navbar__title">Home Meal Prep and Private Cooking</h1>
+        <h1 className="navbar__title">Home Meal Prep</h1>
       </div>
       {pageLinks(props.auth.userType)}
     </div>

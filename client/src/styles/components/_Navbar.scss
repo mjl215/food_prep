@@ -1,0 +1,37 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $light-blue;
+}
+
+.navbar__title {
+  padding: 0.5rem 1rem;
+}
+
+.navbar__list {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.navbar__list__item {
+  padding: 1rem;
+  list-style-type: none;
+
+  &:hover,
+  &:active {
+    color: $dark-purple;
+  }
+}
+
+
+
+.navbar__list__link {
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    color: $dark-purple;
+  }
+}

@@ -1,0 +1,13 @@
+* {
+  font-family: 'Muli', sans-serif;
+  color: $dark-grey;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: 3.5rem auto 2rem;
+  grid-template-areas: "header"
+                        "main"
+                        "footer";
+  height: 100vh;
+}
