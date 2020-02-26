@@ -20,7 +20,15 @@ class Register extends Component {
             suggestedAdresses: [],
             selectedAddress: '',
             selectedAddressId: '',
-            userType: ""
+            userType: "",
+            errors: {
+                email: null,
+                name: null,
+                password: null,
+                confirmPassword: null,
+                selectedAddress: null,
+                selectedAddressId: null,
+            }
         }
 
         this.onSearchAddress = this.onSearchAddress.bind(this);

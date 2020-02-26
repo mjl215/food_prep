@@ -3,21 +3,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const validator_1 = __importDefault(require("validator"));
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //Create a User
 exports.createUser = async (req, res, next) => {
-    console.log(req.body);
-    const user = new user_1.default(req.body);
-    const token = await user.generateAuthToken();
-    user.save((err) => {
-        if (err) {
-            res.send(err);
+    //console.log(req.body)
+    try {
+        if (!validator_1.default.isLength(req.body.password, { min: 6, max: 20 })) {
+            throw new Error();
         }
-        else {
-            res.send({ token, user });
-        }
-    });
+        const user = new user_1.default(req.body);
+        const token = await user.generateAuthToken();
+        //await user.save()
+        res.send({ token, user });
+    }
+    catch (error) {
+        console.log(error.message);
+    }
 };
 //Login User
 exports.loginUser = async (req, res, next) => {

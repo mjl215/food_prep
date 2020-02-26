@@ -1,20 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
+import validator from 'validator';
+
 import User from '../models/user';
 import Order from '../models/order';
 import bcrypt from 'bcrypt';
 
 //Create a User
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body)
-    const user = new User(req.body);
-    const token = await user.generateAuthToken();
-    user.save((err: any) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send({token, user});
+    //console.log(req.body)
+    try {
+        if(!validator.isLength(req.body.password, {min: 6, max: 20})){
+
+            throw new Error();
         }
-    });
+        const user = new User(req.body);
+        const token = await user.generateAuthToken();
+        //await user.save()
+        res.send({token, user});
+    } catch (error) {
+        console.log(error.message)
+    }
+
 };
 
 

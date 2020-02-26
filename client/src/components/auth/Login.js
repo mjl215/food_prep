@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { Redirect } from 'react-router-dom';
 //import axios from 'axios';
 
 import { loginUser } from '../../actions/AuthActions'
@@ -12,7 +12,10 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errors: {}
+      errors: {
+        emailError: null,
+        passwordError: null
+      }
     }
   }
 
@@ -62,6 +65,9 @@ class Login extends Component {
   }
 
   render() {
+    if(this.props.auth.authorized){
+      return <Redirect to='/'/>
+    }
 
     return (
       <div>
