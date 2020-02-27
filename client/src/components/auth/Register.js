@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Axios from 'axios';
 
 import {registerUser} from '../../actions/AuthActions';
-import Axios from 'axios';
+import Alert from '../common/Alert'
 
 class Register extends Component {
     constructor(props){
@@ -33,6 +34,7 @@ class Register extends Component {
 
         this.onSearchAddress = this.onSearchAddress.bind(this);
         this.selectAddress = this.selectAddress.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     
@@ -45,16 +47,17 @@ class Register extends Component {
         e.preventDefault();
 
         
-        if(this.state.password !== this.state.confirmPassword){
-            alert('passwords must match')
-            this.setState({password: '', confirmPassword: ''})
-        }
+        // if(this.state.password !== this.state.confirmPassword){
+        //     alert('passwords must match')
+        //     this.setState({password: '', confirmPassword: ''})
+        // }
 
         const user = {
             name: this.state.name,
             email: this.state.email,
             userType: this.state.userType,
             password: this.state.password,
+            confirmPassword: this.state.confirmPassword,
             location: {
                 lat: this.state.lat,
                 lng: this.state.lng,
@@ -77,7 +80,6 @@ class Register extends Component {
     }
 
     onUserSelectionButton = (e) => {
-        console.log('hi')
         this.setState({
             userType: e.target.value
         })
@@ -100,7 +102,6 @@ class Register extends Component {
             lng
         })
     }
-
 
 
     render() {
@@ -131,70 +132,92 @@ class Register extends Component {
 
         if(this.state.userType === 'BUYER' || 'SUPPLIER'){
             return (
-                <div>
-                <form onSubmit={this.onSubmit}>
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="name"
-                        value={this.state.name}
-                        onChange={(e) => this.onChange(e)}
-                    />
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="enter email"
-                        value={this.state.email}
-                        onChange={(e) => this.onChange(e)}
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="enter password"
-                        value={this.state.password}
-                        onChange={(e) => this.onChange(e)}
-                    />
-                    <input
-                        type="password"
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                        value={this.state.confirmPassword}
-                        onChange={(e) => this.onChange(e)}
-                    />
-                    <input
-                        type="submit"
-                    />
-                </form>
-                <div>
-                    <input 
-                        type="address"
-                        name="enteredAddress"
-                        placeholder="address"
-                        value={this.state.enteredAddress}
-                        onChange={(e) => this.onChange(e)}
-                    />
-                    <button onClick={this.onSearchAddress}>search address</button>
-                    {this.state.suggestedAdresses && this.state.suggestedAdresses.map((addr) => {
-                        const {lat, lng} = addr.geometry.location;
-                        const {place_id: id, formatted_address: address} = addr
-                        
-                        return ( 
-                            <p 
-                                key={addr.place_id}
-                                onClick={() => this.selectAddress(id, address, lat, lng)}
+                <div className="register">
+                    <div className="register__grid">
+                        <h1 className="register__title">Register</h1>
+                        <form 
+                            onSubmit={this.onSubmit}
+                            className="login__form"
+                            noValidate
+                        >
+                            <label htmlFor="name">Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="name"
+                                value={this.state.name}
+                                onChange={(e) => this.onChange(e)}
+                            />
+                            <Alert errorType={'register-name'}/>
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="enter email"
+                                value={this.state.email}
+                                onChange={(e) => this.onChange(e)}
+                            />
+                            <Alert errorType={'register-email'}/>
+                            <label htmlFor="passord">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="enter password"
+                                value={this.state.password}
+                                onChange={(e) => this.onChange(e)}
+                            />
+                            <Alert errorType={'register-password'}/>
+                            <label htmlFor="confirmPassword">Confirm Password</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                placeholder="Confirm Password"
+                                value={this.state.confirmPassword}
+                                onChange={(e) => this.onChange(e)}
+                            />
+                            <Alert  errorType={'register-confirmPassword'}/>
+                            <label htmlFor="Search Address">Search Address</label>
+                            <div>
+                                <input 
+                                    type="address"
+                                    name="enteredAddress"
+                                    placeholder="address"
+                                    value={this.state.enteredAddress}
+                                    onChange={(e) => this.onChange(e)}
+                                />
+                                <button 
+                                    onClick={this.onSearchAddress}
+                                    type="button"
+                                >search address</button>
+                                {this.state.suggestedAdresses && this.state.suggestedAdresses.map((addr) => {
+                                    const {lat, lng} = addr.geometry.location;
+                                    const {place_id: id, formatted_address: address} = addr
+                                    
+                                    return ( 
+                                        <p 
+                                            key={addr.place_id}
+                                            onClick={() => this.selectAddress(id, address, lat, lng)}
+                                        >
+                                            {addr.formatted_address}
+                                        </p>
+                                    )
+                                })}
+                            </div>
+                            <Alert errorType={'register-address'}/>
+                            <button
+                                type="button"
+                                onClick={this.onSubmit}
                             >
-                                {addr.formatted_address}
-                            </p>
-                        )
-                    })}
-                </div>
-                
-                <button
-                        value={undefined}
-                        onClick={(e) => this.onUserSelectionButton(e)}
-                    >
-                        back
-                </button>
+                                Register
+                            </button>
+                            <button
+                                    value={undefined}
+                                    onClick={(e) => this.onUserSelectionButton(e)}
+                                >
+                                    back
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 )
         }

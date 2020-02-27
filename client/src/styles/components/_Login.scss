@@ -1,0 +1,42 @@
+.login {
+  
+}
+
+.login__grid {
+  padding: 2rem;
+  margin: auto;
+  width: 50%;
+  max-width: 45rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4rem auto;
+  grid-template-areas:  "title"
+                        "form";
+  grid-row-gap: 1rem;
+  border: solid thin $dark-purple;
+  border-radius: 2rem;
+}
+
+.login__title {
+  grid-area: title;
+  text-align: center;
+}
+
+.login__form {
+  grid-area: form;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 3rem 3rem 1.5rem 3rem;
+  grid-row-gap: 0.5rem;
+  text-align: center;
+}
+
+.login__form  .alert {
+  grid-column-start: 2;
+  text-align: left;
+}
+
+.login__form--submit {
+  grid-column-start: 2;
+  width: 50%;
+}

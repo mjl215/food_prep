@@ -46,7 +46,8 @@ const recipeSchema: Schema = new mongoose.Schema({
         required: true
     },
     image : {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }, 
     owner : {
         type: mongoose.Schema.Types.ObjectId,

@@ -1,0 +1,30 @@
+.register {
+
+}
+
+.register__title {
+  grid-area: title;
+  text-align: center;
+}
+
+.register__grid {
+  padding: 3rem 0;
+  margin: auto;
+  width: 50%;
+  max-width: 45rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4rem auto;
+  grid-template-areas:  "title"
+                        "form";
+  grid-row-gap: 1rem;
+}
+
+.login__form {
+  grid-area: form;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 3rem 1.5rem 3rem 1.5rem 3rem 1.5rem 3rem 1.5rem 3rem 1.5rem;
+  grid-row-gap: 0.5rem;
+  text-align: center;
+}

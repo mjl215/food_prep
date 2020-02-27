@@ -13,15 +13,30 @@ export const registerUser = (body, config) => async dispatch => {
       data: res.data.user
     })
   } catch (error) {
-    console.log('there has been an error registering: ' + error)
+    error.response.data.forEach((err) => {
+      dispatch({
+        type: action_types.ADD_ERROR,
+        data: err
+      })
+    })
+
+    setTimeout(() => {
+      error.response.data.forEach((err) => {
+        dispatch({
+          type: action_types.REMOVE_ERROR,
+          data: err
+        })
+      })
+    }, 5000)
   }
 }
 
 export const loginUser = (body, config) => async dispatch =>  {
   try {
     const res = await axios.post('/user/login', body, config);
+    console.log(res.status);
     localStorage.setItem('token', JSON.stringify(res.data.token));
-    //const decoded = jwtDecode(res.data.token);
+    
 
     dispatch({
       type: action_types.LOGIN_SUCCESS,
@@ -29,7 +44,17 @@ export const loginUser = (body, config) => async dispatch =>  {
     })
 
   } catch (error) {
-    console.log('there has been an error loging into your account ' + error)
+    dispatch({
+      type: action_types.ADD_ERROR,
+      data: error.response.data
+    })
+
+    setTimeout(() => {
+      dispatch({
+        type: action_types.REMOVE_ERROR,
+        data: error.response.data
+      })
+    }, 5000)
   }
 }
 

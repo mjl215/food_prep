@@ -1,0 +1,11 @@
+.alert {
+  display: flex;
+  align-content: start;
+}
+
+.alert__text {
+  color: $alert-red;
+  margin: 0;
+  font-size: 1rem;
+  font-style: italic;
+}

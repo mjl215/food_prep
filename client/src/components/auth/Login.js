@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 //import axios from 'axios';
 
-import { loginUser } from '../../actions/AuthActions'
+import { loginUser } from '../../actions/AuthActions';
+import Alert from '../common/Alert';
 
 class Login extends Component {
   constructor(props) {
@@ -53,7 +54,8 @@ class Login extends Component {
       }
 
       const body = JSON.stringify(user);
-      this.props.loginUser(body, config)
+      this.props.loginUser(body, config);
+
     } catch (error) {
       console.log(error)
     }
@@ -70,28 +72,37 @@ class Login extends Component {
     }
 
     return (
-      <div>
-        <h1>Login</h1>
-        <form onSubmit={this.onSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="enter email"
-            value={this.state.email}
-            onChange={(e) => this.onChange(e)}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="enter password"
-            value={this.state.password}
-            onChange={(e) => this.onChange(e)}
-          />
-          <input
-            type="submit"
-          />
-        </form>
-        {/*<button onClick={() => this.onClick()}>test</button>*/}
+      <div className="login">
+        <div className="login__grid">
+          <h1 className="login__title">Login</h1>
+          <form 
+            onSubmit={this.onSubmit}
+            className="login__form"
+          > 
+            <label htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="enter email"
+              value={this.state.email}
+              onChange={(e) => this.onChange(e)}
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="enter password"
+              value={this.state.password}
+              onChange={(e) => this.onChange(e)}
+            />
+            <Alert errorType='login'/>
+            <input
+              type="submit"
+              className="login__form--submit"
+            />
+          </form>
+          {/*<button onClick={() => this.onClick()}>test</button>*/}
+        </div>
       </div>
     )
   }

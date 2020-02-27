@@ -4,11 +4,12 @@ import {  createUser, loginUser, logoutUser, authUser, } from '../controllers/us
 import { addBasket, checkout } from '../controllers/basket';
 import { getOrders, completeOrder } from '../controllers/orders';
 import { auth } from '../middleware/auth';
+import { validateRegister } from '../middleware/validate';
 
 const router = Router();
 
 // User Controller
-router.post('/register', createUser);
+router.post('/register',validateRegister, createUser);
 router.post('/login', loginUser);
 router.post('/logout', auth , logoutUser);
 router.post('/auth', auth, authUser);

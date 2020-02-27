@@ -3,23 +3,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const validator_1 = __importDefault(require("validator"));
+const uuid_1 = require("uuid");
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //Create a User
 exports.createUser = async (req, res, next) => {
-    //console.log(req.body)
+    // const errors = validateRegister(req.body);
+    // console.log(errors)
+    // if(errors.length > 0){
+    //     return res.status(400).send(errors);
+    // }
     try {
-        if (!validator_1.default.isLength(req.body.password, { min: 6, max: 20 })) {
-            throw new Error();
-        }
         const user = new user_1.default(req.body);
         const token = await user.generateAuthToken();
         //await user.save()
         res.send({ token, user });
     }
     catch (error) {
-        console.log(error.message);
+        res.status(400).send();
     }
 };
 //Login User
@@ -28,7 +29,7 @@ exports.loginUser = async (req, res, next) => {
     try {
         const user = await user_1.default.findOne({ email });
         if (!user) {
-            throw new Error('Unable to login');
+            throw new Error();
         }
         const isMatch = await bcrypt_1.default.compare(password, user.password);
         if (!isMatch) {
@@ -38,7 +39,11 @@ exports.loginUser = async (req, res, next) => {
         res.send({ token, user });
     }
     catch (error) {
-        res.status(400).send();
+        res.status(400).send({
+            message: 'Email or password Incorrect',
+            type: 'login',
+            id: uuid_1.v4()
+        });
     }
 };
 //Logout User

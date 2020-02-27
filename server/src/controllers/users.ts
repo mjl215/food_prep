@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import validator from 'validator';
+
+import { v4 as uuidv4 } from 'uuid'
+
+import { validateRegister } from '../middleware/validate';
 
 import User from '../models/user';
 import Order from '../models/order';
@@ -7,18 +10,18 @@ import bcrypt from 'bcrypt';
 
 //Create a User
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-    //console.log(req.body)
+    // const errors = validateRegister(req.body);
+    // console.log(errors)
+    // if(errors.length > 0){
+    //     return res.status(400).send(errors);
+    // }
     try {
-        if(!validator.isLength(req.body.password, {min: 6, max: 20})){
-
-            throw new Error();
-        }
         const user = new User(req.body);
         const token = await user.generateAuthToken();
         //await user.save()
         res.send({token, user});
     } catch (error) {
-        console.log(error.message)
+        res.status(400).send();
     }
 
 };
@@ -26,29 +29,30 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
 //Login User
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
-    
-    
-    const { email, password} = req.body
-    
+
+    const { email, password} = req.body;
     try {
         const user = await User.findOne({ email });
 
     if (!user) {
-        throw new Error('Unable to login');
+        throw new Error();
     }
 
     const isMatch = await bcrypt.compare(password, user.password)
-    
+
     if (!isMatch) {
         throw new Error('Unable to login');
     }
     
     const token = await user.generateAuthToken();
-    
     res.send({token, user});
 
     } catch (error) {
-        res.status(400).send();
+        res.status(400).send({
+            message: 'Email or password Incorrect',
+            type: 'login',
+            id: uuidv4()
+        });
     }
 }
 

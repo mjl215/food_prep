@@ -9,3 +9,7 @@ export const UPDATE_USER = 'UPDATE_USER'
 //Recipes
 export const SET_SELECTED_RECIPE = 'SET_SELECTED_RECIPE'
 export const CLEAR_SELECTED_RECIPE = 'CLEAR_SELECTED_RECIPE'
+
+//Errors
+export const ADD_ERROR = 'ADD_ERROR'
+export const REMOVE_ERROR  = 'REMOVE_ERROR'
