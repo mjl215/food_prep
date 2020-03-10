@@ -3,11 +3,15 @@
   color: $dark-grey;
 }
 
+
+body {
+  background: $light-grey;
+}
+
 .grid {
   display: grid;
-  grid-template-rows: 3.5rem auto 2rem;
+  grid-template-rows: 3.5rem auto ;
   grid-template-areas: "header"
-                        "main"
-                        "footer";
+                        "main";
   height: 100vh;
 }

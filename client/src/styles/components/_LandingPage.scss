@@ -1,0 +1,58 @@
+.landing--page {
+  background: url('../../images/backgorund.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: grayscale(30%);
+}
+
+.landing--page__content {
+  width: 50%;
+  margin: auto;
+  margin-top: 10%;
+  text-align: center;
+  background-color: $grey;
+  border-radius: 2rem;
+  padding: 1rem;
+
+  h1 {
+    font-size: 3rem;
+    color: $dark-purple;
+  }
+
+  h4 {
+    font-size: 2rem;
+  }
+}
+
+.landing--page__content__button--container {
+  width: 60%;
+  margin: auto;
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "meals meals"
+                        ". .";
+  padding-bottom: 2rem;
+}
+
+.view--meal--button{
+  grid-area: meals;
+}
+
+.landing--page__content__button{
+  height: 3rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 0.8rem;
+  background-color: $light-blue;
+  text-decoration: none;
+}
+
+.landing--page__link {
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    color: $dark-purple;
+  }
+}

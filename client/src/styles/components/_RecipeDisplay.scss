@@ -1,0 +1,12 @@
+.recipeDisplay{
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat( auto-fill, 350px );
+  // grid-template-rows: repeat( auto-fill, auto );
+  grid-auto-rows: min-content;
+  grid-row-gap: 1rem;
+  justify-items: center;
+  justify-content: center;
+}

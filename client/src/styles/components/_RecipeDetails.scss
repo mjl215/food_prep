@@ -1,0 +1,23 @@
+.recipe--details__title {
+  margin: 0;
+  padding: 0.5rem 0;
+  background-color: $light-blue;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.recipe--details__info {
+  display: flex;
+}
+
+.recipe--details__info__item {
+  flex-grow: 1;
+
+  p {
+    margin: 0.5rem;
+  }
+}
+
+.recipe--details__cost {
+  font-size: 1.2rem;
+  margin: 0.5rem;
+}

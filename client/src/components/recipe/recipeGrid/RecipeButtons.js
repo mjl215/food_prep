@@ -12,9 +12,9 @@ const RecipeButtons = (props) => {
     
     return (
         <div>
-            <button onClick={onClick}>
+            <button onClick={onClick} className="recipe--button__button">
                 <Link 
-                    className="navbar__list__link" 
+                    className="recipe--button__link"
                     to={`/recipe/${props.recipeID}`}
                 >
                     More Details

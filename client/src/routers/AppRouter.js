@@ -11,6 +11,7 @@ import PrivateRoute from '../components/auth/PrivateRoute';
 import RecipePage from '../components/recipe/recipePage/RecipePage';
 import BasketPage from '../components/basket/BasketPage';
 import OrderPage from '../components/orders/OrderPage';
+import RecipeDisplay from '../components/recipe/recipeGrid/RecipeDisplay';
 
 const AppRouter = (props) => {
   return (
@@ -19,6 +20,7 @@ const AppRouter = (props) => {
         <Navbar />
         <Switch>
           <Route exact path='/' component={LandingPage}></Route>
+          <Route exact path='/meals' component={RecipeDisplay}></Route>
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <PrivateRoute exact path='/add-recipe' userType={['ADMIN', 'SUPLIER']} component={UploadRecipe} />
