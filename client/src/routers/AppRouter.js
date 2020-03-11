@@ -6,7 +6,7 @@ import LandingPage from '../components/common/LandingPage';
 import Navbar from '../components/navigation/Navbar';
 import Register from '../components/auth/Register';
 import Login from '../components/auth/Login';
-import UploadRecipe from '../components/recipe/UploadRecipe';
+import UploadRecipe from '../components/recipe/uploadRecipe/UploadRecipe';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import RecipePage from '../components/recipe/recipePage/RecipePage';
 import BasketPage from '../components/basket/BasketPage';

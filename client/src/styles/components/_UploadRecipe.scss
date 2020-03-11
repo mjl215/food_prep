@@ -1,0 +1,32 @@
+.upload--recipe {
+
+}
+
+.upload--recipe__container{
+  width: 80%;
+  margin: auto;
+  border: thin black solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.upload--recipe__container__form {
+  display: grid;	
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-row-gap: 1rem;
+  width: 70%;
+  margin: auto;
+  
+  
+  div{
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    grid-column-gap: 1rem;
+    justify-items: left;
+  }
+}
+
+
