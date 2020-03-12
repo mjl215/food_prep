@@ -5,7 +5,6 @@ import RecipeDetails from './RecipeDetails';
 
 const RecipeGridItem = (props) => {
   const {_id, title, costPerMeal, image, vegan, vegetarian} = props.recipe;
-  console.log(title);
 
   return (
     <div className="grid--item">

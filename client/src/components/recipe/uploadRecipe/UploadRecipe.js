@@ -7,11 +7,13 @@ export default class UploadRecipe extends Component {
         super(props);
             
         this.state = {
-            selectedFile: undefined,
+            selectedFile: null,
+            additionalImage: null,
+            additionalImagesArray: [],
             recipeTitle: "",
             recipeDescription: "",
             costPerMeal: 0,
-            Ingredient: "",
+            ingredient: "",
             ingredients: [],
             vegetarian: false,
             vegan: false,
@@ -20,13 +22,15 @@ export default class UploadRecipe extends Component {
             }
 
         this.addIngredient = this.addIngredient.bind(this);
+        this.setAdditionalImage = this.setAdditionalImage.bind(this);
+        this.addAdditionalImage = this.addAdditionalImage.bind(this);
     }
 
     
     onClickHandler = async () => {
 
         try {
-            const data = new FormData() 
+            const  data= new FormData() 
             data.append('upload', this.state.selectedFile);
 
             const token = JSON.parse(localStorage.getItem('token'));
@@ -62,7 +66,8 @@ export default class UploadRecipe extends Component {
                     recipeTitle: "",
                     recipeDescription: "",
                     costPerMeal: 0,
-                    ingredients: "",
+                    ingredient: "",
+                    ingredients: [],
                     vegetarian: false,
                     vegan: false,
                     basePrepTime: 0,
@@ -78,12 +83,30 @@ export default class UploadRecipe extends Component {
     }
 
     onChangeHandler = (e) =>{
-        console.log(e.target.files);
+
         this.setState({
             selectedFile: e.target.files[0],
             //loaded: 0,
         })
     };
+
+    setAdditionalImage = (e) => {        
+        const additionalImage = e.target.files[0]
+        const hi = [];
+        console.log(hi.push(additionalImage));
+
+        this.setState({
+            additionalImage: additionalImage
+        })
+    }
+
+    addAdditionalImage = (e) => {
+        e.preventDefault();
+
+        this.setState((prevState) =>({
+            additionalImagesArray: [prevState.additionalImage, ...e.target.files]
+        }), () => console.log(this.state.additionalImagesArray))
+    }
 
     inputOnChangeHandler = (e) => {
         this.setState({
@@ -103,9 +126,20 @@ export default class UploadRecipe extends Component {
             ingredients: [...prevState.ingredients, prevState.ingredient],
             ingredient: ''
         }))
-    } 
+    }
+    
+    removeIngredient = (remove) => {
+        console.log(remove);
+        const newIngredients = this.state.ingredients.filter((ingredient) => {
+            return ingredient !== remove;
+        })
 
+        this.setState({
+            ingredients: newIngredients
+        })
 
+        console.log(newIngredients);
+    }
 
     render() {
 
@@ -116,7 +150,7 @@ export default class UploadRecipe extends Component {
                     <h1>Add a meal</h1>
                     <form className="upload--recipe__container__form">
                         
-                            <p>Recipe Title</p>
+                            <p>Recipe Title *</p>
                             <input 
                                 type="text" 
                                 placeholder="Meal Title" 
@@ -124,7 +158,7 @@ export default class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler}
                                 value={this.state.recipeTitle}
                             />
-                        <p>Recipe Desciption</p>
+                        <p>Recipe Desciption *</p>
                         <textarea 
                             rows="5" 
                             cols="50" 
@@ -133,7 +167,7 @@ export default class UploadRecipe extends Component {
                             onChange={this.inputOnChangeHandler} 
                             value={this.state.recipeDescription}
                         />
-                            <p>Meal Cost</p>
+                            <p>Meal Cost *</p>
                             <input 
                                 type="number" 
                                 placeholder="cost per meal" 
@@ -141,7 +175,7 @@ export default class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.costPerMeal}
                             />
-                            <p>Meal Ingredients</p>
+                            <p>Meal Ingredients *</p>
                             <div>
                                 <input 
                                     type="text"
@@ -152,9 +186,12 @@ export default class UploadRecipe extends Component {
                                 />
                                 <button
                                 onClick={this.addIngredient}>add</button>
-                                <IngredientListItem ingredient={'peaches'} />
+                                {this.state.ingredients && this.state.ingredients.map((ingredient, i) => (
+                                    <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
+                                ))}
+                                
                             </div>
-                            <p>Prep time for 1 meal</p>
+                            <p>Prep time for 1 meal *</p> 
                             <input 
                                 type="number" 
                                 placeholder="base prep time" 
@@ -162,7 +199,7 @@ export default class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.basePrepTime}
                             />
-                            <p>additional prep time per meal</p>
+                            <p>additional prep time per meal *</p>
                             <input 
                                 type="number" 
                                 placeholder="additional prep time" 
@@ -185,12 +222,26 @@ export default class UploadRecipe extends Component {
                                 onChange={this.checkboxOnChangeHandler}
                                 checked={this.state.vegan}
                             />
-                        <input 
-                            type="file" 
-                            name="selectFile"
-                            id="recipeImage" 
-                            onChange={this.onChangeHandler}
+                            <label htmlFor="selectFile">Main Recipe Image *</label>
+                            <input 
+                                type="file" 
+                                name="selectFile"
+                                id="recipeImage" 
+                                onChange={this.onChangeHandler}
                             />
+                            <label htmlFor="selectFile">Add Additional Recipe Images</label>
+                            <div>
+                                <input 
+                                    type="file" 
+                                    name="additionalImages"
+                                    id="additionalImages" 
+                                    onChange={this.setAdditionalImage}
+                                    multiple
+                                />
+                                <button
+                                onClick={this.addAdditionalImage}>add</button>
+                            </div>
+                            
                         <button type="button"  onClick={this.onClickHandler}>Upload</button>
                     </form>
                 </div>
