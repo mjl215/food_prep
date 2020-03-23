@@ -14,6 +14,7 @@ class RecipeDisplay extends Component {
                 vegetarian: null,
                 vegan: null,
                 ingredients: [],
+                search: "",
                 price: null
             }
         }
@@ -63,6 +64,17 @@ class RecipeDisplay extends Component {
         }
     }
 
+    inputOnChangeHandler = (e) => {
+        e.persist();
+        
+        this.setState(prevState => ({
+            filters: {
+                ...prevState.filters,
+                [e.target.name]: e.target.value
+            }
+          }))
+    }
+
     render() {
         const filteredRecipes = this.state.recipes && filterRecipes(this.state.recipes, this.state.filters);
         const recipeGrid = filteredRecipes && filteredRecipes.map((recipe) => <RecipeGridItem key={recipe._id} recipe={recipe}/>)
@@ -79,6 +91,12 @@ class RecipeDisplay extends Component {
                 >
                     vegetarian
                 </button>
+                <input 
+                    type="text" 
+                    name="search"
+                    value={this.state.search}
+                    onChange={this.inputOnChangeHandler}
+                />
                 <div className="recipeDisplay">
                     {this.state.recipes ? recipeGrid : <p> loading recipes</p> }
                 </div>

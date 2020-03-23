@@ -104,8 +104,8 @@ export default class UploadRecipe extends Component {
         e.preventDefault();
 
         this.setState((prevState) =>({
-            additionalImagesArray: [prevState.additionalImage, ...e.target.files]
-        }), () => console.log(this.state.additionalImagesArray))
+            additionalImagesArray: prevState.additionalImagesArray.concat(prevState.additionalImage)
+        }))
     }
 
     inputOnChangeHandler = (e) => {
