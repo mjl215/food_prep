@@ -16,10 +16,7 @@ class RecipeDisplay extends Component {
                 ingredient: "",
                 ingredients: [],
                 search: "",
-                price: {
-                    min: null,
-                    max: null
-                }
+                maxPrice: ""
             }
         }
 
@@ -118,6 +115,12 @@ class RecipeDisplay extends Component {
                     onChange={this.inputOnChangeHandler}
                 />
                 <button onClick={this.addIngredient}>add</button>
+                <input 
+                    type="number" 
+                    name="maxPrice"
+                    value={this.state.filters.maxPrice}
+                    onChange={this.inputOnChangeHandler}
+                />
                 <div className="recipeDisplay">
                     {this.state.recipes ? recipeGrid : <p> loading recipes</p> }
                 </div>
