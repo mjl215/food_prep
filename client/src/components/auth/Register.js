@@ -86,12 +86,20 @@ class Register extends Component {
     }
 
     async onSearchAddress(){
-        const res = await Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(this.state.enteredAddress)}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`);
+        
+        console.log('click')
 
+        try {
+            const res = await Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(this.state.enteredAddress)}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`);
 
-        this.setState({
-            suggestedAdresses: res.data.results
-        })
+            console.log(res)
+            this.setState({
+                suggestedAdresses: res.data.results
+            })
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     selectAddress(addressId, address, lat, lng){

@@ -16,7 +16,7 @@ exports.createUser = async (req, res, next) => {
     try {
         const user = new user_1.default(req.body);
         const token = await user.generateAuthToken();
-        //await user.save()
+        await user.save(); // leave this in to send error correctly
         res.send({ token, user });
     }
     catch (error) {
@@ -66,5 +66,18 @@ exports.authUser = async (req, res, next) => {
     }
     catch (e) {
         console.log(e);
+    }
+};
+exports.deleteUser = async (req, res, next) => {
+    try {
+        const user = await user_1.default.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(404).send();
+        }
+        res.send(user);
+        res.send('hi');
+    }
+    catch (e) {
+        res.status(500).send();
     }
 };

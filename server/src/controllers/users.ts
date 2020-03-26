@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { validateRegister } from '../middleware/validate';
 
 import User from '../models/user';
-import Order from '../models/order';
 import bcrypt from 'bcrypt';
 
 //Create a User
@@ -18,14 +17,13 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     try {
         const user = new User(req.body);
         const token = await user.generateAuthToken();
-        //await user.save()
+        await user.save() // leave this in to send error correctly
         res.send({token, user});
     } catch (error) {
         res.status(400).send();
     }
 
 };
-
 
 //Login User
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -80,5 +78,18 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id)
 
+        if(!user){
+            return res.status(404).send();
+        }
 
+        res.send(user);
+
+        res.send('hi');
+    } catch (e) {
+        res.status(500).send();
+    }
+}

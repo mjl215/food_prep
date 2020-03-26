@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import bcrypt from 'bcrypt';
 import jwt  from 'jsonwebtoken';
+import Recipe from './recipe';
 import { ObjectID, ObjectId } from "mongodb";
 
 export interface UserInterface extends mongoose.Document {
@@ -22,7 +23,6 @@ export interface UserInterface extends mongoose.Document {
     generateAuthToken(): string;
     buyerOrder(): any;
     suplierOrder(): any;
-    
 }
 
 export interface UserModelInterface extends Model<UserInterface> {
@@ -174,12 +174,22 @@ userSchema.statics.findByCredentials = async (email: string, password: string) =
 
 userSchema.pre<UserInterface>('save', async function (next: mongoose.HookNextFunction) {
     const user = this;
-
+    console.log('password')
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8);
     }
     next();
 });
+
+// Delete recipes when user is removed
+userSchema.pre<UserInterface>('remove', async function (next: mongoose.HookNextFunction){
+    const user = this;
+    console.log('here');
+    await Recipe.deleteMany({owner: user._id})
+    next()
+});
+
+
 
 const User = mongoose.model<UserInterface, UserModelInterface>("User", userSchema);
 export default User;
