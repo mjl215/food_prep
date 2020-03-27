@@ -80,15 +80,16 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id)
-
+        console.log('in delete user');
+        const user = await User.findByIdAndDelete(req.params.id);
+        res.locals.user = user;
+        
         if(!user){
             return res.status(404).send();
         }
 
-        res.send(user);
+        next()
 
-        res.send('hi');
     } catch (e) {
         res.status(500).send();
     }

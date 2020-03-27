@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const recipe_1 = __importDefault(require("./recipe"));
 const userSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -133,18 +132,17 @@ userSchema.statics.findByCredentials = async (email, password) => {
 };
 userSchema.pre('save', async function (next) {
     const user = this;
-    console.log('password');
     if (user.isModified('password')) {
         user.password = await bcrypt_1.default.hash(user.password, 8);
     }
     next();
 });
-// Delete recipes when user is removed
-userSchema.pre('remove', async function (next) {
-    const user = this;
-    console.log('here');
-    await recipe_1.default.deleteMany({ owner: user._id });
-    next();
-});
+// Delete recipes when user is removed - THIS DOESNT WORK
+// userSchema.pre<UserInterface>('remove', async function (next: mongoose.HookNextFunction){
+//     const user = this;
+//     console.log('here');
+//     await Recipe.deleteMany({owner: user._id})
+//     next()
+// });
 const User = mongoose_1.default.model("User", userSchema);
 exports.default = User;

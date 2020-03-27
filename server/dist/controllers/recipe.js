@@ -54,3 +54,13 @@ exports.getRecipe = async (req, res, next) => {
         console.log(error);
     }
 };
+exports.deleteRecipeByUserId = async (req, res, next) => {
+    try {
+        console.log('here');
+        const recipes = await recipe_1.default.deleteMany({ owner: req.params.id });
+        console.log(recipes);
+        return res.send(res.locals.user);
+    }
+    catch (error) {
+    }
+};

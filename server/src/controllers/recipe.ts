@@ -62,5 +62,17 @@ export const getRecipe = async (req: Request, res: Response, next: NextFunction)
     
 }
 
+export const deleteRecipeByUserId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log('here');
+        const recipes = await Recipe.deleteMany({owner: req.params.id});
+        console.log(recipes);
+        return res.send(res.locals.user);
+    } catch (error) {
+        
+    }
+    
+}
+
 
 

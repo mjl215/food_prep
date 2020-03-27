@@ -174,20 +174,20 @@ userSchema.statics.findByCredentials = async (email: string, password: string) =
 
 userSchema.pre<UserInterface>('save', async function (next: mongoose.HookNextFunction) {
     const user = this;
-    console.log('password')
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8);
     }
+    
     next();
 });
 
-// Delete recipes when user is removed
-userSchema.pre<UserInterface>('remove', async function (next: mongoose.HookNextFunction){
-    const user = this;
-    console.log('here');
-    await Recipe.deleteMany({owner: user._id})
-    next()
-});
+// Delete recipes when user is removed - THIS DOESNT WORK
+// userSchema.pre<UserInterface>('remove', async function (next: mongoose.HookNextFunction){
+//     const user = this;
+//     console.log('here');
+//     await Recipe.deleteMany({owner: user._id})
+//     next()
+// });
 
 
 

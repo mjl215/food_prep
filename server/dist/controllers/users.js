@@ -70,12 +70,13 @@ exports.authUser = async (req, res, next) => {
 };
 exports.deleteUser = async (req, res, next) => {
     try {
+        console.log('in delete user');
         const user = await user_1.default.findByIdAndDelete(req.params.id);
+        res.locals.user = user;
         if (!user) {
             return res.status(404).send();
         }
-        res.send(user);
-        res.send('hi');
+        next();
     }
     catch (e) {
         res.status(500).send();
