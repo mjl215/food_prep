@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 
-import {uploadRecipe ,uploadRecipeImage, getAllRecipes, getRecipeImage, getRecipe } from '../controllers/recipe';
+import {uploadRecipe ,uploadRecipeImage, getAllRecipes, getRecipeImage, getRecipe, deleteRecipeById, deleteImageByRecipeId } from '../controllers/recipe';
 import { auth } from '../middleware/auth';
 
 const router = Router();
@@ -17,5 +17,6 @@ router.post('/image', auth, upload.single('upload'), uploadRecipeImage)
 router.get('', getAllRecipes);
 router.get('/:id', getRecipe);
 router.get('/image/:id', getRecipeImage);
-
+//DELETE
+router.delete('/:id', deleteRecipeById, deleteImageByRecipeId );
 export default router;

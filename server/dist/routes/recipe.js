@@ -18,4 +18,6 @@ router.post('/image', auth_1.auth, upload.single('upload'), recipe_1.uploadRecip
 router.get('', recipe_1.getAllRecipes);
 router.get('/:id', recipe_1.getRecipe);
 router.get('/image/:id', recipe_1.getRecipeImage);
+//DELETE
+router.delete('/:id', recipe_1.deleteRecipeById, recipe_1.deleteImageByRecipeId);
 exports.default = router;

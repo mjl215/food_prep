@@ -69,9 +69,35 @@ export const deleteRecipeByUserId = async (req: Request, res: Response, next: Ne
         console.log(recipes);
         return res.send(res.locals.user);
     } catch (error) {
+        console.log(error);
+    } 
+}
+
+export const deleteRecipeById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipe = await Recipe.findByIdAndDelete(req.params.id);
         
-    }
-    
+        if(!recipe){
+            return res.status(404).send();
+        }
+
+        res.locals.recipe = recipe;
+
+        next()
+    } catch (error) {
+        console.log(error)
+    } 
+}
+
+export const deleteImageByRecipeId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipeImage = await RecipeImage.findByIdAndDelete(res.locals.recipe.image);
+        console.log(recipeImage);
+
+        return res.send(res.locals.recipe); 
+    } catch (error) {
+        console.log(error); 
+    } 
 }
 
 

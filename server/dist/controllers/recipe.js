@@ -62,5 +62,29 @@ exports.deleteRecipeByUserId = async (req, res, next) => {
         return res.send(res.locals.user);
     }
     catch (error) {
+        console.log(error);
+    }
+};
+exports.deleteRecipeById = async (req, res, next) => {
+    try {
+        const recipe = await recipe_1.default.findByIdAndDelete(req.params.id);
+        if (!recipe) {
+            return res.status(404).send();
+        }
+        res.locals.recipe = recipe;
+        next();
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+exports.deleteImageByRecipeId = async (req, res, next) => {
+    try {
+        const recipeImage = await recipeImages_1.default.findByIdAndDelete(res.locals.recipe.image);
+        console.log(recipeImage);
+        return res.send(res.locals.recipe);
+    }
+    catch (error) {
+        console.log(error);
     }
 };
