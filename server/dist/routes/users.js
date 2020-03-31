@@ -13,7 +13,7 @@ router.post('/register', validate_1.validateRegister, users_1.createUser);
 router.post('/login', users_1.loginUser);
 router.post('/logout', auth_1.auth, users_1.logoutUser);
 router.post('/auth', auth_1.auth, users_1.authUser);
-router.delete('/:id', users_1.deleteUser, recipe_1.deleteRecipeByUserId);
+router.delete('/:id', users_1.deleteUser, recipe_1.deleteImageByUserID, recipe_1.deleteRecipeByUserId);
 //Basket Controller
 router.post('/basket', auth_1.auth, basket_1.addBasket);
 router.post('/basket/checkout', auth_1.auth, basket_1.checkout);

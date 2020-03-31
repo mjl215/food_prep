@@ -7,6 +7,7 @@ import Recipe from '../models/recipe';
 export const uploadRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
     const recipeImage = new RecipeImage();
     recipeImage.image = req.file.buffer;
+    recipeImage.owner = req.user._id;
     const savedImage = await recipeImage.save();
     res.send(savedImage._id);
 };
@@ -64,9 +65,7 @@ export const getRecipe = async (req: Request, res: Response, next: NextFunction)
 
 export const deleteRecipeByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log('here');
-        const recipes = await Recipe.deleteMany({owner: req.params.id});
-        console.log(recipes);
+        await Recipe.deleteMany({owner: req.params.id});
         return res.send(res.locals.user);
     } catch (error) {
         console.log(error);
@@ -99,6 +98,33 @@ export const deleteImageByRecipeId = async (req: Request, res: Response, next: N
         console.log(error); 
     } 
 }
+
+export const deleteImageByUserID = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipeImages = await RecipeImage.deleteMany({owner: req.params.id});
+        console.log(recipeImages);
+        
+        next();
+
+    } catch (error) {
+        console.log(error);
+    } 
+};
+
+export const deleteImageById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipeImage = await RecipeImage.findByIdAndDelete(req.params.id);
+        
+        if(!recipeImage){
+            return res.status(404).send()
+        }
+        
+        res.send(recipeImage._id);
+
+    } catch (error) {
+        console.log(error);
+    } 
+};
 
 
 

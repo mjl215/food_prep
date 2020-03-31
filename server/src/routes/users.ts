@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import {  createUser, loginUser, logoutUser, authUser, deleteUser } from '../controllers/users';
-import { deleteRecipeByUserId } from '../controllers/recipe';
+import { deleteRecipeByUserId, deleteImageByUserID } from '../controllers/recipe';
 import { addBasket, checkout } from '../controllers/basket';
 import { getOrders, completeOrder } from '../controllers/orders';
 import { auth } from '../middleware/auth';
@@ -14,7 +14,7 @@ router.post('/register',validateRegister, createUser);
 router.post('/login', loginUser);
 router.post('/logout', auth , logoutUser);
 router.post('/auth', auth, authUser);
-router.delete('/:id', deleteUser, deleteRecipeByUserId);
+router.delete('/:id', deleteUser, deleteImageByUserID, deleteRecipeByUserId);
 
 //Basket Controller
 router.post('/basket',auth, addBasket);

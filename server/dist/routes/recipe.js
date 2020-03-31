@@ -20,4 +20,5 @@ router.get('/:id', recipe_1.getRecipe);
 router.get('/image/:id', recipe_1.getRecipeImage);
 //DELETE
 router.delete('/:id', recipe_1.deleteRecipeById, recipe_1.deleteImageByRecipeId);
+router.delete('/image/:id', recipe_1.deleteImageById);
 exports.default = router;

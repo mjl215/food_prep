@@ -8,6 +8,10 @@ const recipeImageSchema = new mongoose_1.default.Schema({
     image: {
         type: Buffer,
         required: true
+    },
+    owner: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        required: true
     }
 });
 const RecipeImage = mongoose_1.default.model("RecipeImage", recipeImageSchema);

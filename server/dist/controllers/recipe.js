@@ -9,6 +9,7 @@ const recipe_1 = __importDefault(require("../models/recipe"));
 exports.uploadRecipeImage = async (req, res, next) => {
     const recipeImage = new recipeImages_1.default();
     recipeImage.image = req.file.buffer;
+    recipeImage.owner = req.user._id;
     const savedImage = await recipeImage.save();
     res.send(savedImage._id);
 };
@@ -56,9 +57,7 @@ exports.getRecipe = async (req, res, next) => {
 };
 exports.deleteRecipeByUserId = async (req, res, next) => {
     try {
-        console.log('here');
-        const recipes = await recipe_1.default.deleteMany({ owner: req.params.id });
-        console.log(recipes);
+        await recipe_1.default.deleteMany({ owner: req.params.id });
         return res.send(res.locals.user);
     }
     catch (error) {
@@ -83,6 +82,28 @@ exports.deleteImageByRecipeId = async (req, res, next) => {
         const recipeImage = await recipeImages_1.default.findByIdAndDelete(res.locals.recipe.image);
         console.log(recipeImage);
         return res.send(res.locals.recipe);
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+exports.deleteImageByUserID = async (req, res, next) => {
+    try {
+        const recipeImages = await recipeImages_1.default.deleteMany({ owner: req.params.id });
+        console.log(recipeImages);
+        next();
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+exports.deleteImageById = async (req, res, next) => {
+    try {
+        const recipeImage = await recipeImages_1.default.findByIdAndDelete(req.params.id);
+        if (!recipeImage) {
+            return res.status(404).send();
+        }
+        res.send(recipeImage._id);
     }
     catch (error) {
         console.log(error);
