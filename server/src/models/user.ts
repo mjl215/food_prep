@@ -5,10 +5,14 @@ import Recipe from './recipe';
 import { ObjectID, ObjectId } from "mongodb";
 
 export interface UserInterface extends mongoose.Document {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
+    bio: string;
     userType: 'ADMIN' | 'SUPLIER' | 'BUYER';
     password: string;
+    active: boolean;
+    profileImage: Buffer;
     tokens: {token: string}[];
     location: {lat: number, lng: number, address: string, addressId: string};
     basket: {
@@ -31,7 +35,12 @@ export interface UserModelInterface extends Model<UserInterface> {
 
 
 const userSchema: Schema = new mongoose.Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    lastName: {
         type: String,
         required: true,
         trim: true
@@ -42,6 +51,10 @@ const userSchema: Schema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    bio: {
+        type: String,
+        trim: true
+    },
     userType: {
         type: String,
         required: true
@@ -50,6 +63,13 @@ const userSchema: Schema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    active: {
+        type: Boolean,
+        required: true
+    },
+    profileImage: {
+        type: Buffer
     },
     location: {
         lat: {

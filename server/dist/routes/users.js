@@ -6,10 +6,9 @@ const recipe_1 = require("../controllers/recipe");
 const basket_1 = require("../controllers/basket");
 const orders_1 = require("../controllers/orders");
 const auth_1 = require("../middleware/auth");
-const validate_1 = require("../middleware/validate");
 const router = express_1.Router();
 // User Controller
-router.post('/register', validate_1.validateRegister, users_1.createUser);
+router.post('/register', /**validateRegister,**/ users_1.createUser);
 router.post('/login', users_1.loginUser);
 router.post('/logout', auth_1.auth, users_1.logoutUser);
 router.post('/auth', auth_1.auth, users_1.authUser);

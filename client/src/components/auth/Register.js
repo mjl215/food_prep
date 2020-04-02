@@ -11,9 +11,12 @@ class Register extends Component {
         super(props)
 
         this.state = {
+            firstName: '',
+            lastName: '',
             email: '',
-            name: '',
+            bio: '',
             password: '',
+            profileImage: undefined,
             confirmPassword: '',
             lat: null,
             lng: null,
@@ -53,10 +56,14 @@ class Register extends Component {
         // }
 
         const user = {
-            name: this.state.name,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             email: this.state.email,
+            bio: this.state.bio,
             userType: this.state.userType,
             password: this.state.password,
+            active: true,
+            profileImage: undefined,
             confirmPassword: this.state.confirmPassword,
             location: {
                 lat: this.state.lat,
@@ -148,12 +155,21 @@ class Register extends Component {
                             className="login__form"
                             noValidate
                         >
-                            <label htmlFor="name">Name</label>
+                            <label htmlFor="firstName">First Name</label>
                             <input
                                 type="text"
-                                name="name"
-                                placeholder="name"
-                                value={this.state.name}
+                                name="firstName"
+                                placeholder=""
+                                value={this.state.firstName}
+                                onChange={(e) => this.onChange(e)}
+                            />
+                            <Alert errorType={'register-name'}/>
+                            <label htmlFor="lastName">Last Name</label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                placeholder=""
+                                value={this.state.lastName}
                                 onChange={(e) => this.onChange(e)}
                             />
                             <Alert errorType={'register-name'}/>
@@ -165,6 +181,15 @@ class Register extends Component {
                                 value={this.state.email}
                                 onChange={(e) => this.onChange(e)}
                             />
+                            <label htmlFor="bio">Bio</label>
+                            <input
+                                type="textarea"
+                                name="bio"
+                                placeholder="Enter information about yourself"
+                                value={this.state.bio}
+                                onChange={(e) => this.onChange(e)}
+                            />
+                            <Alert errorType={'register-name'}/>
                             <Alert errorType={'register-email'}/>
                             <label htmlFor="passord">Password</label>
                             <input

@@ -1,8 +1,12 @@
 const authReducerDefaultState = {
     authorized: false,
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    bio: '',
     userType: '',
+    active: null,
+    profileImage: null,
     location: null,
     basket: []
   };
@@ -31,9 +35,13 @@ const authReducerDefaultState = {
       case 'SET_CURRENT_USER':
         return {
           authorized: true,
-          name: action.data.name,
+          firstName:  action.data.firstName,
+          lastName: action.data.lastName,
           email: action.data.email,
+          bio:  action.data.bio,
+          active: action.data.active,
           userType: action.data.userType,
+          profileImage: action.data.profileImage,
           location: action.data.location,
           basket: action.data.basket
         };
@@ -52,8 +60,13 @@ const authReducerDefaultState = {
         localStorage.removeItem('token')
         return{
           authorized: false,
-          name: '',
+          firstName: '',
+          lastName: '',
           email: '',
+          bio:  '',
+          active: '',
+          userType: null,
+          profileImage: null,
           userType: '',
           location: null
         };

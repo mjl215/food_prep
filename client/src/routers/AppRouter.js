@@ -13,6 +13,9 @@ import BasketPage from '../components/basket/BasketPage';
 import OrderPage from '../components/orders/OrderPage';
 import RecipeDisplay from '../components/recipe/recipeGrid/RecipeDisplay';
 import UserPage from '../components/user/UserPage';
+import UserDetails from '../components/user/UserDetails';
+
+
 const AppRouter = (props) => {
   return (
     <Router>
@@ -26,6 +29,7 @@ const AppRouter = (props) => {
           <PrivateRoute exact path='/add-recipe' userType={['ADMIN', 'SUPLIER']} component={UploadRecipe} />
           <PrivateRoute exact path='/user/orders' userType={['ADMIN', 'SUPLIER', 'BUYER']} component={OrderPage} />
           <PrivateRoute exact path='/user' userType={['ADMIN', 'SUPLIER', 'BUYER']} component={UserPage} />
+          <PrivateRoute exact path='/user/details' userType={['ADMIN', 'SUPLIER', 'BUYER']} component={UserDetails} />
           <Route exact path='/recipe/:id' component={RecipePage} />
           <Route exact path='/basket' component={BasketPage} />
         </Switch>

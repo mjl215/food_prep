@@ -7,7 +7,12 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userSchema = new mongoose_1.default.Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    lastName: {
         type: String,
         required: true,
         trim: true
@@ -18,6 +23,10 @@ const userSchema = new mongoose_1.default.Schema({
         required: true,
         trim: true,
     },
+    bio: {
+        type: String,
+        trim: true
+    },
     userType: {
         type: String,
         required: true
@@ -26,6 +35,13 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    active: {
+        type: Boolean,
+        required: true
+    },
+    profileImage: {
+        type: Buffer
     },
     location: {
         lat: {
