@@ -65,7 +65,7 @@ export const getRecipe = async (req: Request, res: Response, next: NextFunction)
 
 export const deleteRecipeByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await Recipe.deleteMany({owner: req.params.id});
+        await Recipe.deleteMany({owner: req.user._id});
         return res.send(res.locals.user);
     } catch (error) {
         console.log(error);
@@ -101,7 +101,7 @@ export const deleteImageByRecipeId = async (req: Request, res: Response, next: N
 
 export const deleteImageByUserID = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const recipeImages = await RecipeImage.deleteMany({owner: req.params.id});
+        const recipeImages = await RecipeImage.deleteMany({owner: req.user._id});
         console.log(recipeImages);
         
         next();

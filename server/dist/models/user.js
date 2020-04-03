@@ -67,6 +67,12 @@ const userSchema = new mongoose_1.default.Schema({
                 required: true
             }
         }],
+    passwordToken: {
+        type: String
+    },
+    passwordTokenExpire: {
+        type: Number
+    },
     basket: [{
             recipe: {
                 type: mongoose_1.default.Schema.Types.ObjectId,

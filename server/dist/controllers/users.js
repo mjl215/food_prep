@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid_1 = require("uuid");
+const crypto_1 = __importDefault(require("crypto"));
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //Create a User
@@ -36,7 +37,7 @@ exports.loginUser = async (req, res, next) => {
             throw new Error('Unable to login');
         }
         const token = await user.generateAuthToken();
-        res.send({ token, user });
+        res.status(201).send({ token, user });
     }
     catch (error) {
         res.status(400).send({
@@ -68,10 +69,11 @@ exports.authUser = async (req, res, next) => {
         console.log(e);
     }
 };
+//DELETE USER
 exports.deleteUser = async (req, res, next) => {
     try {
         console.log('in delete user');
-        const user = await user_1.default.findByIdAndDelete(req.params.id);
+        const user = await user_1.default.findByIdAndDelete(req.user._id);
         res.locals.user = user;
         if (!user) {
             return res.status(404).send();
@@ -80,5 +82,22 @@ exports.deleteUser = async (req, res, next) => {
     }
     catch (e) {
         res.status(500).send();
+    }
+};
+//SEND RESET EMAIL
+exports.passwordEmailReset = async (req, res, next) => {
+    try {
+        const user = await user_1.default.findOne({ email: req.body.email });
+        if (!user) {
+            return res.send('user not found');
+        }
+        const passwordToken = crypto_1.default.randomBytes(20).toString('hex');
+        user.passwordToken = passwordToken;
+        user.passwordTokenExpire = 1;
+        user.save();
+        console.log(passwordToken);
+        res.send(user);
+    }
+    catch (e) {
     }
 };

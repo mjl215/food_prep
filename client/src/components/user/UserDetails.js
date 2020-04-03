@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import EditIcon from '@material-ui/icons/Edit';
+
+import { clearUser } from '../../actions/AuthActions';
 
 class UserDetails extends Component {
   constructor(props){
@@ -31,13 +35,35 @@ class UserDetails extends Component {
     })
   }
 
+  async onDeleteUser(e){
+    e.preventDefault();
+
+    try {
+
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+
+    await axios.delete('/user', config);
+    this.props.clearUser();
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
   render() {
 
     const {firstName, lastName, email, bio, address, profilePicture, active } = this.state;
 
     return (
       <div>
-        <p>FirstName - {firstName}</p>
+        <p>FirstName - {firstName} <EditIcon /></p>
         <p>lastName  - {lastName}</p>
         <p>Email - {email}</p>
         <p>Bio - {bio}</p>
@@ -45,7 +71,7 @@ class UserDetails extends Component {
         <p>Profile Picture - {profilePicture || <span>no picture uploaded</span>}</p>
         <button>Change Password</button>
         <button>Save Changes</button>
-        <button>Delete Account</button>
+        <button onClick={(e) => this.onDeleteUser(e)}>Delete Account</button>
       </div>
     )
   }
@@ -56,7 +82,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+  clearUser: () => dispatch(clearUser())
 })
 
-export default connect(mapStateToProps)(UserDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);

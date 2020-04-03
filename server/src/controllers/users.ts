@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-
 import { v4 as uuidv4 } from 'uuid'
+import crypto from 'crypto';
 
 import { validateRegister } from '../middleware/validate';
 
@@ -43,7 +43,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     }
     
     const token = await user.generateAuthToken();
-    res.send({token, user});
+    res.status(201).send({token, user});
 
     } catch (error) {
         res.status(400).send({
@@ -78,10 +78,12 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
+
+//DELETE USER
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log('in delete user');
-        const user = await User.findByIdAndDelete(req.params.id);
+        const user = await User.findByIdAndDelete(req.user._id);
         res.locals.user = user;
         
         if(!user){
@@ -92,5 +94,30 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 
     } catch (e) {
         res.status(500).send();
+    }
+}
+
+//SEND RESET EMAIL
+export const passwordEmailReset = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const user = await User.findOne({email: req.body.email});
+
+        if(!user){
+            return res.send('user not found')
+        }
+
+        const passwordToken = crypto.randomBytes(20).toString('hex');
+
+        user.passwordToken = passwordToken;
+        user.passwordTokenExpire = 1;
+        user.save();
+
+        console.log(passwordToken); 
+
+        res.send(user);
+
+    } catch (e) {
+        
     }
 }

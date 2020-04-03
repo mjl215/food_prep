@@ -14,6 +14,8 @@ export interface UserInterface extends mongoose.Document {
     active: boolean;
     profileImage: Buffer;
     tokens: {token: string}[];
+    passwordToken: string;
+    passwordTokenExpire: number;
     location: {lat: number, lng: number, address: string, addressId: string};
     basket: {
         recipe: mongoose.Schema.Types.ObjectId, 
@@ -95,6 +97,12 @@ const userSchema: Schema = new mongoose.Schema({
             required: true
         }
     }],
+    passwordToken: {
+        type: String
+    },
+    passwordTokenExpire : {
+        type: Number
+    },
     basket: [{
             recipe: {
                 type: mongoose.Schema.Types.ObjectId,

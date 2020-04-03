@@ -74,11 +74,22 @@ export const logoutUser = (config) => async dispatch => {
   }
 }
 
+export const clearUser = () => async dispatch => {
+  console.log('in clear user')
+
+  try {
+
+
+    dispatch({
+      type: action_types.CLEAR_USER,
+    })
+
+  } catch (error) {
+    console.log('there has been an error on clear user: ' + error)
+  }
+}
+
 export const setUser = () => async dispatch => {
-  
-  
-  
-  
     try {
       const token = JSON.parse(localStorage.getItem('token'));
 

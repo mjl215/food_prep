@@ -18,6 +18,8 @@ class Login extends Component {
         passwordError: null
       }
     }
+
+    this.forgotPassword = this.forgotPassword.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +68,10 @@ class Login extends Component {
     )
   }
 
+  forgotPassword(){
+    this.props.history.push('/forgot-password')
+  }
+
   render() {
     if(this.props.auth.authorized){
       return <Redirect to='/'/>
@@ -100,6 +106,7 @@ class Login extends Component {
               type="submit"
               className="login__form--submit"
             />
+            <p onClick={() => this.forgotPassword()}>Forgot Password?</p>
           </form>
           {/*<button onClick={() => this.onClick()}>test</button>*/}
         </div>

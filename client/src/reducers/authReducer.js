@@ -56,7 +56,7 @@ const authReducerDefaultState = {
     //     };
       
       case 'LOGOUT_USER':
-    //case 'CLEAR_USER':
+      case 'CLEAR_USER':
         localStorage.removeItem('token')
         return{
           authorized: false,

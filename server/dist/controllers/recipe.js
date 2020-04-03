@@ -57,7 +57,7 @@ exports.getRecipe = async (req, res, next) => {
 };
 exports.deleteRecipeByUserId = async (req, res, next) => {
     try {
-        await recipe_1.default.deleteMany({ owner: req.params.id });
+        await recipe_1.default.deleteMany({ owner: req.user._id });
         return res.send(res.locals.user);
     }
     catch (error) {
@@ -89,7 +89,7 @@ exports.deleteImageByRecipeId = async (req, res, next) => {
 };
 exports.deleteImageByUserID = async (req, res, next) => {
     try {
-        const recipeImages = await recipeImages_1.default.deleteMany({ owner: req.params.id });
+        const recipeImages = await recipeImages_1.default.deleteMany({ owner: req.user._id });
         console.log(recipeImages);
         next();
     }
