@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, response } from 'express';
 import { v4 as uuidv4 } from 'uuid'
 import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
 import { validateRegister } from '../middleware/validate';
 
@@ -110,14 +111,50 @@ export const passwordEmailReset = async (req: Request, res: Response, next: Next
         const passwordToken = crypto.randomBytes(20).toString('hex');
 
         user.passwordToken = passwordToken;
-        user.passwordTokenExpire = 1;
-        user.save();
+        user.passwordTokenExpire = Date.now() + 3600000;
 
-        console.log(passwordToken); 
+        await user.save(); 
+        console.log(process.env.EMAIL);
+        console.log(process.env.PASS);
 
-        res.send(user);
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: `${process.env.EMAIL}`,
+                pass: `${process.env.PASS}`
+            }
+        })
+
+        const mailOptions = {
+            from: 'recipe.project.reset@gmail.com',
+            to: `${user.email}`,
+            subject: 'Link to reset password',
+            text: `To reset password please follow this link http://localhost:3001/reset-password/${passwordToken}`
+        }
+
+        console.log('sendingmail');
+
+        transporter.sendMail(mailOptions, (err, response) => {
+            if(err){
+                console.log(err);
+            } else {
+                console.log('here is the res: ',  response);
+                res.status(200).send('email send')
+            }
+        })
 
     } catch (e) {
         
+    }
+}
+
+export const resetPasswordCheck = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        
+
+        res.send('reset')
+
+    } catch (e) {
+        res.status(400).send();
     }
 }

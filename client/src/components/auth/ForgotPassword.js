@@ -19,9 +19,7 @@ class ForgotPassword extends Component {
   onSubmit = async (e) => {
     e.preventDefault();
     
-    
     try {
-
       const body = {
         email: this.state.email
       }

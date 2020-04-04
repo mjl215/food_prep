@@ -7,6 +7,9 @@ import connect from './db/connect';
 import userRouter from './routes/users';
 import recipeRouter from './routes/recipe'; 
 
+// ADD IF STATEMENT IN BEFORE PROD !!!
+const dotenv: any = require("dotenv");
+dotenv.config();
 
 const app = express();
 const db: string = 'mongodb://127.0.0.1:27017/recipe';

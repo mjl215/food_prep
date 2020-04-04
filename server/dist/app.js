@@ -8,6 +8,9 @@ const body_parser_1 = require("body-parser");
 const connect_1 = __importDefault(require("./db/connect"));
 const users_1 = __importDefault(require("./routes/users"));
 const recipe_1 = __importDefault(require("./routes/recipe"));
+// ADD IF STATEMENT IN BEFORE PROD !!!
+const dotenv = require("dotenv");
+dotenv.config();
 const app = express_1.default();
 const db = 'mongodb://127.0.0.1:27017/recipe';
 connect_1.default(db);

@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid_1 = require("uuid");
 const crypto_1 = __importDefault(require("crypto"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //Create a User
@@ -93,11 +94,42 @@ exports.passwordEmailReset = async (req, res, next) => {
         }
         const passwordToken = crypto_1.default.randomBytes(20).toString('hex');
         user.passwordToken = passwordToken;
-        user.passwordTokenExpire = 1;
-        user.save();
-        console.log(passwordToken);
-        res.send(user);
+        user.passwordTokenExpire = Date.now() + 3600000;
+        await user.save();
+        console.log(process.env.EMAIL);
+        console.log(process.env.PASS);
+        const transporter = nodemailer_1.default.createTransport({
+            service: 'gmail',
+            auth: {
+                user: `${process.env.EMAIL}`,
+                pass: `${process.env.PASS}`
+            }
+        });
+        const mailOptions = {
+            from: 'recipe.project.reset@gmail.com',
+            to: `${user.email}`,
+            subject: 'Link to reset password',
+            text: `To reset password please follow this link http://localhost:3001/reset-password/${passwordToken}`
+        };
+        console.log('sendingmail');
+        transporter.sendMail(mailOptions, (err, response) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log('here is the res: ', response);
+                res.status(200).send('email send');
+            }
+        });
     }
     catch (e) {
+    }
+};
+exports.resetPasswordCheck = async (req, res, next) => {
+    try {
+        res.send('reset');
+    }
+    catch (e) {
+        res.status(400).send();
     }
 };

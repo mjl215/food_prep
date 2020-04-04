@@ -15,7 +15,7 @@ import RecipeDisplay from '../components/recipe/recipeGrid/RecipeDisplay';
 import UserPage from '../components/user/UserPage';
 import UserDetails from '../components/user/UserDetails';
 import ForgotPassword from '../components/auth/ForgotPassword';
-
+import ResetPassword from '../components/auth/ResetPassword';
 const AppRouter = (props) => {
   return (
     <Router>
@@ -27,6 +27,7 @@ const AppRouter = (props) => {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/forgot-password' component={ForgotPassword} />
+          <Route exact path='/reset-password/:passwordToken' component={ResetPassword} />
           <PrivateRoute exact path='/add-recipe' userType={['ADMIN', 'SUPLIER']} component={UploadRecipe} />
           <PrivateRoute exact path='/user/orders' userType={['ADMIN', 'SUPLIER', 'BUYER']} component={OrderPage} />
           <PrivateRoute exact path='/user' userType={['ADMIN', 'SUPLIER', 'BUYER']} component={UserPage} />
