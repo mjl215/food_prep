@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import {  createUser, loginUser, logoutUser, authUser, deleteUser, passwordEmailReset, resetPasswordCheck } from '../controllers/users';
+import {  createUser, loginUser, logoutUser, authUser, deleteUser, passwordEmailReset, resetPasswordCheck, resetPassword } from '../controllers/users';
 import { deleteRecipeByUserId, deleteImageByUserID } from '../controllers/recipe';
 import { addBasket, checkout } from '../controllers/basket';
 import { getOrders, completeOrder } from '../controllers/orders';
@@ -10,12 +10,13 @@ import { validateRegister } from '../middleware/validate';
 const router = Router();
 
 // User Controller
-router.post('/register',/**validateRegister,**/ createUser);
+router.post('/register',validateRegister, createUser);
 router.post('/login', loginUser);
 router.post('/logout', auth , logoutUser);
 router.post('/auth', auth, authUser);
 router.post('/forgotPassword', passwordEmailReset);
-router.get('/resetCheck', resetPasswordCheck)
+router.get('/resetCheck', resetPasswordCheck);
+router.post('/resetPassword', resetPassword);
 router.delete('', auth, deleteUser, deleteImageByUserID, deleteRecipeByUserId);
 
 //Basket Controller

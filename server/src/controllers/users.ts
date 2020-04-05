@@ -114,8 +114,6 @@ export const passwordEmailReset = async (req: Request, res: Response, next: Next
         user.passwordTokenExpire = Date.now() + 3600000;
 
         await user.save(); 
-        console.log(process.env.EMAIL);
-        console.log(process.env.PASS);
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -131,8 +129,6 @@ export const passwordEmailReset = async (req: Request, res: Response, next: Next
             subject: 'Link to reset password',
             text: `To reset password please follow this link http://localhost:3001/reset-password/${passwordToken}`
         }
-
-        console.log('sendingmail');
 
         transporter.sendMail(mailOptions, (err, response) => {
             if(err){
@@ -151,10 +147,44 @@ export const passwordEmailReset = async (req: Request, res: Response, next: Next
 export const resetPasswordCheck = async (req: Request, res: Response, next: NextFunction) => {
     try {
         
+        const user = await User.findOne({passwordToken: req.query.passwordToken});
 
-        res.send('reset')
+        if(!user){
+            return res.status(400).send({error: 'user not found'});
+        }
+
+        if(user.passwordTokenExpire < Date.now()){
+            return res.status(400).send({error: 'token expired'});
+        }
+
+        res.send(user);
 
     } catch (e) {
         res.status(400).send();
+    }
+}
+
+export const resetPassword =  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body);
+
+        const user = await User.findOne({email: req.body.email})
+
+        if(!user){
+            return res.status(400).send('user not found');
+        }
+
+        if(user.passwordToken !== req.body.passwordToken){
+            return res.status(400).send('token error');
+        }
+
+
+        user.password = req.body.newPassword;
+        const updatedUser = await user.save();
+        console.log(updatedUser);
+        res.send(updatedUser);
+
+    } catch (e) {
+        res.status(400).send(e);
     }
 }

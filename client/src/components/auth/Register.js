@@ -25,14 +25,6 @@ class Register extends Component {
             selectedAddress: '',
             selectedAddressId: '',
             userType: "",
-            errors: {
-                email: null,
-                name: null,
-                password: null,
-                confirmPassword: null,
-                selectedAddress: null,
-                selectedAddressId: null,
-            }
         }
 
         this.onSearchAddress = this.onSearchAddress.bind(this);

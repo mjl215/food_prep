@@ -24,7 +24,7 @@ export const zvalidateRegister = (body: {email: string, name: string, password: 
 
 export const validateRegister = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {email, name, password, confirmPassword, location} = req.body;
+    const {email, firstName, password, confirmPassword, location} = req.body;
     const { address, addressId} = location;
     const errors: any = [];
 
@@ -44,7 +44,7 @@ export const validateRegister = async (req: Request, res: Response, next: NextFu
       })
     }
 
-    if(name.length < 4 || name.length > 40){
+    if(firstName.length < 4 || firstName.length > 40){
       errors.push({
         message: 'name must be between 4 and 40 charecters',
         type: 'register-name',

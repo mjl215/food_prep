@@ -22,7 +22,7 @@ exports.zvalidateRegister = (body) => {
 };
 exports.validateRegister = async (req, res, next) => {
     try {
-        const { email, name, password, confirmPassword, location } = req.body;
+        const { email, firstName, password, confirmPassword, location } = req.body;
         const { address, addressId } = location;
         const errors = [];
         if (password.length < 6 || password.length > 20) {
@@ -39,7 +39,7 @@ exports.validateRegister = async (req, res, next) => {
                 id: uuid_1.v4()
             });
         }
-        if (name.length < 4 || name.length > 40) {
+        if (firstName.length < 4 || firstName.length > 40) {
             errors.push({
                 message: 'name must be between 4 and 40 charecters',
                 type: 'register-name',
