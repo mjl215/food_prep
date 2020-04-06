@@ -148,11 +148,34 @@ exports.resetPassword = async (req, res, next) => {
             return res.status(400).send('token error');
         }
         user.password = req.body.newPassword;
+        user.passwordToken = '';
+        user.passwordTokenExpire = 0;
         const updatedUser = await user.save();
-        console.log(updatedUser);
         res.send(updatedUser);
     }
     catch (e) {
         res.status(400).send(e);
+    }
+};
+exports.resetPasswordEdit = async (req, res, next) => {
+    try {
+        const { email, password, newPassword, confirmPassword } = req.body;
+        const user = await user_1.default.findOne({ email });
+        if (!user) {
+            throw new Error();
+        }
+        if (newPassword !== confirmPassword) {
+            throw new Error();
+        }
+        const isMatch = await bcrypt_1.default.compare(password, user.password);
+        if (!isMatch) {
+            throw new Error();
+        }
+        user.password = newPassword;
+        const updatedUser = await user.save();
+        res.send(updatedUser);
+    }
+    catch (e) {
+        res.send(400);
     }
 };

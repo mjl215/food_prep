@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class ResetPassword extends Component {
   constructor(props) {
@@ -27,8 +28,6 @@ class ResetPassword extends Component {
       const res = await axios.get('/user/resetCheck', config);
       
       if(res.status === 200){
-        console.log(res);
-
         this.setState({
           email: res.data.email,
           passwordToken: this.props.match.params.passwordToken,
@@ -59,10 +58,17 @@ class ResetPassword extends Component {
 
       const res = await axios.post('/user/resetPassword', body);
 
-      console.log(res);
+      if(res.status === 200){
+        this.props.history.push('/login');
+      }
+      
 
     } catch (error) {
       console.log(error);
+      this.setState({
+        newPassword: '',
+        confirmPassword: ''
+      })
     }
 
     

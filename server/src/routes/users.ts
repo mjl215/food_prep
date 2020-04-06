@@ -1,6 +1,10 @@
 import { Router } from 'express';
 
-import {  createUser, loginUser, logoutUser, authUser, deleteUser, passwordEmailReset, resetPasswordCheck, resetPassword } from '../controllers/users';
+import {  
+          createUser, loginUser, logoutUser, 
+          authUser, deleteUser, passwordEmailReset, 
+          resetPasswordCheck, resetPassword, resetPasswordEdit
+        } from '../controllers/users';
 import { deleteRecipeByUserId, deleteImageByUserID } from '../controllers/recipe';
 import { addBasket, checkout } from '../controllers/basket';
 import { getOrders, completeOrder } from '../controllers/orders';
@@ -17,6 +21,7 @@ router.post('/auth', auth, authUser);
 router.post('/forgotPassword', passwordEmailReset);
 router.get('/resetCheck', resetPasswordCheck);
 router.post('/resetPassword', resetPassword);
+router.post('/resetPasswordEdit', resetPasswordEdit)
 router.delete('', auth, deleteUser, deleteImageByUserID, deleteRecipeByUserId);
 
 //Basket Controller

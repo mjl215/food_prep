@@ -177,14 +177,45 @@ export const resetPassword =  async (req: Request, res: Response, next: NextFunc
         if(user.passwordToken !== req.body.passwordToken){
             return res.status(400).send('token error');
         }
-
-
+        
         user.password = req.body.newPassword;
+        user.passwordToken = '';
+        user.passwordTokenExpire=0;
+
         const updatedUser = await user.save();
-        console.log(updatedUser);
+
         res.send(updatedUser);
 
     } catch (e) {
         res.status(400).send(e);
+    }
+}
+
+export const resetPasswordEdit = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email, password, newPassword, confirmPassword} = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error();
+        }
+
+        if(newPassword !== confirmPassword){
+            throw new Error()
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password)
+
+        if (!isMatch) {
+            throw new Error();
+        }
+
+        user.password = newPassword;
+        const updatedUser = await user.save();
+        res.send(updatedUser);
+
+    } catch (e) {
+        res.send(400);
     }
 }

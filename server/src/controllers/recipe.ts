@@ -60,7 +60,16 @@ export const getRecipe = async (req: Request, res: Response, next: NextFunction)
     } catch (error) {
         console.log(error)
     }
-    
+}
+
+export const getRecipeByUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipes = await Recipe.find({owner: req.user.id});
+        
+        res.send(recipes);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const deleteRecipeByUserId = async (req: Request, res: Response, next: NextFunction) => {
@@ -125,6 +134,8 @@ export const deleteImageById = async (req: Request, res: Response, next: NextFun
         console.log(error);
     } 
 };
+
+
 
 
 

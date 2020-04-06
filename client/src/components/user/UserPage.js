@@ -15,9 +15,12 @@ class UserPage extends Component {
             <h1>Orders</h1>
           </div>
         </Link>
-        <div>
-          <h1>Your Recipes</h1>
-        </div>
+        <Link className="navbar__list__link" to="/user/recipes">
+          <div>
+            <h1>Your Recipes</h1>
+          </div>
+        </Link>
+        
       </div>
     )
   }

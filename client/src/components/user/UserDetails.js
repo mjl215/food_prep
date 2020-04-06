@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import axios from 'axios';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -21,7 +22,7 @@ class UserDetails extends Component {
   }
 
   componentDidMount(){
-    console.log(this.props.auth);
+
     const {firstName, lastName, email, bio, location, profilePicture, active } = this.props.auth;
 
     this.setState({
@@ -57,6 +58,10 @@ class UserDetails extends Component {
 
   }
 
+  onChangePassword(){
+    this.props.history.push('/reset-password')
+  }
+
   render() {
 
     const {firstName, lastName, email, bio, address, profilePicture, active } = this.state;
@@ -69,7 +74,7 @@ class UserDetails extends Component {
         <p>Bio - {bio}</p>
         <p>Address - {address}</p>
         <p>Profile Picture - {profilePicture || <span>no picture uploaded</span>}</p>
-        <button>Change Password</button>
+        <button onClick={(e) => this.onChangePassword(e)}>Change Password</button>
         <button>Save Changes</button>
         <button onClick={(e) => this.onDeleteUser(e)}>Delete Account</button>
       </div>

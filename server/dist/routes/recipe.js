@@ -18,6 +18,7 @@ router.post('/image', auth_1.auth, upload.single('upload'), recipe_1.uploadRecip
 router.get('', recipe_1.getAllRecipes);
 router.get('/:id', recipe_1.getRecipe);
 router.get('/image/:id', recipe_1.getRecipeImage);
+router.get('/get-recipe/owner', auth_1.auth, recipe_1.getRecipeByUser);
 //DELETE
 router.delete('/:id', recipe_1.deleteRecipeById, recipe_1.deleteImageByRecipeId);
 router.delete('/image/:id', recipe_1.deleteImageById);

@@ -16,6 +16,7 @@ router.post('/auth', auth_1.auth, users_1.authUser);
 router.post('/forgotPassword', users_1.passwordEmailReset);
 router.get('/resetCheck', users_1.resetPasswordCheck);
 router.post('/resetPassword', users_1.resetPassword);
+router.post('/resetPasswordEdit', users_1.resetPasswordEdit);
 router.delete('', auth_1.auth, users_1.deleteUser, recipe_1.deleteImageByUserID, recipe_1.deleteRecipeByUserId);
 //Basket Controller
 router.post('/basket', auth_1.auth, basket_1.addBasket);
