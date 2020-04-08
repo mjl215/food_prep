@@ -1,3 +1,16 @@
+.recipeSearchBar {
+  width: 100%;
+  margin: 0 auto;
+  background-color: $light-blue;
+  height: 3rem;
+}
+
+.recipeSearchBar__content {
+  width: 85%;
+  background-color: blue;
+  margin: 0 auto;
+}
+
 .recipeDisplay{
   width: 100%;
   margin: 0 auto;

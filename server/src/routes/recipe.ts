@@ -7,6 +7,7 @@ import {
     deleteImageByRecipeId, deleteImageById, getRecipeByUser
 } from '../controllers/recipe';
 import { auth } from '../middleware/auth';
+import { validateAddRecipe } from '../middleware/validate';
 
 const router = Router();
 
@@ -15,7 +16,7 @@ const upload = multer({
 });
 
 //POST
-router.post('', auth, uploadRecipe);
+router.post('', auth, validateAddRecipe, uploadRecipe);
 router.post('/image', auth, upload.single('upload'), uploadRecipeImage)
 //GET
 router.get('', getAllRecipes);

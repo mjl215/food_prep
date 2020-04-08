@@ -5,21 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid_1 = require("uuid");
 const validator_1 = __importDefault(require("validator"));
-exports.zvalidateRegister = (body) => {
-    const { email, name, password } = body;
-    const errors = [];
-    if (email.length > 10) {
-        errors.push({
-            message: 'email to long',
-            type: 'register-email',
-            id: uuid_1.v4()
-        });
-    }
-    // console.log(email);
-    // console.log(name);
-    // console.log(password);
-    return errors;
-};
 exports.validateRegister = async (req, res, next) => {
     try {
         const { email, firstName, password, confirmPassword, location } = req.body;
@@ -61,6 +46,26 @@ exports.validateRegister = async (req, res, next) => {
             });
         }
         console.log(errors);
+        if (errors.length > 0) {
+            return res.status(400).send(errors);
+        }
+        next();
+    }
+    catch (error) {
+        res.status(400).send();
+    }
+};
+exports.validateAddRecipe = async (req, res, next) => {
+    try {
+        const { title, description, costPerMeal, ingredients, vegetarian, vegan, image, basePrepTime, additionalPrepTime } = req.body;
+        const errors = [];
+        if (title.length < 6 || title.length > 40) {
+            errors.push({
+                message: 'title must be between 6 and 40 characters',
+                type: 'recipe-title',
+                id: uuid_1.v4()
+            });
+        }
         if (errors.length > 0) {
             return res.status(400).send(errors);
         }

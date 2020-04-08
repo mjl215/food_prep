@@ -92,35 +92,39 @@ class RecipeDisplay extends Component {
 
         return (
             <div>
-                <button
-                    onClick={() => this.veganButtonClick()}
-                >
-                    vegan
-                </button>
-                <button
-                    onClick={() => this.vegetarianButtonClick()}
-                >
-                    vegetarian
-                </button>
-                <input 
-                    type="text" 
-                    name="search"
-                    value={this.state.filters.search}
-                    onChange={this.inputOnChangeHandler}
-                />
-                <input 
-                    type="text" 
-                    name="ingredient"
-                    value={this.state.filters.ingredient}
-                    onChange={this.inputOnChangeHandler}
-                />
-                <button onClick={this.addIngredient}>add</button>
-                <input 
-                    type="number" 
-                    name="maxPrice"
-                    value={this.state.filters.maxPrice}
-                    onChange={this.inputOnChangeHandler}
-                />
+                <div className="recipeSearchBar">
+                    <div className="recipeSearchBar__content">
+                        <button
+                            onClick={() => this.veganButtonClick()}
+                        >
+                            vegan
+                        </button>
+                        <button
+                            onClick={() => this.vegetarianButtonClick()}
+                        >
+                            vegetarian
+                        </button>
+                        <input 
+                            type="text" 
+                            name="search"
+                            value={this.state.filters.search}
+                            onChange={this.inputOnChangeHandler}
+                        />
+                        <input 
+                            type="text" 
+                            name="ingredient"
+                            value={this.state.filters.ingredient}
+                            onChange={this.inputOnChangeHandler}
+                        />
+                        <button onClick={this.addIngredient}>add</button>
+                        <input 
+                            type="number" 
+                            name="maxPrice"
+                            value={this.state.filters.maxPrice}
+                            onChange={this.inputOnChangeHandler}
+                        />
+                    </div>
+                </div>
                 <div className="recipeDisplay">
                     {this.state.recipes ? recipeGrid : <p> loading recipes</p> }
                 </div>

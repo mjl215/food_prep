@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import { loginUser } from '../../actions/AuthActions';
 import Alert from '../common/Alert';
+import Input from '../common/Input';
 
 class Login extends Component {
   constructor(props) {
@@ -102,6 +103,14 @@ class Login extends Component {
               onChange={(e) => this.onChange(e)}
             />
             <Alert errorType='login'/>
+            {/* <Input 
+              type="password"
+              name="password"
+              placeholder="enter password"
+              value={this.state.password}
+              onChange={(e) => this.onChange(e)}
+              errorType={'login'}
+            /> */}
             <input
               type="submit"
               className="login__form--submit"

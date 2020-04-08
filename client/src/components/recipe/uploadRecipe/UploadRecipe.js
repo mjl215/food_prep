@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import axios from 'axios';
-import IngredientListItem from './IngredientListItem';
 
-export default class UploadRecipe extends Component {
+import { addError } from '../../../actions/ErrorActions';
+
+import IngredientListItem from './IngredientListItem';
+import Alert from '../../common/Alert';
+
+class UploadRecipe extends Component {
     constructor(props) {
         super(props);
             
@@ -77,7 +82,8 @@ export default class UploadRecipe extends Component {
                 document.getElementById("recipeImage").value = "";
             }
         } catch (error) {
-            console.log('there was an error posting recipe:  ' + error);
+            console.log(error.response);
+            this.props.addError(error);
         }
         
     }
@@ -147,10 +153,10 @@ export default class UploadRecipe extends Component {
         return (
             <div className="upload--recipe">
                 <div className="upload--recipe__container">
-                    <h1>Add a meal</h1>
+                    <h1>Add new Recipe</h1>
                     <form className="upload--recipe__container__form">
-                        
-                            <p>Recipe Title *</p>
+                        <p>Recipe Title *</p>
+                        <div>
                             <input 
                                 type="text" 
                                 placeholder="Meal Title" 
@@ -158,24 +164,34 @@ export default class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler}
                                 value={this.state.recipeTitle}
                             />
+                            <Alert errorType={'recipe-title'}/>
+                        </div>
                         <p>Recipe Desciption *</p>
-                        <textarea 
-                            rows="5" 
-                            cols="50" 
-                            placeholder="Meal Description" 
-                            name="recipeDescription"
-                            onChange={this.inputOnChangeHandler} 
-                            value={this.state.recipeDescription}
-                        />
-                            <p>Meal Cost *</p>
+                        <div>
+                            <textarea 
+                                rows="5" 
+                                cols="50" 
+                                placeholder="Meal Description" 
+                                name="recipeDescription"
+                                onChange={this.inputOnChangeHandler} 
+                                value={this.state.recipeDescription}
+                            />
+                            <Alert />
+                        </div>
+                        <p>Meal Cost *</p>
+                        <div>
                             <input 
                                 type="number" 
                                 placeholder="cost per meal" 
                                 name="costPerMeal" 
+                                min="1"
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.costPerMeal}
                             />
-                            <p>Meal Ingredients *</p>
+                            <Alert />
+                        </div>
+                        <p>Meal Ingredients *</p>
+                        <div>
                             <div>
                                 <input 
                                     type="text"
@@ -184,65 +200,71 @@ export default class UploadRecipe extends Component {
                                     onChange={this.inputOnChangeHandler}
                                     value={this.state.ingredient}
                                 />
-                                <button
-                                onClick={this.addIngredient}>add</button>
-                                {this.state.ingredients && this.state.ingredients.map((ingredient, i) => (
-                                    <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
-                                ))}
-                                
+                                <Alert />
                             </div>
-                            <p>Prep time for 1 meal *</p> 
+                            <button
+                            onClick={this.addIngredient}>add</button>
+                            {this.state.ingredients && this.state.ingredients.map((ingredient, i) => (
+                                <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
+                            ))}
+                            
+                        </div>
+                        <p>Prep time for 1 meal *</p>
+                        <div>
                             <input 
                                 type="number" 
                                 placeholder="base prep time" 
                                 name="basePrepTime" 
+                                min="1"
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.basePrepTime}
                             />
-                            <p>additional prep time per meal *</p>
+                            <Alert />
+                        </div>
+                        <p>additional prep time per meal *</p>
+                        <div>
                             <input 
                                 type="number" 
                                 placeholder="additional prep time" 
-                                name="additionalPrepTime" 
+                                name="additionalPrepTime"
+                                min="1"
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.additionalPrepTime}
                             />
-                            <label htmlFor="vegetarian">vegetarian</label>
-                            <input 
-                                type="checkbox"  
-                                name="vegetarian"
-                                onChange={this.checkboxOnChangeHandler}
-                                checked={this.state.vegetarian}
-                            />
-                            
-                            <label htmlFor="vegetarian">vegan</label>
-                            <input 
-                                type="checkbox"  
-                                name="vegan" 
-                                onChange={this.checkboxOnChangeHandler}
-                                checked={this.state.vegan}
-                            />
-                            <label htmlFor="selectFile">Main Recipe Image *</label>
+                            <Alert />
+                        </div>
+                        <p>vegetarian</p>
+                        <input 
+                            type="checkbox"  
+                            name="vegetarian"
+                            onChange={this.checkboxOnChangeHandler}
+                            checked={this.state.vegetarian}
+                        />
+                        <p>vegan</p>
+                        <input 
+                            type="checkbox"  
+                            name="vegan" 
+                            onChange={this.checkboxOnChangeHandler}
+                            checked={this.state.vegan}
+                        />
+                        <p>Main Recipe Image *</p>
+                        <div>
                             <input 
                                 type="file" 
                                 name="selectFile"
                                 id="recipeImage" 
                                 onChange={this.onChangeHandler}
                             />
-                            <label htmlFor="selectFile">Add Additional Recipe Images</label>
-                            <div>
-                                <input 
-                                    type="file" 
-                                    name="additionalImages"
-                                    id="additionalImages" 
-                                    onChange={this.setAdditionalImage}
-                                    multiple
-                                />
-                                <button
-                                onClick={this.addAdditionalImage}>add</button>
-                            </div>
-                            
-                        <button type="button"  onClick={this.onClickHandler}>Upload</button>
+                            <Alert />
+                        </div>
+                        <div></div>
+                        <button 
+                            className="landing--page__content__button"
+                            type="button"  
+                            onClick={this.onClickHandler}
+                        >
+                            Add Recipe
+                        </button>
                     </form>
                 </div>
             </div>
@@ -250,3 +272,9 @@ export default class UploadRecipe extends Component {
         )
     }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    addError: (error) => dispatch(addError(error))
+  })
+
+export default connect(null, mapDispatchToProps)(UploadRecipe);

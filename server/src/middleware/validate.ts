@@ -2,25 +2,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { Request, Response, NextFunction } from 'express';
 import validator from 'validator';
 
-export const zvalidateRegister = (body: {email: string, name: string, password: string}) => {
-  const {email, name, password} = body;
-
-  const errors: any = [];
-
-  if(email.length > 10){
-    errors.push({
-      message: 'email to long',
-      type: 'register-email',
-      id: uuidv4()
-    })
-    }
-  
-  // console.log(email);
-  // console.log(name);
-  // console.log(password);
-
-  return errors
-}
 
 export const validateRegister = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -79,5 +60,41 @@ export const validateRegister = async (req: Request, res: Response, next: NextFu
   } catch (error) {
     res.status(400).send()
   }
+}
 
+export const validateAddRecipe = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {
+      title, 
+      description, 
+      costPerMeal, 
+      ingredients, 
+      vegetarian, 
+      vegan,
+      image,
+      basePrepTime,
+      additionalPrepTime
+    } = req.body;
+    const errors: any = [];
+
+    if(title.length < 6 || title.length > 40){
+      errors.push({
+        message: 'title must be between 6 and 40 characters',
+        type: 'recipe-title',
+        id: uuidv4()
+      })
+    }
+
+    
+
+  
+    if(errors.length > 0){
+      return res.status(400).send(errors);
+    }
+
+    next();
+
+  } catch (error) {
+    res.status(400).send()
+  }
 }

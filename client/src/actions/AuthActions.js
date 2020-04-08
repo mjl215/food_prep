@@ -60,7 +60,7 @@ export const loginUser = (body, config) => async dispatch =>  {
 
 
 export const logoutUser = (config) => async dispatch => {
-  console.log('in logout user')
+
 
   try {
     await axios.post('/user/logout', null, config);
@@ -93,7 +93,7 @@ export const setUser = () => async dispatch => {
     try {
       const token = JSON.parse(localStorage.getItem('token'));
 
-  
+      console.log('inSetUser');
       const config = {
         headers: {
           'Content-Type': 'application/json',
