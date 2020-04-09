@@ -176,7 +176,7 @@ class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.recipeDescription}
                             />
-                            <Alert />
+                            <Alert errorType={'recipe-description'}/>
                         </div>
                         <p>Meal Cost *</p>
                         <div>
@@ -188,7 +188,7 @@ class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.costPerMeal}
                             />
-                            <Alert />
+                            <Alert errorType={'recipe-cost'}/>
                         </div>
                         <p>Meal Ingredients *</p>
                         <div>
@@ -200,7 +200,7 @@ class UploadRecipe extends Component {
                                     onChange={this.inputOnChangeHandler}
                                     value={this.state.ingredient}
                                 />
-                                <Alert />
+                                <Alert errorType={'recipe-ingredients'}/>
                             </div>
                             <button
                             onClick={this.addIngredient}>add</button>
@@ -219,7 +219,7 @@ class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.basePrepTime}
                             />
-                            <Alert />
+                            <Alert errorType={'recipe-basePrepTime'}/>
                         </div>
                         <p>additional prep time per meal *</p>
                         <div>
@@ -231,7 +231,7 @@ class UploadRecipe extends Component {
                                 onChange={this.inputOnChangeHandler} 
                                 value={this.state.additionalPrepTime}
                             />
-                            <Alert />
+                            <Alert errorType={'recipe-additionalPrepTime'}/>
                         </div>
                         <p>vegetarian</p>
                         <input 

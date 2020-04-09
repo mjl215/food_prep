@@ -85,8 +85,69 @@ export const validateAddRecipe = async (req: Request, res: Response, next: NextF
       })
     }
 
-    
+    if(description.length > 800){
+      errors.push({
+        message: 'Description must be shorter than 800 charecters',
+        type: 'recipe-description',
+        id: uuidv4()
+      })
+    }
 
+    if(!costPerMeal){
+      errors.push({
+        message: 'You must enter a cost per meal',
+        type: 'recipe-cost',
+        id: uuidv4()
+      })
+    }
+
+    if(costPerMeal <= 0){
+      errors.push({
+        message: 'cost per meal must be greater than 0',
+        type: 'recipe-cost',
+        id: uuidv4()
+      })
+    }
+
+    if(ingredients.length <= 0){
+      errors.push({
+        message: 'You must enter atleast 1 ingredient',
+        type: 'recipe-ingredients',
+        id: uuidv4()
+      })
+    }
+
+    if(!basePrepTime){
+      errors.push({
+        message: 'You must enter a prep time',
+        type: 'recipe-basePrepTime',
+        id: uuidv4()
+      })
+    }
+
+    if(basePrepTime <= 0 ){
+      errors.push({
+        message: 'prep time must be greater than 0',
+        type: 'recipe-basePrepTime',
+        id: uuidv4()
+      })
+    }
+
+    if(!additionalPrepTime){
+      errors.push({
+        message: 'You must enter additional prep time',
+        type: 'recipe-basePrepTime',
+        id: uuidv4()
+      })
+    }
+
+    if(additionalPrepTime < 0){
+      errors.push({
+        message: 'additional prep time cannot be smaller than 0',
+        type: 'recipe-additionalPrepTime',
+        id: uuidv4()
+      })
+    }
   
     if(errors.length > 0){
       return res.status(400).send(errors);
@@ -98,3 +159,4 @@ export const validateAddRecipe = async (req: Request, res: Response, next: NextF
     res.status(400).send()
   }
 }
+
