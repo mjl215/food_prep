@@ -5,12 +5,29 @@ import Recipe from '../models/recipe';
 
 //Add Image for Recipe
 export const uploadRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
-    const recipeImage = new RecipeImage();
-    recipeImage.image = req.file.buffer;
-    recipeImage.owner = req.user._id;
-    const savedImage = await recipeImage.save();
-    res.send(savedImage._id);
+    try {
+        const recipeImage = new RecipeImage();
+        recipeImage.image = req.file.buffer;
+        recipeImage.owner = req.user._id;
+        const savedImage = await recipeImage.save();
+        res.send(savedImage._id);
+    } catch (error) {
+        console.log(error);
+    }
+    
+    
 };
+
+export const uploadRecipeAdditionalImages = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.files);
+        console.log('hi')
+        res.send("hi")
+
+    } catch (error) {
+        res.status(404).send();
+    }
+}
 
 //Add Recipe
 export const uploadRecipe = async (req: Request, res: Response, next: NextFunction) => {
@@ -24,9 +41,6 @@ export const uploadRecipe = async (req: Request, res: Response, next: NextFuncti
     } catch (error) {
         console.log(error)
     }
-    
-   
-    
 }
 
 //Get All Recipes

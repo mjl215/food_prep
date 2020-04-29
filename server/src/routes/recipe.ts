@@ -2,7 +2,7 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import {
-    uploadRecipe ,uploadRecipeImage, getAllRecipes, 
+    uploadRecipe ,uploadRecipeImage, uploadRecipeAdditionalImages, getAllRecipes, 
     getRecipeImage, getRecipe, deleteRecipeById, 
     deleteImageByRecipeId, deleteImageById, getRecipeByUser
 } from '../controllers/recipe';
@@ -18,6 +18,7 @@ const upload = multer({
 //POST
 router.post('', auth, validateAddRecipe, uploadRecipe);
 router.post('/image', auth, upload.single('upload'), uploadRecipeImage)
+router.post('/additional-image', upload.array('upload'), uploadRecipeAdditionalImages)
 //GET
 router.get('', getAllRecipes);
 router.get('/:id', getRecipe);

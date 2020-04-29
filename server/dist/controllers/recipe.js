@@ -7,11 +7,26 @@ const recipeImages_1 = __importDefault(require("../models/recipeImages"));
 const recipe_1 = __importDefault(require("../models/recipe"));
 //Add Image for Recipe
 exports.uploadRecipeImage = async (req, res, next) => {
-    const recipeImage = new recipeImages_1.default();
-    recipeImage.image = req.file.buffer;
-    recipeImage.owner = req.user._id;
-    const savedImage = await recipeImage.save();
-    res.send(savedImage._id);
+    try {
+        const recipeImage = new recipeImages_1.default();
+        recipeImage.image = req.file.buffer;
+        recipeImage.owner = req.user._id;
+        const savedImage = await recipeImage.save();
+        res.send(savedImage._id);
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+exports.uploadRecipeAdditionalImages = async (req, res, next) => {
+    try {
+        console.log(req.files);
+        console.log('hi');
+        res.send("hi");
+    }
+    catch (error) {
+        res.status(404).send();
+    }
 };
 //Add Recipe
 exports.uploadRecipe = async (req, res, next) => {

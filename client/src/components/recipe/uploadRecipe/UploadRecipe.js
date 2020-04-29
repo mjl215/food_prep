@@ -35,9 +35,6 @@ class UploadRecipe extends Component {
     onClickHandler = async () => {
 
         try {
-            const  data= new FormData() 
-            data.append('upload', this.state.selectedFile);
-
             const token = JSON.parse(localStorage.getItem('token'));
       
             const config = {
@@ -46,6 +43,10 @@ class UploadRecipe extends Component {
                 'Authorization': `Bearer ${token}`
                 }
             }
+
+            const data = new FormData() 
+            data.append('upload', this.state.selectedFile);
+
 
             const imageRes = await axios.post('/recipe/image', data, config);
 
@@ -62,7 +63,6 @@ class UploadRecipe extends Component {
             }
 
             const recipeRes = await axios.post('/recipe', newRecipe, config);
-            console.log(recipeRes.status)
 
             if(recipeRes.status === 200){
 
@@ -81,6 +81,18 @@ class UploadRecipe extends Component {
 
                 document.getElementById("recipeImage").value = "";
             }
+
+            
+
+            const newData = new FormData()
+
+            this.state.additionalImagesArray.forEach(img => {
+                newData.append('upload', img)
+            });
+
+            const multiImage = await axios.post('/recipe/additional-image', newData, config);
+            console.log(multiImage);
+
         } catch (error) {
             console.log(error.response);
             this.props.addError(error);
@@ -97,9 +109,8 @@ class UploadRecipe extends Component {
     };
 
     setAdditionalImage = (e) => {        
-        const additionalImage = e.target.files[0]
-        const hi = [];
-        console.log(hi.push(additionalImage));
+        const additionalImage = e.target.files
+       
 
         this.setState({
             additionalImage: additionalImage
@@ -110,9 +121,9 @@ class UploadRecipe extends Component {
         e.preventDefault();
 
         this.setState((prevState) =>({
-            additionalImagesArray: prevState.additionalImagesArray.concat(prevState.additionalImage)
+            additionalImagesArray: [...prevState.additionalImagesArray, ...this.state.additionalImage]
         }))
-    }
+    } 
 
     inputOnChangeHandler = (e) => {
         this.setState({
@@ -135,7 +146,7 @@ class UploadRecipe extends Component {
     }
     
     removeIngredient = (remove) => {
-        console.log(remove);
+
         const newIngredients = this.state.ingredients.filter((ingredient) => {
             return ingredient !== remove;
         })
@@ -144,12 +155,13 @@ class UploadRecipe extends Component {
             ingredients: newIngredients
         })
 
-        console.log(newIngredients);
     }
 
     render() {
-
-
+        // const a = {1: 1, 2: 2, 3: 3};
+        // const b = [...a]
+        // console.log(a);
+        
         return (
             <div className="upload--recipe">
                 <div className="upload--recipe__container">
@@ -256,6 +268,20 @@ class UploadRecipe extends Component {
                                 onChange={this.onChangeHandler}
                             />
                             <Alert />
+                        </div>
+                        <p>Add Extra Images</p>
+                        <div>
+                            <input 
+                                type="file" 
+                                multiple
+                                name="additionalFile"
+                                onChange={this.setAdditionalImage}
+                            />
+                            <Alert />
+                            <button
+                                onClick={this.addAdditionalImage}
+                                >Add
+                            </button>
                         </div>
                         <div></div>
                         <button 
