@@ -15,13 +15,13 @@ exports.uploadRecipeImage = async (req, res, next) => {
         res.send(savedImage._id);
     }
     catch (error) {
-        console.log(error);
+        res.status(404).send();
     }
 };
 exports.uploadRecipeAdditionalImages = async (req, res, next) => {
     try {
         console.log(req.files);
-        console.log('hi');
+        // console.log(req.body.recipeId);
         res.send("hi");
     }
     catch (error) {
@@ -35,7 +35,7 @@ exports.uploadRecipe = async (req, res, next) => {
         recipeInfo.owner = req.user._id;
         const recipe = new recipe_1.default(recipeInfo);
         await recipe.save();
-        res.send();
+        res.send(recipe.id);
     }
     catch (error) {
         console.log(error);

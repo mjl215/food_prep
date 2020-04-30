@@ -12,7 +12,7 @@ export const uploadRecipeImage = async (req: Request, res: Response, next: NextF
         const savedImage = await recipeImage.save();
         res.send(savedImage._id);
     } catch (error) {
-        console.log(error);
+        res.status(404).send();
     }
     
     
@@ -21,7 +21,8 @@ export const uploadRecipeImage = async (req: Request, res: Response, next: NextF
 export const uploadRecipeAdditionalImages = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req.files);
-        console.log('hi')
+        // console.log(req.body.recipeId);
+        
         res.send("hi")
 
     } catch (error) {
@@ -36,7 +37,7 @@ export const uploadRecipe = async (req: Request, res: Response, next: NextFuncti
         recipeInfo.owner = req.user._id
         const recipe = new Recipe(recipeInfo);
         await recipe.save();
-        res.send()
+        res.send(recipe.id)
 
     } catch (error) {
         console.log(error)

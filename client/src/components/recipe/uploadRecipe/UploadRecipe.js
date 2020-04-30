@@ -50,6 +50,7 @@ class UploadRecipe extends Component {
 
             const imageRes = await axios.post('/recipe/image', data, config);
 
+
             const newRecipe = {
                 title: this.state.recipeTitle,
                 description: this.state.recipeDescription,
@@ -63,7 +64,7 @@ class UploadRecipe extends Component {
             }
 
             const recipeRes = await axios.post('/recipe', newRecipe, config);
-
+            console.log(recipeRes);
             if(recipeRes.status === 200){
 
                 this.setState({
@@ -85,7 +86,7 @@ class UploadRecipe extends Component {
             
 
             const newData = new FormData()
-
+            newData.append('recipeId', recipeRes.data);
             this.state.additionalImagesArray.forEach(img => {
                 newData.append('upload', img)
             });
