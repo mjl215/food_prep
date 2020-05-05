@@ -6,7 +6,7 @@ import uuid from "uuid";
 
 import RecipeImage from '../recipe/commonRecipe/RecipeImage';
 import { setUser } from '../../actions/AuthActions';
-
+import setHeader from '../../utils/setHeader';
 
 class BasketItem extends Component {
   constructor(props){
@@ -44,14 +44,16 @@ class BasketItem extends Component {
       quantity: prevState.quantity + value
     }), async () => {
 
-      const token = JSON.parse(localStorage.getItem('token'));
+      // const token = JSON.parse(localStorage.getItem('token'));
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
+      // const config = {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${token}`
+      //   }
+      // }
+
+      const config = setHeader();
 
       const basket = this.props.auth.basket
       const index = basket.findIndex((i) => i._id === this.state.id)

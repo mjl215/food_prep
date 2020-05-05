@@ -36,7 +36,6 @@ const PrivateRoute =  ({ component: Component, auth, userType, setUser, ...rest 
     }
 }
     
-  
 const mapStateToProps = state => ({
   auth: state.auth
 })

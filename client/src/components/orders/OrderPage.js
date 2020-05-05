@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import JointOrder from './JointOrder';
+import setHeader from '../../utils/setHeader';
 
 class OrderPage extends Component {
   constructor(props) {
@@ -15,14 +16,16 @@ class OrderPage extends Component {
 
 async componentDidMount(){
 
-  const token = JSON.parse(localStorage.getItem('token'));
+  // const token = JSON.parse(localStorage.getItem('token'));
       
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    }
-  }
+  // const config = {
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': `Bearer ${token}`
+  //   }
+  // }
+
+  const config = setHeader();
 
   const orderRes = await axios.get('/user/orders', config);
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { setUser } from '../../actions/AuthActions';
 import BasketItem from './BasketItem';
+import setHeader from '../../utils/setHeader';
 
 class JointBasketContainer extends Component {
   constructor(props){
@@ -31,14 +32,16 @@ class JointBasketContainer extends Component {
       const basket = this.props.auth.basket;
       basket[basket.findIndex((el) => el._id === draggedOrderId)].basketId = this.props.item.basketId;
 
-      const token = JSON.parse(localStorage.getItem('token'));
+      // const token = JSON.parse(localStorage.getItem('token'));
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
+      // const config = {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${token}`
+      //   }
+      // }
+
+      const config = setHeader();
 
       const body = {
         basket: basket

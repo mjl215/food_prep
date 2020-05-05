@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import setHeader from '../../utils/setHeader';
+import { setUser } from '../../actions/AuthActions';
+
 class ResetPasswordEdit extends Component {
   constructor(props){
     super(props);
@@ -33,14 +36,16 @@ class ResetPasswordEdit extends Component {
         confirmPassword
       }
 
-      const token = JSON.parse(localStorage.getItem('token'));
+      // const token = JSON.parse(localStorage.getItem('token'));
         
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }
+      //   const config = {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': `Bearer ${token}`
+      //     }
+      //   }
+
+      const config = setHeader();
       
       const {data} = await axios.post('user/resetPasswordEdit', body, config);
 

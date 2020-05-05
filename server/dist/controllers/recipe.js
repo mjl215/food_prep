@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const recipeImages_1 = __importDefault(require("../models/recipeImages"));
 const recipe_1 = __importDefault(require("../models/recipe"));
+const additionalImages_1 = __importDefault(require("../models/additionalImages"));
 //Add Image for Recipe
 exports.uploadRecipeImage = async (req, res, next) => {
     try {
@@ -21,8 +22,15 @@ exports.uploadRecipeImage = async (req, res, next) => {
 exports.uploadRecipeAdditionalImages = async (req, res, next) => {
     try {
         console.log(req.files);
-        // console.log(req.body.recipeId);
-        res.send("hi");
+        if (req.files.length === 0) {
+            console.log('no add file');
+            return res.send();
+        }
+        const additionalImage = new additionalImages_1.default();
+        additionalImage.imageArray = req.files;
+        const images = await additionalImage.save();
+        console.log(images);
+        res.send(images);
     }
     catch (error) {
         res.status(404).send();
@@ -31,6 +39,7 @@ exports.uploadRecipeAdditionalImages = async (req, res, next) => {
 //Add Recipe
 exports.uploadRecipe = async (req, res, next) => {
     try {
+        console.log(req.body);
         const recipeInfo = req.body;
         recipeInfo.owner = req.user._id;
         const recipe = new recipe_1.default(recipeInfo);

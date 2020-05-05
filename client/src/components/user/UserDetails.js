@@ -5,6 +5,7 @@ import axios from 'axios';
 import EditIcon from '@material-ui/icons/Edit';
 
 import { clearUser } from '../../actions/AuthActions';
+import setHeader from '../../utils/setHeader';
 
 class UserDetails extends Component {
   constructor(props){
@@ -41,13 +42,15 @@ class UserDetails extends Component {
 
     try {
 
-      const token = JSON.parse(localStorage.getItem('token'));
-      const config = {
-        headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-        }
-    }
+      // const token = JSON.parse(localStorage.getItem('token'));
+      // const config = {
+      //   headers: {
+      //   'Content-Type': 'application/json',
+      //   'Authorization': `Bearer ${token}`
+      //   }
+      // }
+
+      const config = setHeader();
 
     await axios.delete('/user', config);
     this.props.clearUser();

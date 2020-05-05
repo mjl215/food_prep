@@ -15,7 +15,7 @@ const upload = multer_1.default({
 //POST
 router.post('', auth_1.auth, validate_1.validateAddRecipe, recipe_1.uploadRecipe);
 router.post('/image', auth_1.auth, upload.single('upload'), recipe_1.uploadRecipeImage);
-router.post('/additional-image', upload.any(), recipe_1.uploadRecipeAdditionalImages);
+router.post('/additional-image', upload.array('upload'), recipe_1.uploadRecipeAdditionalImages);
 //GET
 router.get('', recipe_1.getAllRecipes);
 router.get('/:id', recipe_1.getRecipe);

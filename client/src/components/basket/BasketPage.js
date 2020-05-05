@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import BasketSuplierContainer from './BasketSuplierContainer';
 import { setUser } from '../../actions/AuthActions';
+import setHeader from '../../utils/setHeader';
 
 class BasketPage extends Component {
   constructor(props){
@@ -22,14 +23,16 @@ class BasketPage extends Component {
 
   async onCheckout(){
     
-    const token = JSON.parse(localStorage.getItem('token'));
+    // const token = JSON.parse(localStorage.getItem('token'));
       
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `Bearer ${token}`
+    //   }
+    // }
+
+    const config = setHeader();
 
     const body = {
       basket: this.props.auth.basket

@@ -6,6 +6,7 @@ import { addError } from '../../../actions/ErrorActions';
 
 import IngredientListItem from './IngredientListItem';
 import Alert from '../../common/Alert';
+import setHeader from '../../../utils/setHeader';
 
 class UploadRecipe extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class UploadRecipe extends Component {
             selectedFile: null,
             additionalImage: null,
             additionalImagesArray: [],
+            additionalImagesIdArray: [],
             recipeTitle: "",
             recipeDescription: "",
             costPerMeal: 0,
@@ -35,20 +37,24 @@ class UploadRecipe extends Component {
     onClickHandler = async () => {
 
         try {
-            const token = JSON.parse(localStorage.getItem('token'));
-      
-            const config = {
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-                }
-            }
+            
+            const config = setHeader();
 
             const data = new FormData() 
             data.append('upload', this.state.selectedFile);
 
-
             const imageRes = await axios.post('/recipe/image', data, config);
+
+            this.state.additionalImagesArray.forEach(async img => {
+                const newData = new FormData();
+                newData.append('upload', img);
+
+                const { data } = await axios.post('/recipe/image', newData, config);
+                
+                this.setState((prevState) => ({
+                    additionalImagesIdArray: [...prevState.additionalImagesIdArray, data]
+                }))
+            }); 
 
 
             const newRecipe = {
@@ -59,9 +65,19 @@ class UploadRecipe extends Component {
                 vegetarian: this.state.vegetarian,
                 vegan: this.state.vegan,
                 image: imageRes.data,
+                additionalImages: this.state.additionalImagesIdArray,
                 basePrepTime: this.state.basePrepTime,
                 additionalPrepTime: this.state.additionalPrepTime
             }
+
+            // const newData = new FormData()
+            // newData.append('recipeId', recipeRes.data);
+            // this.state.additionalImagesArray.forEach(img => {
+            //     newData.append('upload', img)
+            // });
+
+            // const multiImage = await axios.post('/recipe/additional-image', newData, config);
+            // console.log(multiImage);
 
             const recipeRes = await axios.post('/recipe', newRecipe, config);
             console.log(recipeRes);
@@ -81,21 +97,11 @@ class UploadRecipe extends Component {
                 })
 
                 document.getElementById("recipeImage").value = "";
+                document.getElementById("additionalRecipeImage").value = "";
             }
 
-            
-
-            const newData = new FormData()
-            newData.append('recipeId', recipeRes.data);
-            this.state.additionalImagesArray.forEach(img => {
-                newData.append('upload', img)
-            });
-
-            const multiImage = await axios.post('/recipe/additional-image', newData, config);
-            console.log(multiImage);
-
         } catch (error) {
-            console.log(error.response);
+            console.log(error.message);
             this.props.addError(error);
         }
         
@@ -276,6 +282,7 @@ class UploadRecipe extends Component {
                                 type="file" 
                                 multiple
                                 name="additionalFile"
+                                id="additionalRecipeImage"
                                 onChange={this.setAdditionalImage}
                             />
                             <Alert />

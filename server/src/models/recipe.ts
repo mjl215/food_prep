@@ -8,6 +8,7 @@ export interface RecipeInterface extends Document {
     vegetarian: boolean;
     vegan: boolean;
     image: mongoose.Schema.Types.ObjectId;
+    additionalImages: mongoose.Schema.Types.ObjectId[];
     owner: mongoose.Schema.Types.ObjectId;
     basePrepTime: number,
     additionalPrepTime: number
@@ -49,6 +50,11 @@ const recipeSchema: Schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     }, 
+    additionalImages: [
+        {
+            type: mongoose.Schema.Types.ObjectId
+        }
+    ],
     owner : {
         type: mongoose.Schema.Types.ObjectId,
         required: true
@@ -62,7 +68,6 @@ const recipeSchema: Schema = new mongoose.Schema({
         required: true
     }
 })
-
 
 const Recipe = mongoose.model<RecipeInterface, RecipeModelInterface>("Recipe", recipeSchema);
 export default Recipe;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { logoutUser } from '../../actions/AuthActions';
+import setHeader from '../../utils/setHeader';
 
 const Navbar = (props) => {
 
@@ -10,15 +11,17 @@ const Navbar = (props) => {
     
     try {
 
-      const token = JSON.parse(localStorage.getItem('token'));
+      // const token = JSON.parse(localStorage.getItem('token'));
       
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
+      // const config = {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${token}`
+      //   }
+      // }
       
+      const config = setHeader();
+
       props.logoutUser(config)
 
     } catch (error) {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import RecipeGridItem from '../recipeGrid/RecipeGridItem';
+import setHeader from '../../../utils/setHeader';
 
 class UserRecipes extends Component {
   constructor(props){
@@ -15,14 +16,16 @@ class UserRecipes extends Component {
 
   async componentDidMount(){
     try {
-      const token = JSON.parse(localStorage.getItem('token'));
+      // const token = JSON.parse(localStorage.getItem('token'));
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
+      // const config = {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${token}`
+      //   }
+      // }
+
+      const config = setHeader();
 
       const {data} = await axios.get('/recipe/get-recipe/owner', config);
 

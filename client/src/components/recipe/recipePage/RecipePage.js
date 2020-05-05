@@ -7,6 +7,7 @@ import RecipeImage from '../commonRecipe/RecipeImage';
 
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
 import { setUser } from '../../../actions/AuthActions';
+import setHeader from '../../../utils/setHeader';
 
 class RecipePage extends Component {
     constructor(props) {
@@ -39,14 +40,16 @@ class RecipePage extends Component {
 
     onClick = async (e) => {
 
-      const token = JSON.parse(localStorage.getItem('token'));
+    //   const token = JSON.parse(localStorage.getItem('token'));
       
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
+    //   const config = {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Authorization': `Bearer ${token}`
+    //     }
+    //   }
+
+    const config = setHeader();
       
       //send new basket
       const body = {

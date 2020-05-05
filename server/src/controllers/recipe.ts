@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import RecipeImage from '../models/recipeImages';
 import Recipe from '../models/recipe';
+import AdditionalImage from '../models/additionalImages';
 
 //Add Image for Recipe
 export const uploadRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,10 +22,17 @@ export const uploadRecipeImage = async (req: Request, res: Response, next: NextF
 export const uploadRecipeAdditionalImages = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req.files);
-        // console.log(req.body.recipeId);
+        if(req.files.length === 0){
+            console.log('no add file')
+            return res.send()
+        }
         
-        res.send("hi")
-
+        const additionalImage = new AdditionalImage();
+        additionalImage.imageArray = req.files;
+        const images = await additionalImage.save()
+        console.log(images);
+        
+        res.send(images);
     } catch (error) {
         res.status(404).send();
     }
@@ -33,12 +41,13 @@ export const uploadRecipeAdditionalImages = async (req: Request, res: Response, 
 //Add Recipe
 export const uploadRecipe = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log(req.body);
         const recipeInfo = req.body
         recipeInfo.owner = req.user._id
         const recipe = new Recipe(recipeInfo);
         await recipe.save();
-        res.send(recipe.id)
-
+        res.send(recipe.id);
+        
     } catch (error) {
         console.log(error)
     }
