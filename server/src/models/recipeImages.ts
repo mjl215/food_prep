@@ -2,7 +2,9 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface RecipeImageInterface extends Document {
     image: Buffer;
-    owner: mongoose.Schema.Types.ObjectId; 
+    recipe: mongoose.Schema.Types.ObjectId;
+    owner: mongoose.Schema.Types.ObjectId;
+    mainImage: Boolean; 
 }
 
 export interface RecipeImageModelInterface extends Model<RecipeImageInterface> {
@@ -16,6 +18,14 @@ const recipeImageSchema: Schema = new mongoose.Schema({
     },
     owner : {
         type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    recipe : {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    mainImage : {
+        type: Boolean,
         required: true
     }
 })

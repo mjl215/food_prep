@@ -12,6 +12,14 @@ const recipeImageSchema = new mongoose_1.default.Schema({
     owner: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         required: true
+    },
+    recipe: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        required: true
+    },
+    mainImage: {
+        type: Boolean,
+        required: true
     }
 });
 const RecipeImage = mongoose_1.default.model("RecipeImage", recipeImageSchema);

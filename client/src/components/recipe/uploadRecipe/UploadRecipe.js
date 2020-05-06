@@ -40,7 +40,9 @@ class UploadRecipe extends Component {
             
             const config = setHeader();
 
-            const data = new FormData() 
+            const data = new FormData();
+            data.append('mainImage', true);
+            data.append('recipe', "5eb309d3c4411c49ba65e299");
             data.append('upload', this.state.selectedFile);
 
             const imageRes = await axios.post('/recipe/image', data, config);
@@ -53,7 +55,10 @@ class UploadRecipe extends Component {
                 
                 this.setState((prevState) => ({
                     additionalImagesIdArray: [...prevState.additionalImagesIdArray, data]
-                }))
+                }), () => {
+
+                    console.log(this.state.additionalImagesIdArray)
+                })
             }); 
 
 
@@ -69,6 +74,8 @@ class UploadRecipe extends Component {
                 basePrepTime: this.state.basePrepTime,
                 additionalPrepTime: this.state.additionalPrepTime
             }
+
+            console.log(newRecipe);
 
             // const newData = new FormData()
             // newData.append('recipeId', recipeRes.data);

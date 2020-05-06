@@ -49,7 +49,7 @@ class RecipePage extends Component {
     //     }
     //   }
 
-    const config = setHeader();
+        const config = setHeader();
       
       //send new basket
       const body = {
@@ -77,11 +77,15 @@ class RecipePage extends Component {
 
         if(this.state.recipe){
 
-            const {title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state.recipe;
+            const {title, description, ingredients, costPerMeal, image, additionalImages, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state.recipe;
+            
             const ingredientsRender = ingredients.map((ingredient, i) => {
                 return ingredients[i+1] ? <p key="i">{ingredient}, </p> : <p key="i">{ingredient}.</p>
-             
-            })
+            
+            });
+
+            console.log(additionalImages);
+
             return (
                 <div>
                     <h1>{title}</h1>
