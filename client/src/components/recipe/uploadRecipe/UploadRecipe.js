@@ -35,32 +35,8 @@ class UploadRecipe extends Component {
 
     
     onClickHandler = async () => {
-
         try {
-            
             const config = setHeader();
-
-            const data = new FormData();
-            data.append('mainImage', true);
-            data.append('recipe', "5eb309d3c4411c49ba65e299");
-            data.append('upload', this.state.selectedFile);
-
-            const imageRes = await axios.post('/recipe/image', data, config);
-
-            this.state.additionalImagesArray.forEach(async img => {
-                const newData = new FormData();
-                newData.append('upload', img);
-
-                const { data } = await axios.post('/recipe/image', newData, config);
-                
-                this.setState((prevState) => ({
-                    additionalImagesIdArray: [...prevState.additionalImagesIdArray, data]
-                }), () => {
-
-                    console.log(this.state.additionalImagesIdArray)
-                })
-            }); 
-
 
             const newRecipe = {
                 title: this.state.recipeTitle,
@@ -69,13 +45,54 @@ class UploadRecipe extends Component {
                 ingredients: this.state.ingredients,
                 vegetarian: this.state.vegetarian,
                 vegan: this.state.vegan,
-                image: imageRes.data,
                 additionalImages: this.state.additionalImagesIdArray,
                 basePrepTime: this.state.basePrepTime,
                 additionalPrepTime: this.state.additionalPrepTime
             }
 
-            console.log(newRecipe);
+            const recipeRes = await axios.post('/recipe', newRecipe, config);
+            console.log(recipeRes.data);
+
+            const data = new FormData();
+            data.append('mainImage', true);
+            data.append('recipe', recipeRes.data);
+            data.append('upload', this.state.selectedFile);
+
+            const imageRes = await axios.post('/recipe/image', data, config);
+
+            this.state.additionalImagesArray.forEach(async img => {
+
+                const newData = new FormData();
+                newData.append('mainImage', false);
+                newData.append('recipe', recipeRes.data)
+                newData.append('upload', img);
+
+                const { data } = await axios.post('/recipe/image', newData, config);
+                
+                // this.setState((prevState) => ({
+                //     additionalImagesIdArray: [...prevState.additionalImagesIdArray, data]
+                // }), () => {
+
+                //     console.log(this.state.additionalImagesIdArray)
+                // })
+            }); 
+
+            this.setState({
+                selectedFile: undefined,
+                recipeTitle: "",
+                recipeDescription: "",
+                costPerMeal: 0,
+                ingredient: "",
+                ingredients: [],
+                vegetarian: false,
+                vegan: false,
+                basePrepTime: 0,
+                additionalPrepTime: 0
+            })
+
+            document.getElementById("recipeImage").value = "";
+            document.getElementById("additionalRecipeImage").value = "";
+            
 
             // const newData = new FormData()
             // newData.append('recipeId', recipeRes.data);
@@ -85,28 +102,6 @@ class UploadRecipe extends Component {
 
             // const multiImage = await axios.post('/recipe/additional-image', newData, config);
             // console.log(multiImage);
-
-            const recipeRes = await axios.post('/recipe', newRecipe, config);
-            console.log(recipeRes);
-            if(recipeRes.status === 200){
-
-                this.setState({
-                    selectedFile: undefined,
-                    recipeTitle: "",
-                    recipeDescription: "",
-                    costPerMeal: 0,
-                    ingredient: "",
-                    ingredients: [],
-                    vegetarian: false,
-                    vegan: false,
-                    basePrepTime: 0,
-                    additionalPrepTime: 0
-                })
-
-                document.getElementById("recipeImage").value = "";
-                document.getElementById("additionalRecipeImage").value = "";
-            }
-
         } catch (error) {
             console.log(error.message);
             this.props.addError(error);

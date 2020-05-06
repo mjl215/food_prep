@@ -32,15 +32,6 @@ const recipeSchema = new mongoose_1.default.Schema({
         type: Boolean,
         required: true
     },
-    image: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        required: true
-    },
-    additionalImages: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId
-        }
-    ],
     owner: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         required: true

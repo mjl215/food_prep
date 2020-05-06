@@ -11,6 +11,7 @@ exports.uploadRecipeImage = async (req, res, next) => {
     try {
         console.log(req.file);
         console.log(req.body.mainImage);
+        console.log(req.body.recipe);
         const recipeImage = new recipeImages_1.default();
         recipeImage.image = req.file.buffer;
         recipeImage.recipe = req.body.recipe;
@@ -20,6 +21,7 @@ exports.uploadRecipeImage = async (req, res, next) => {
         res.send(savedImage._id);
     }
     catch (error) {
+        console.log(error);
         res.status(404).send();
     }
 };

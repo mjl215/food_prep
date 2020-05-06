@@ -9,6 +9,7 @@ export const uploadRecipeImage = async (req: Request, res: Response, next: NextF
     try {
         console.log(req.file);
         console.log(req.body.mainImage);
+        console.log(req.body.recipe);
 
         const recipeImage = new RecipeImage();
         recipeImage.image = req.file.buffer;
@@ -19,10 +20,9 @@ export const uploadRecipeImage = async (req: Request, res: Response, next: NextF
         res.send(savedImage._id);
 
     } catch (error) {
+        console.log(error);
         res.status(404).send();
     }
-    
-    
 };
 
 export const uploadRecipeAdditionalImages = async (req: Request, res: Response, next: NextFunction) => {
