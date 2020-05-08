@@ -60,14 +60,43 @@ exports.getAllRecipes = async (req, res, next) => {
     res.send(recipes);
 };
 //Get recipe Image
-exports.getRecipeImage = async (req, res, next) => {
+exports.getMainRecipeImage = async (req, res, next) => {
     try {
-        const recipe = await recipeImages_1.default.findById(req.params.id);
-        if (!recipe || !recipe.image) {
+        // const recipe = await RecipeImage.findById(req.params.id);
+        const recipeImage = await recipeImages_1.default.findOne({ recipe: req.params.id, mainImage: true });
+        if (!recipeImage || !recipeImage.image) {
             throw new Error();
         }
         res.set('Content-type', 'image/jpg');
-        res.send(recipe.image);
+        res.send(recipeImage.image);
+    }
+    catch (error) {
+        res.status(404).send();
+    }
+};
+exports.getRecipeImageById = async (req, res, next) => {
+    try {
+        const recipeImage = await recipeImages_1.default.findById(req.params.id);
+        if (!recipeImage || !recipeImage.image) {
+            throw new Error();
+        }
+        res.set('Content-type', 'image/jpg');
+        res.send(recipeImage.image);
+    }
+    catch (error) {
+        res.status(404).send();
+    }
+};
+exports.getAllImageIds = async (req, res, next) => {
+    try {
+        // const recipe = await RecipeImage.findById(req.params.id);
+        const recipeImages = await recipeImages_1.default.find({ recipe: req.params.id });
+        if (!recipeImages) {
+            throw new Error();
+        }
+        const sortedRecipe = recipeImages.sort((a, b) => b.mainImage - a.mainImage);
+        const sortedIds = sortedRecipe.map((image) => image.id);
+        res.send(sortedIds);
     }
     catch (error) {
         res.status(404).send();

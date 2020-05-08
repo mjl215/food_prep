@@ -4,6 +4,7 @@ import axios from 'axios';
 import uuid from "uuid";
 
 import RecipeImage from '../commonRecipe/RecipeImage';
+import Carousel from '../../imageCarousel/Carousel';
 
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
 import { setUser } from '../../../actions/AuthActions';
@@ -15,6 +16,8 @@ class RecipePage extends Component {
 
         this.state = {
             recipe: null,
+            recipeImagesArray: [],
+            recipeImageNumber: 0,
             quantity: 1
             }
         
@@ -25,10 +28,14 @@ class RecipePage extends Component {
         if (this.props.recipe.selectedRecipeId !== this.props.match.params.id){
             this.props.setSelectedRecipe(this.props.match.params.id)
         }
-        const res = await axios.get(`/recipe/${this.props.match.params.id}`);
-        console.log(res)
+        const recipeRes = await axios.get(`/recipe/${this.props.match.params.id}`);
+        const imageListRes = await axios.get(`/recipe/image/getIds/${this.props.match.params.id}`);
+
+        console.log(recipeRes);
+        console.log(imageListRes);
         this.setState({
-            recipe: res.data
+            recipe: recipeRes.data,
+            recipeImagesArray: [...imageListRes.data]
         }, () => console.log('set the state'))
     }
 
@@ -77,14 +84,13 @@ class RecipePage extends Component {
 
         if(this.state.recipe){
 
-            const {title, description, ingredients, costPerMeal, image, additionalImages, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state.recipe;
+            const {_id, title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state.recipe;
             
             const ingredientsRender = ingredients.map((ingredient, i) => {
                 return ingredients[i+1] ? <p key="i">{ingredient}, </p> : <p key="i">{ingredient}.</p>
             
             });
 
-            console.log(additionalImages);
 
             return (
                 <div>
@@ -93,7 +99,9 @@ class RecipePage extends Component {
                     {vegetarian && <h3>vegetarian</h3>}
                     {vegan && <h3>Vegan</h3>}
                     {ingredientsRender}
-                    <RecipeImage image={image} />
+                    <RecipeImage image={_id} mainImage={true}/>
+                    {/* <RecipeImage image={this.state.recipeImagesArray[2]} mainImage={false} /> */}
+                    <Carousel urlArray={this.state.recipeImagesArray} />
                     <p>{costPerMeal}</p>
                     <p>Eastimated Prep Time -  {basePrepTime + (additionalPrepTime * (this.state.quantity-1))} minutes</p>
                     <input 

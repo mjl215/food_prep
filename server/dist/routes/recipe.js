@@ -19,7 +19,9 @@ router.post('/additional-image', upload.array('upload'), recipe_1.uploadRecipeAd
 //GET
 router.get('', recipe_1.getAllRecipes);
 router.get('/:id', recipe_1.getRecipe);
-router.get('/image/:id', recipe_1.getRecipeImage);
+router.get('/mainImage/:id', recipe_1.getMainRecipeImage);
+router.get('/image/:id', recipe_1.getRecipeImageById);
+router.get('/image/getIds/:id', recipe_1.getAllImageIds);
 router.get('/get-recipe/owner', auth_1.auth, recipe_1.getRecipeByUser);
 //DELETE
 router.delete('/:id', recipe_1.deleteRecipeById, recipe_1.deleteImageByRecipeId);

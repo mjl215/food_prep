@@ -64,21 +64,57 @@ export const getAllRecipes = async (req: Request, res: Response, next: NextFunct
 }
 
 //Get recipe Image
-export const getRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
+export const getMainRecipeImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const recipe = await RecipeImage.findById(req.params.id)
+        // const recipe = await RecipeImage.findById(req.params.id);
+        const recipeImage = await RecipeImage.findOne({ recipe: req.params.id, mainImage: true})
 
-        if(!recipe || !recipe.image){
+        if(!recipeImage || !recipeImage.image){
             throw new Error();
         }
 
         res.set('Content-type', 'image/jpg');
-        res.send(recipe.image);
+        res.send(recipeImage.image);
 
     } catch (error) {
         res.status(404).send();
     }
 }
+
+export const getRecipeImageById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const recipeImage = await RecipeImage.findById(req.params.id);
+
+        if(!recipeImage || !recipeImage.image){
+            throw new Error();
+        }
+
+        res.set('Content-type', 'image/jpg');
+        res.send(recipeImage.image);
+
+    } catch (error) {
+        res.status(404).send();
+    }
+}
+
+export const getAllImageIds = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // const recipe = await RecipeImage.findById(req.params.id);
+        const recipeImages = await RecipeImage.find({ recipe: req.params.id})
+
+        if(!recipeImages){
+            throw new Error();
+        }
+
+        const sortedRecipe = recipeImages.sort((a: any, b: any) => b.mainImage - a.mainImage);
+        const sortedIds = sortedRecipe.map((image) => image.id)
+        res.send(sortedIds);
+
+    } catch (error) {
+        res.status(404).send();
+    }
+}
+
 
 //Get single recipe
 export const getRecipe = async (req: Request, res: Response, next: NextFunction) => {

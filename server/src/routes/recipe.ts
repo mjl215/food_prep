@@ -3,7 +3,7 @@ import multer from 'multer';
 
 import {
     uploadRecipe ,uploadRecipeImage, uploadRecipeAdditionalImages, getAllRecipes, 
-    getRecipeImage, getRecipe, deleteRecipeById, 
+    getMainRecipeImage, getRecipeImageById,getAllImageIds, getRecipe, deleteRecipeById, 
     deleteImageByRecipeId, deleteImageById, getRecipeByUser
 } from '../controllers/recipe';
 import { auth } from '../middleware/auth';
@@ -22,7 +22,9 @@ router.post('/additional-image', upload.array('upload'), uploadRecipeAdditionalI
 //GET
 router.get('', getAllRecipes);
 router.get('/:id', getRecipe);
-router.get('/image/:id', getRecipeImage);
+router.get('/mainImage/:id', getMainRecipeImage);
+router.get('/image/:id', getRecipeImageById)
+router.get('/image/getIds/:id', getAllImageIds);
 router.get('/get-recipe/owner', auth, getRecipeByUser);
 //DELETE
 router.delete('/:id', deleteRecipeById, deleteImageByRecipeId );
