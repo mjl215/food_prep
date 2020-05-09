@@ -10,6 +10,7 @@ import { setSelectedRecipe } from '../../../actions/RecipeActions';
 import { setUser } from '../../../actions/AuthActions';
 import setHeader from '../../../utils/setHeader';
 
+
 class RecipePage extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +22,7 @@ class RecipePage extends Component {
             quantity: 1
             }
         
-        
+        this.onDeleteClick = this.onDeleteClick.bind(this);
     }
 
     async componentDidMount(){
@@ -31,8 +32,6 @@ class RecipePage extends Component {
         const recipeRes = await axios.get(`/recipe/${this.props.match.params.id}`);
         const imageListRes = await axios.get(`/recipe/image/getIds/${this.props.match.params.id}`);
 
-        console.log(recipeRes);
-        console.log(imageListRes);
         this.setState({
             recipe: recipeRes.data,
             recipeImagesArray: [...imageListRes.data]
@@ -80,11 +79,26 @@ class RecipePage extends Component {
       this.props.setUser();
     }
 
+    async onDeleteClick(){
+        try {
+
+            const config = setHeader();
+
+            console.log('deleting')
+            const { data } = await axios.delete(`/recipe/${this.state.recipe._id}`, config)
+            console.log(data);
+        } catch (error) {
+            
+        }
+    }
+
+
+
     render() {
 
         if(this.state.recipe){
 
-            const {_id, title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state.recipe;
+            const {_id, owner, title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state.recipe;
             
             const ingredientsRender = ingredients.map((ingredient, i) => {
                 return ingredients[i+1] ? <p key="i">{ingredient}, </p> : <p key="i">{ingredient}.</p>
@@ -111,6 +125,12 @@ class RecipePage extends Component {
                         value={this.state.quantity}
                     />
                     <button onClick={this.onClick}>Add to Basket</button>
+                    <div>
+                        {owner === this.props.auth.id && <button
+                            onClick={this.onDeleteClick}
+                            >delete recipe</button>}
+                    </div>
+                    
                 </div>
             )
         } else {

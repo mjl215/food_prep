@@ -1,4 +1,5 @@
 const authReducerDefaultState = {
+    id: '',
     authorized: false,
     firstName: '',
     lastName: '',
@@ -34,6 +35,7 @@ const authReducerDefaultState = {
       case 'LOGIN_SUCCESS':
       case 'SET_CURRENT_USER':
         return {
+          id: action.data._id,
           authorized: true,
           firstName:  action.data.firstName,
           lastName: action.data.lastName,
