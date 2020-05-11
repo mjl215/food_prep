@@ -5,6 +5,7 @@ import axios from 'axios';
 import { addError } from '../../../actions/ErrorActions';
 
 import IngredientListItem from './IngredientListItem';
+import FileListItem from './FileListItem';
 import Alert from '../../common/Alert';
 import setHeader from '../../../utils/setHeader';
 
@@ -118,12 +119,19 @@ class UploadRecipe extends Component {
     };
 
     setAdditionalImage = (e) => {        
-        const additionalImage = e.target.files
+        const additionalImages = e.target.files
        
-
-        this.setState({
-            additionalImage: additionalImage
+        this.setState((prevState) =>({
+            additionalImagesArray: [...prevState.additionalImagesArray, ...additionalImages]
+        }), () => {
+            document.getElementById("additionalRecipeImage").value = "";
         })
+
+        
+
+        // this.setState({
+        //     additionalImage: additionalImages
+        // })
     }
 
     addAdditionalImage = (e) => {
@@ -131,7 +139,9 @@ class UploadRecipe extends Component {
 
         this.setState((prevState) =>({
             additionalImagesArray: [...prevState.additionalImagesArray, ...this.state.additionalImage]
-        }))
+        }), () => {
+            console.log(this.state.additionalImagesArray)
+        })
     } 
 
     inputOnChangeHandler = (e) => {
@@ -280,18 +290,23 @@ class UploadRecipe extends Component {
                         </div>
                         <p>Add Extra Images</p>
                         <div>
-                            <input 
-                                type="file" 
-                                multiple
-                                name="additionalFile"
-                                id="additionalRecipeImage"
-                                onChange={this.setAdditionalImage}
-                            />
-                            <Alert />
+                            <div>
+                                <input 
+                                    type="file" 
+                                    multiple
+                                    name="additionalFile"
+                                    id="additionalRecipeImage"
+                                    onChange={this.setAdditionalImage}
+                                />
+                                <Alert />
+                            </div>
                             <button
                                 onClick={this.addAdditionalImage}
                                 >Add
                             </button>
+                            {this.state.additionalImagesArray && this.state.additionalImagesArray.map((image, i) => (
+                                <FileListItem key={i} fileName={image.name} />
+                            ))}
                         </div>
                         <div></div>
                         <button 
