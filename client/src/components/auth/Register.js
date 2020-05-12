@@ -16,7 +16,6 @@ class Register extends Component {
             email: '',
             bio: '',
             password: '',
-            profileImage: undefined,
             confirmPassword: '',
             lat: null,
             lng: null,
@@ -25,6 +24,7 @@ class Register extends Component {
             selectedAddress: '',
             selectedAddressId: '',
             userType: "",
+            profilePicture: undefined
         }
 
         this.onSearchAddress = this.onSearchAddress.bind(this);
@@ -72,7 +72,7 @@ class Register extends Component {
                 'Content-Type': 'application/json'
           }};
         
-          this.props.registerUser(body, config);
+          this.props.registerUser(body, config, this.state.profilePicture);
           
           //const res = await axios.post('/user', body, config)
     }
@@ -109,6 +109,18 @@ class Register extends Component {
         })
     }
 
+    openFileUpload(){
+        document.getElementById('file').click()
+    }
+
+    onChangeHandler = (e) =>{
+
+        this.setState({
+            profilePicture: e.target.files[0],
+            //loaded: 0,
+        })
+    };
+
 
     render() {
         if(this.props.auth.authorized){
@@ -139,6 +151,21 @@ class Register extends Component {
         if(this.state.userType === 'BUYER' || 'SUPPLIER'){
             return (
                 <div className="register">
+                    <div>
+                        <h2>Would you like to register as a Customer or Chef</h2>
+                        <button 
+                            onClick={(e) => this.onUserSelectionButton(e)}
+                            value='BUYER'
+                        >
+                                Customer
+                            </button>
+                        <button
+                            onClick={(e) => this.onUserSelectionButton(e)}
+                            value='SUPLIER'
+                        >
+                            Chef
+                        </button>
+                    </div>
                     <div className="register__grid">
                         <h1 className="register__title">Register</h1>
                         <form 
@@ -228,6 +255,23 @@ class Register extends Component {
                                 })}
                             </div>
                             <Alert errorType={'register-address'}/>
+                            <label htmlFor="addProfilePicture">Add a Profile Picture</label>
+                            <div>
+                                <input 
+                                    type="button" 
+                                    id="loadFileXml" 
+                                    value="upload photo" 
+                                    onClick={this.openFileUpload}
+                                    
+                                />
+                                <input 
+                                    type="file" 
+                                    style={{display:'none'}} 
+                                    id="file" 
+                                    name="file"
+                                    onChange={this.onChangeHandler} 
+                                />
+                            </div>
                             <button
                                 type="button"
                                 onClick={this.onSubmit}
@@ -253,7 +297,7 @@ const mapStateToProps = (state) => ({
   })
   
   const mapDispatchToProps = (dispatch) => ({
-    registerUser: (body, config) => dispatch(registerUser(body, config))
+    registerUser: (body, config, image) => dispatch(registerUser(body, config, image))
   })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

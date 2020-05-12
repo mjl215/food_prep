@@ -1,9 +1,10 @@
 import { Router } from 'express';
+import multer from 'multer';
 
 import {  
-          createUser, loginUser, logoutUser, 
-          authUser, deleteUser, passwordEmailReset, 
-          resetPasswordCheck, resetPassword, resetPasswordEdit
+        createUser, loginUser, logoutUser, 
+        authUser, deleteUser, passwordEmailReset, 
+        resetPasswordCheck, resetPassword, resetPasswordEdit, uploadProfilePicture
         } from '../controllers/users';
 import { deleteRecipeByUserId, deleteImageByUserID } from '../controllers/recipe';
 import { addBasket, checkout } from '../controllers/basket';
@@ -13,8 +14,13 @@ import { validateRegister } from '../middleware/validate';
 
 const router = Router();
 
+const upload = multer({
+        //dest: 'images'
+    });
+
 // User Controller
 router.post('/register',validateRegister, createUser);
+router.post('/profilePicture', upload.single('upload'), uploadProfilePicture);
 router.post('/login', loginUser);
 router.post('/logout', auth , logoutUser);
 router.post('/auth', auth, authUser);

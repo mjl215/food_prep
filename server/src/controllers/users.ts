@@ -6,6 +6,8 @@ import nodemailer from 'nodemailer';
 import { validateRegister } from '../middleware/validate';
 
 import User from '../models/user';
+import ProfileImage from '../models/profileImage';
+
 import bcrypt from 'bcrypt';
 
 //Create a User
@@ -21,6 +23,24 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         await user.save() // leave this in to send error correctly
         res.send({token, user});
     } catch (error) {
+        res.status(400).send();
+    }
+
+};
+
+export const uploadProfilePicture =  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.file);
+        console.log(req.body);
+        const profileImage = new ProfileImage();
+        profileImage.image = req.file.buffer;
+        profileImage.user = req.body.user;
+
+        const savedProfileImage = await profileImage.save();
+
+        res.send();
+    } catch (error) {
+        console.log(error);
         res.status(400).send();
     }
 

@@ -1,10 +1,15 @@
 import * as action_types from './action_types';
 import axios from 'axios';
 
-export const registerUser = (body, config) => async dispatch => {
+export const registerUser = (body, config, image) => async dispatch => {
   try {
     const res = await axios.post('/user/register', body, config);
-
+    console.log(res);
+    const data = new FormData();
+    data.append('user', res.data.user._id);
+    data.append('upload', image);
+    const imageRes = await axios.post('/user/profilePicture', data);
+    console.log(imageRes);
     localStorage.setItem('token', JSON.stringify(res.data.token));
     //const decoded = jwtDecode(res.data.token);
 
@@ -13,21 +18,26 @@ export const registerUser = (body, config) => async dispatch => {
       data: res.data.user
     })
   } catch (error) {
-    error.response.data.forEach((err) => {
-      dispatch({
-        type: action_types.ADD_ERROR,
-        data: err
-      })
-    })
-
-    setTimeout(() => {
+    if(error.response.data){
       error.response.data.forEach((err) => {
         dispatch({
-          type: action_types.REMOVE_ERROR,
+          type: action_types.ADD_ERROR,
           data: err
         })
       })
-    }, 5000)
+  
+      setTimeout(() => {
+        error.response.data.forEach((err) => {
+          dispatch({
+            type: action_types.REMOVE_ERROR,
+            data: err
+          })
+        })
+      }, 5000)
+    } else {
+      console.log(error);
+    }
+    
   }
 }
 

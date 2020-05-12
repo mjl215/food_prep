@@ -7,6 +7,7 @@ const uuid_1 = require("uuid");
 const crypto_1 = __importDefault(require("crypto"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const user_1 = __importDefault(require("../models/user"));
+const profileImage_1 = __importDefault(require("../models/profileImage"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //Create a User
 exports.createUser = async (req, res, next) => {
@@ -22,6 +23,21 @@ exports.createUser = async (req, res, next) => {
         res.send({ token, user });
     }
     catch (error) {
+        res.status(400).send();
+    }
+};
+exports.uploadProfilePicture = async (req, res, next) => {
+    try {
+        console.log(req.file);
+        console.log(req.body);
+        const profileImage = new profileImage_1.default();
+        profileImage.image = req.file.buffer;
+        profileImage.user = req.body.user;
+        const savedProfileImage = await profileImage.save();
+        res.send();
+    }
+    catch (error) {
+        console.log(error);
         res.status(400).send();
     }
 };
