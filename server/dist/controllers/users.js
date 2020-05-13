@@ -195,3 +195,17 @@ exports.resetPasswordEdit = async (req, res, next) => {
         res.send(400);
     }
 };
+exports.updateUser = async (req, res, next) => {
+    try {
+        // console.log(req.user);
+        // console.log(req.body);
+        const updatedUser = await user_1.default.findByIdAndUpdate(req.user.id, req.body, {
+            new: true
+        });
+        console.log(updatedUser);
+        res.send('hi');
+    }
+    catch (e) {
+        res.send(400);
+    }
+};

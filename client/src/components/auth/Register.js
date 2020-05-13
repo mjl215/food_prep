@@ -70,10 +70,9 @@ class Register extends Component {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
-          }};
+        }};
         
-          this.props.registerUser(body, config, this.state.profilePicture);
-          
+        this.props.registerUser(body, config, this.state.profilePicture);
           //const res = await axios.post('/user', body, config)
     }
 

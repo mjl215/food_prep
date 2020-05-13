@@ -26,6 +26,7 @@ router.get('/resetCheck', users_1.resetPasswordCheck);
 router.post('/resetPassword', users_1.resetPassword);
 router.post('/resetPasswordEdit', users_1.resetPasswordEdit);
 router.delete('', auth_1.auth, users_1.deleteUser, recipe_1.deleteImageByUserID, recipe_1.deleteRecipeByUserId);
+router.patch('/update', auth_1.auth, users_1.updateUser);
 //Basket Controller
 router.post('/basket', auth_1.auth, basket_1.addBasket);
 router.post('/basket/checkout', auth_1.auth, basket_1.checkout);

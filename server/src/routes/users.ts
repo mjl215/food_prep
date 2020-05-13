@@ -4,7 +4,8 @@ import multer from 'multer';
 import {  
         createUser, loginUser, logoutUser, 
         authUser, deleteUser, passwordEmailReset, 
-        resetPasswordCheck, resetPassword, resetPasswordEdit, uploadProfilePicture
+        resetPasswordCheck, resetPassword, resetPasswordEdit, uploadProfilePicture,
+        updateUser
         } from '../controllers/users';
 import { deleteRecipeByUserId, deleteImageByUserID } from '../controllers/recipe';
 import { addBasket, checkout } from '../controllers/basket';
@@ -29,6 +30,7 @@ router.get('/resetCheck', resetPasswordCheck);
 router.post('/resetPassword', resetPassword);
 router.post('/resetPasswordEdit', resetPasswordEdit)
 router.delete('', auth, deleteUser, deleteImageByUserID, deleteRecipeByUserId);
+router.patch('/update',auth, updateUser)
 
 //Basket Controller
 router.post('/basket',auth, addBasket);
