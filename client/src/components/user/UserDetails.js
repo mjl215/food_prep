@@ -5,7 +5,10 @@ import axios from 'axios';
 import EditIcon from '@material-ui/icons/Edit';
 
 import { clearUser, setUser } from '../../actions/AuthActions';
+import profilePicture from './ProfilePicture';
+
 import setHeader from '../../utils/setHeader';
+import ProfilePicture from './ProfilePicture';
 
 class UserDetails extends Component {
   constructor(props){
@@ -168,7 +171,7 @@ class UserDetails extends Component {
         </div>
         
         <p>Address - {address}</p>
-        <p>Profile Picture - {profilePicture || <span>no picture uploaded</span>}</p>
+        <p>Profile Picture - {<ProfilePicture userId={this.props.auth.id} /> || <span>no picture uploaded</span>}</p>
         <button
           onClick={this.onClick}
         > Edit Details <EditIcon /></button>

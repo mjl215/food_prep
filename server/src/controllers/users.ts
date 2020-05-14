@@ -46,6 +46,25 @@ export const uploadProfilePicture =  async (req: Request, res: Response, next: N
 
 };
 
+export const getProfilePicture = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // const recipe = await RecipeImage.findById(req.params.id);
+        const profilePicture = await ProfileImage.findOne({user: req.params.id})
+        console.log(profilePicture);
+        
+        if(!profilePicture || !profilePicture.image){
+            throw new Error();
+        }
+
+        res.set('Content-type', 'image/jpg');
+        res.send(profilePicture.image);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send();
+    }
+
+};
+
 //Login User
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 

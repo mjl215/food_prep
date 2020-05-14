@@ -41,6 +41,22 @@ exports.uploadProfilePicture = async (req, res, next) => {
         res.status(400).send();
     }
 };
+exports.getProfilePicture = async (req, res, next) => {
+    try {
+        // const recipe = await RecipeImage.findById(req.params.id);
+        const profilePicture = await profileImage_1.default.findOne({ user: req.params.id });
+        console.log(profilePicture);
+        if (!profilePicture || !profilePicture.image) {
+            throw new Error();
+        }
+        res.set('Content-type', 'image/jpg');
+        res.send(profilePicture.image);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(400).send();
+    }
+};
 //Login User
 exports.loginUser = async (req, res, next) => {
     const { email, password } = req.body;
