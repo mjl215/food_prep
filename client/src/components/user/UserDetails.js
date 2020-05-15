@@ -5,10 +5,11 @@ import axios from 'axios';
 import EditIcon from '@material-ui/icons/Edit';
 
 import { clearUser, setUser } from '../../actions/AuthActions';
-import profilePicture from './ProfilePicture';
+import ProfilePicture from './ProfilePicture';
+import PreviewImage from '../common/PreviewImage'
 
 import setHeader from '../../utils/setHeader';
-import ProfilePicture from './ProfilePicture';
+
 
 class UserDetails extends Component {
   constructor(props){
@@ -25,13 +26,15 @@ class UserDetails extends Component {
       bio: "",
       originalBio: "",
       address: "",
-      profilePicture: "",
+      newProfilePicture: "",
+      previewImage: "",
       active: true
     }
 
     this.onClick = this.onClick.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSaveChanges = this.onSaveChanges.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
   }
 
   componentDidMount(){
@@ -121,6 +124,18 @@ class UserDetails extends Component {
     this.props.history.push('/reset-password')
   }
 
+  onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      this.setState({
+        previewImage: URL.createObjectURL(event.target.files[0])
+      });
+    }
+
+    this.setState({
+      newProfilePicture: event.target.files[0]
+    })
+   }
+
   render() {
 
     const {firstName, lastName, email, bio, address, profilePicture, active } = this.state;
@@ -172,6 +187,8 @@ class UserDetails extends Component {
         
         <p>Address - {address}</p>
         <p>Profile Picture - {<ProfilePicture userId={this.props.auth.id} /> || <span>no picture uploaded</span>}</p>
+        <PreviewImage img={this.state.previewImage} />
+        <input type="file" onChange={this.onImageChange} />
         <button
           onClick={this.onClick}
         > Edit Details <EditIcon /></button>
