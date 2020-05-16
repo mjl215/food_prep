@@ -28,8 +28,6 @@ exports.createUser = async (req, res, next) => {
 };
 exports.uploadProfilePicture = async (req, res, next) => {
     try {
-        console.log(req.file);
-        console.log(req.body);
         const profileImage = new profileImage_1.default();
         profileImage.image = req.file.buffer;
         profileImage.user = req.body.user;
@@ -43,14 +41,26 @@ exports.uploadProfilePicture = async (req, res, next) => {
 };
 exports.getProfilePicture = async (req, res, next) => {
     try {
-        // const recipe = await RecipeImage.findById(req.params.id);
         const profilePicture = await profileImage_1.default.findOne({ user: req.params.id });
-        console.log(profilePicture);
         if (!profilePicture || !profilePicture.image) {
             throw new Error();
         }
         res.set('Content-type', 'image/jpg');
         res.send(profilePicture.image);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(400).send();
+    }
+};
+exports.updateProfilePicture = async (req, res, next) => {
+    try {
+        const profilePicture = await profileImage_1.default.findOneAndUpdate({ user: req.user._id }, { image: req.file.buffer });
+        if (!profilePicture || !profilePicture.image) {
+            throw new Error();
+        }
+        console.log(req.file.buffer);
+        res.send('hi from update profile pciture');
     }
     catch (error) {
         console.log(error);
@@ -218,7 +228,6 @@ exports.updateUser = async (req, res, next) => {
         const updatedUser = await user_1.default.findByIdAndUpdate(req.user.id, req.body, {
             new: true
         });
-        console.log(updatedUser);
         res.send('hi');
     }
     catch (e) {

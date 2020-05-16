@@ -69,31 +69,47 @@ class UserDetails extends Component {
   }
 
   async onSaveChanges(){
+    try {
+      const { firstName, originalFirstName, lastName, originalLastName, email, originalEmail,  bio, originalBio } = this.state;
+      const config = setHeader();
 
-    const { firstName, originalFirstName, lastName, originalLastName, email, originalEmail,  bio, originalBio } = this.state;
-    const config = setHeader();
+      const body = {}
 
-    const body = {}
+      if(firstName !== originalFirstName){
+        body.firstName = firstName;
+      };
 
-    if(firstName !== originalFirstName){
-      body.firstName = firstName;
-    };
+      if(lastName !== originalLastName){
+        body.lastName = lastName;
+      }
 
-    if(lastName !== originalLastName){
-      body.lastName = lastName;
+      if(email !== originalEmail){
+        body.email = email;
+      }
+      
+      if(bio !== originalBio){
+        body.bio = bio;
+      }
+
+
+      const res = await axios.patch('/user/update', body, config);
+
+      if(this.state.newProfilePicture){
+        const config = setHeader()
+        const data = new FormData();
+        data.append('upload', this.state.newProfilePicture);
+        const imageRes = await axios.patch('/user/profilePicture/1', data, config);
+        console.log(imageRes);
+      }
+      
+      
+
+
+    } catch (error) {
+      console.log(error)
     }
 
-    if(email !== originalEmail){
-      body.email = email;
-    }
     
-    if(bio !== originalBio){
-      body.bio = bio;
-    }
-
-
-    const res = await axios.patch('/user/update', body, config)
-    console.log(res)
   }
 
   async onDeleteUser(e){
@@ -186,7 +202,7 @@ class UserDetails extends Component {
         </div>
         
         <p>Address - {address}</p>
-        <p>Profile Picture - {<ProfilePicture userId={this.props.auth.id} /> || <span>no picture uploaded</span>}</p>
+        <div>Profile Picture - {<ProfilePicture userId={this.props.auth.id} /> || <span>no picture uploaded</span>}</div>
         <PreviewImage img={this.state.previewImage} />
         <input type="file" onChange={this.onImageChange} />
         <button

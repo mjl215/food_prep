@@ -30,8 +30,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
 export const uploadProfilePicture =  async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.file);
-        console.log(req.body);
+        
         const profileImage = new ProfileImage();
         profileImage.image = req.file.buffer;
         profileImage.user = req.body.user;
@@ -48,9 +47,9 @@ export const uploadProfilePicture =  async (req: Request, res: Response, next: N
 
 export const getProfilePicture = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // const recipe = await RecipeImage.findById(req.params.id);
+        
         const profilePicture = await ProfileImage.findOne({user: req.params.id})
-        console.log(profilePicture);
+        
         
         if(!profilePicture || !profilePicture.image){
             throw new Error();
@@ -63,6 +62,26 @@ export const getProfilePicture = async (req: Request, res: Response, next: NextF
         res.status(400).send();
     }
 
+};
+
+export const updateProfilePicture = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const profilePicture = await ProfileImage.findOneAndUpdate({user: req.user._id}, {image: req.file.buffer})
+        
+        
+        if(!profilePicture || !profilePicture.image){
+            throw new Error();
+        }
+
+        console.log(req.file.buffer);
+
+        
+        res.send('hi from update profile pciture');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send();
+    }
 };
 
 //Login User
@@ -268,7 +287,6 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
             new: true
           });
 
-        console.log(updatedUser)
 
         res.send('hi');
 

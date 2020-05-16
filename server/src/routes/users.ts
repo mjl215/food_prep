@@ -4,8 +4,9 @@ import multer from 'multer';
 import {  
         createUser, loginUser, logoutUser, 
         authUser, deleteUser, passwordEmailReset, 
-        resetPasswordCheck, resetPassword, resetPasswordEdit, uploadProfilePicture,
-        getProfilePicture ,updateUser
+        resetPasswordCheck, resetPassword, resetPasswordEdit, 
+        uploadProfilePicture, getProfilePicture , updateProfilePicture,
+        updateUser
         } from '../controllers/users';
 import { deleteRecipeByUserId, deleteImageByUserID } from '../controllers/recipe';
 import { addBasket, checkout } from '../controllers/basket';
@@ -20,9 +21,10 @@ const upload = multer({
     });
 
 // User Controller
-router.post('/register',validateRegister, createUser);
-router.post('/profilePicture', upload.single('upload'), uploadProfilePicture);
+router.post('/register', validateRegister, createUser);
+router.post('/profilePicture', upload.single('upload'), uploadProfilePicture); //add auth if possible
 router.get('/profilePicture/:id', getProfilePicture);
+router.patch('/profilePicture/:id', auth, upload.single('upload'), updateProfilePicture);
 router.post('/login', loginUser);
 router.post('/logout', auth , logoutUser);
 router.post('/auth', auth, authUser);
