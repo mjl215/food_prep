@@ -123,6 +123,7 @@ exports.getRecipeByUser = async (req, res, next) => {
 };
 exports.deleteRecipeByUserId = async (req, res, next) => {
     try {
+        console.log(' in deleteRecipeByUserId');
         await recipe_1.default.deleteMany({ owner: req.user._id });
         return res.send(res.locals.user);
     }
@@ -132,6 +133,7 @@ exports.deleteRecipeByUserId = async (req, res, next) => {
 };
 exports.deleteRecipeById = async (req, res, next) => {
     try {
+        console.log('in deleteRecipeById');
         const recipe = await recipe_1.default.findByIdAndDelete(req.params.id);
         if (!recipe) {
             return res.status(404).send();
@@ -145,7 +147,7 @@ exports.deleteRecipeById = async (req, res, next) => {
 };
 exports.deleteImageByRecipeId = async (req, res, next) => {
     try {
-        const recipeImage = await recipeImages_1.default.findByIdAndDelete(res.locals.recipe.image);
+        const recipeImage = await recipeImages_1.default.deleteMany({ recipe: res.locals.recipe._id });
         console.log(recipeImage);
         return res.send(res.locals.recipe);
     }
@@ -155,8 +157,8 @@ exports.deleteImageByRecipeId = async (req, res, next) => {
 };
 exports.deleteImageByUserID = async (req, res, next) => {
     try {
+        console.log('in deleteImageByUserID');
         const recipeImages = await recipeImages_1.default.deleteMany({ owner: req.user._id });
-        console.log(recipeImages);
         next();
     }
     catch (error) {
