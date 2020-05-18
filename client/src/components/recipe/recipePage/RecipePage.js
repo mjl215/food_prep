@@ -16,6 +16,7 @@ class RecipePage extends Component {
         super(props);
 
         this.state = {
+            editing: false,
             recipe: null,
             recipeImagesArray: [],
             recipeImageNumber: 0,
@@ -23,6 +24,7 @@ class RecipePage extends Component {
             }
         
         this.onDeleteClick = this.onDeleteClick.bind(this);
+        this.editToggle = this.editToggle.bind(this);
     }
 
     async componentDidMount(){
@@ -88,8 +90,14 @@ class RecipePage extends Component {
             const { data } = await axios.delete(`/recipe/${this.state.recipe._id}`, config)
             console.log(data);
         } catch (error) {
-            
+            console.log(error);
         }
+    }
+
+    editToggle(){
+        this.setState((prevState) => ({
+            editing: !prevState.editing
+        }));
     }
 
 
@@ -105,34 +113,118 @@ class RecipePage extends Component {
             
             });
 
-
-            return (
-                <div>
-                    <h1>{title}</h1>
-                    <h3>{description}</h3>
-                    {vegetarian && <h3>vegetarian</h3>}
-                    {vegan && <h3>Vegan</h3>}
-                    {ingredientsRender}
-                    <RecipeImage image={_id} mainImage={true}/>
-                    {/* <RecipeImage image={this.state.recipeImagesArray[2]} mainImage={false} /> */}
-                    <Carousel urlArray={this.state.recipeImagesArray} />
-                    <p>{costPerMeal}</p>
-                    <p>Eastimated Prep Time -  {basePrepTime + (additionalPrepTime * (this.state.quantity-1))} minutes</p>
-                    <input 
-                        type="number" 
-                        name="quantity"
-                        onChange={this.inputOnChangeHandler}
-                        value={this.state.quantity}
-                    />
-                    <button onClick={this.onClick}>Add to Basket</button>
+            if(owner !== this.props.auth.id){
+                return (
                     <div>
-                        {owner === this.props.auth.id && <button
-                            onClick={this.onDeleteClick}
-                            >delete recipe</button>}
+                        <h1>{title}</h1>
+                        <h3>{description}</h3>
+                        {vegetarian && <h3>vegetarian</h3>}
+                        {vegan && <h3>Vegan</h3>}
+                        {ingredientsRender}
+                        <RecipeImage image={_id} mainImage={true}/>
+                        {/* <RecipeImage image={this.state.recipeImagesArray[2]} mainImage={false} /> */}
+                        <Carousel urlArray={this.state.recipeImagesArray} />
+                        <p>{costPerMeal}</p>
+                        <p>Eastimated Prep Time -  {basePrepTime + (additionalPrepTime * (this.state.quantity-1))} minutes</p>
+                        <input 
+                            type="number" 
+                            name="quantity"
+                            onChange={this.inputOnChangeHandler}
+                            value={this.state.quantity}
+                        />
+                        <button onClick={this.onClick}>Add to Basket</button>
+                        <div>
+                            {owner === this.props.auth.id && <button
+                                onClick={this.onDeleteClick}
+                                >delete recipe</button>}
+                        </div>
+                        
                     </div>
-                    
-                </div>
-            )
+                )
+            }
+
+            if(owner === this.props.auth.id && !this.state.editing){
+                return (
+                    <div>
+                        <h1>{title}</h1>
+                        <h3>{description}</h3>
+                        {vegetarian && <h3>vegetarian</h3>}
+                        {vegan && <h3>Vegan</h3>}
+                        {ingredientsRender}
+                        <RecipeImage image={_id} mainImage={true}/>
+                        {/* <RecipeImage image={this.state.recipeImagesArray[2]} mainImage={false} /> */}
+                        <Carousel urlArray={this.state.recipeImagesArray} />
+                        <p>{costPerMeal}</p>
+                        <p>Eastimated Prep Time -  {basePrepTime + (additionalPrepTime * (this.state.quantity-1))} minutes</p>
+                        <input 
+                            type="number" 
+                            name="quantity"
+                            onChange={this.inputOnChangeHandler}
+                            value={this.state.quantity}
+                        />
+                        <button onClick={this.onClick}>Add to Basket</button>
+                        <div>
+                            <button
+                                onClick={this.editToggle}
+                                >edit recipe</button>
+                        </div>
+                        
+                    </div>
+                )
+            }
+
+            if(owner === this.props.auth.id && this.state.editing){
+                return (
+                    <div>
+                        <div>
+                            <h1>title</h1>
+                            <input 
+                                type="text"
+                                value={title}
+                            />
+                        </div>
+                        <div>
+                            <h3>description</h3>
+                            <input 
+                                type="text"
+                                value={description}
+                            />
+                        </div>
+                        
+                        {vegetarian && <h3>vegetarian</h3>}
+                        {vegan && <h3>Vegan</h3>}
+                        {ingredientsRender}
+                        <RecipeImage image={_id} mainImage={true}/>
+                        {/* <RecipeImage image={this.state.recipeImagesArray[2]} mainImage={false} /> */}
+                        <Carousel urlArray={this.state.recipeImagesArray} />
+                        <p>{costPerMeal}</p>
+                        <p>Eastimated Prep Time -  {basePrepTime + (additionalPrepTime * (this.state.quantity-1))} minutes</p>
+                        <input 
+                            type="number" 
+                            name="quantity"
+                            onChange={this.inputOnChangeHandler}
+                            value={this.state.quantity}
+                        />
+                        <button onClick={this.onClick}>Add to Basket</button>
+                        <div>
+                            <button
+                                onClick=""
+                                >
+                                    save changes 
+                                </button>
+                        </div>
+                        <div>
+                            <button
+                                onClick={this.onDeleteClick}
+                                >delete recipe
+                            </button>
+                        </div>
+                        
+                    </div>
+                )
+            }
+
+            
         } else {
             return <p>Loading</p>
         }
