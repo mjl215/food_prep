@@ -4,6 +4,7 @@ import axios from 'axios';
 import uuid from "uuid";
 
 import RecipeImage from '../commonRecipe/RecipeImage';
+import IngredientListItem from '../uploadRecipe/IngredientListItem';
 import Carousel from '../../imageCarousel/Carousel';
 
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
@@ -190,22 +191,68 @@ class RecipePage extends Component {
                                 value={description}
                             />
                         </div>
-                        
-                        {vegetarian && <h3>vegetarian</h3>}
-                        {vegan && <h3>Vegan</h3>}
-                        {ingredientsRender}
-                        <RecipeImage image={_id} mainImage={true}/>
-                        {/* <RecipeImage image={this.state.recipeImagesArray[2]} mainImage={false} /> */}
-                        <Carousel urlArray={this.state.recipeImagesArray} />
-                        <p>{costPerMeal}</p>
-                        <p>Eastimated Prep Time -  {basePrepTime + (additionalPrepTime * (this.state.quantity-1))} minutes</p>
-                        <input 
-                            type="number" 
-                            name="quantity"
-                            onChange={this.inputOnChangeHandler}
-                            value={this.state.quantity}
-                        />
-                        <button onClick={this.onClick}>Add to Basket</button>
+                        <div>
+                            <h3>Vegetarian</h3>
+                            <input
+                                type="checkbox"  
+                                name="vegetarian" 
+                                checked={vegan}
+                            />
+                        </div>
+                        <div>
+                            <h3>Vegan</h3>
+                            <input
+                                type="checkbox"  
+                                name="vegan" 
+                                checked={vegan}
+                            />
+                        </div>
+                        <div>
+                            <h3>Cost Per Meal</h3>
+                            <input
+                                type="number" 
+                                placeholder="cost per meal" 
+                                name="costPerMeal" 
+                                min="1"
+                                value={costPerMeal}
+                            />
+                        </div>
+                        <div>
+                            <h3>Prep time for 1 meal</h3>
+                            <input 
+                                type="number" 
+                                name="basePrepTime"
+                                min="1"
+                                value={basePrepTime}
+                            />
+                        </div>
+                        <div>
+                            <h3>Additional Prep Time Per Meal</h3>
+                            <input 
+                                type="number"  
+                                name="additionalPrepTime"
+                                min="1" 
+                                value={additionalPrepTime}
+                            />
+                        </div>
+                        <div>
+                            <div>
+                                <input 
+                                    type="text"
+                                    placeholder="Add an Ingredient" 
+                                    name="ingredient"
+                                    onChange={this.inputOnChangeHandler}
+                                    value={this.state.ingredient}
+                                />
+                                
+                            </div>
+                            <button
+                            onClick={this.addIngredient}>add</button>
+                            {ingredients && ingredients.map((ingredient, i) => (
+                                <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
+                            ))}
+                            
+                        </div>
                         <div>
                             <button
                                 onClick=""
