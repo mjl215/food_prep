@@ -152,7 +152,7 @@ class RecipePage extends Component {
                         {vegetarian && <h3>vegetarian</h3>}
                         {vegan && <h3>Vegan</h3>}
                         {ingredientsRender}
-                        <RecipeImage image={_id} mainImage={true}/>
+                        <RecipeImage image={_id} mainImage={true} highlightMainImage={false}/>
                         {/* <RecipeImage image={this.state.recipeImagesArray[2]} mainImage={false} /> */}
                         <Carousel urlArray={this.state.recipeImagesArray} />
                         <p>{costPerMeal}</p>
@@ -252,6 +252,11 @@ class RecipePage extends Component {
                                 <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
                             ))}
                             
+                        </div>
+                        <div>
+                            {this.state.recipeImagesArray && this.state.recipeImagesArray.map((imageObj) => {
+                                return <RecipeImage key={imageObj.id} image={imageObj.id} mainImage={false} highlightMainImage={imageObj.mainImage} />
+                            })}
                         </div>
                         <div>
                             <button

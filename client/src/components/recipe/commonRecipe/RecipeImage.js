@@ -15,6 +15,7 @@ const RecipeImage = (props) => {
         return (
             <div >
                 <img key={props.image} src={url} alt="recipe img"/>
+                {props.highlightMainImage ? <div>main image</div> : <div>set as main image</div>}
             </div>
         )
     }
@@ -26,6 +27,7 @@ const RecipeImage = (props) => {
                 key={props.image} src={url} 
                 alt="recipe img"
             />
+            {props.highlightMainImage ? <div>main image</div> : <div>set as main image</div>}
         </div>
     )
 }

@@ -95,7 +95,13 @@ exports.getAllImageIds = async (req, res, next) => {
             throw new Error();
         }
         const sortedRecipe = recipeImages.sort((a, b) => b.mainImage - a.mainImage);
-        const sortedIds = sortedRecipe.map((image) => image.id);
+        const sortedIds = sortedRecipe.map((image) => {
+            const obj = {
+                id: image.id,
+                mainImage: image.mainImage
+            };
+            return obj;
+        });
         res.send(sortedIds);
     }
     catch (error) {
