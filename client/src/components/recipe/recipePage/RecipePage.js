@@ -10,6 +10,7 @@ import Carousel from '../../imageCarousel/Carousel';
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
 import { setUser } from '../../../actions/AuthActions';
 import setHeader from '../../../utils/setHeader';
+import ImageSlide from '../../imageCarousel/ImageSlide';
 
 
 class RecipePage extends Component {
@@ -26,6 +27,8 @@ class RecipePage extends Component {
         
         this.onDeleteClick = this.onDeleteClick.bind(this);
         this.editToggle = this.editToggle.bind(this);
+        this.setMainImage = this.setMainImage.bind(this);
+        this.removeImage = this.removeImage.bind(this);
     }
 
     async componentDidMount(){
@@ -44,13 +47,12 @@ class RecipePage extends Component {
     inputOnChangeHandler = (e) => {
         this.setState({
             [e.target.name]: e.target.value
-          })
+        })
     }
 
     onClick = async (e) => {
 
     //   const token = JSON.parse(localStorage.getItem('token'));
-      
     //   const config = {
     //     headers: {
     //       'Content-Type': 'application/json',
@@ -101,6 +103,33 @@ class RecipePage extends Component {
         }));
     }
 
+    setMainImage(id){
+        const newImageArray = this.state.recipeImagesArray.map((image) => {
+            if(id === image.id){
+                return {
+                    id: image.id,
+                    mainImage: true
+                }
+            } else {
+                return {
+                    id: image.id,
+                    mainImage: false
+                }
+            }
+        })
+
+        this.setState({
+            recipeImagesArray: newImageArray
+        })
+    }
+
+    removeImage(id){
+        this.setState((prevState) => ({
+            recipeImagesArray: prevState.recipeImagesArray.filter((image) => {
+                return image.id !== id
+            })
+        }))
+    }
 
 
     render() {
@@ -255,15 +284,21 @@ class RecipePage extends Component {
                         </div>
                         <div>
                             {this.state.recipeImagesArray && this.state.recipeImagesArray.map((imageObj) => {
-                                return <RecipeImage key={imageObj.id} image={imageObj.id} mainImage={false} highlightMainImage={imageObj.mainImage} />
+                                return <RecipeImage 
+                                    key={imageObj.id} 
+                                    image={imageObj.id} 
+                                    mainImage={false} 
+                                    highlightMainImage={imageObj.mainImage}
+                                    editView={true}
+                                    setMainImage={this.setMainImage}
+                                    removeImage={this.removeImage}
+                                    />
                             })}
                         </div>
                         <div>
-                            <button
-                                onClick=""
-                                >
-                                    save changes 
-                                </button>
+                            <button>
+                                save changes 
+                            </button>
                         </div>
                         <div>
                             <button
