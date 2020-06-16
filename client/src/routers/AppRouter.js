@@ -18,6 +18,7 @@ import ForgotPassword from '../components/auth/ForgotPassword';
 import ResetPassword from '../components/auth/ResetPassword';
 import ResetPasswordEdit from '../components/auth/ResetPasswordEdit';
 import UserRecipes from '../components/recipe/userRecipes/UserRecipes';
+import EditRecipe from '../components/recipe/recipePage/EditRecipe';
 
 const AppRouter = (props) => {
   return (
@@ -37,6 +38,7 @@ const AppRouter = (props) => {
           <PrivateRoute exact path='/user/orders' userType={['ADMIN', 'SUPLIER', 'BUYER']} component={OrderPage} />
           <PrivateRoute exact path='/user/details' userType={['ADMIN', 'SUPLIER', 'BUYER']} component={UserDetails} />
           <PrivateRoute exact path='/user/recipes' userType={['ADMIN', 'SUPLIER']} component={UserRecipes} />
+          <PrivateRoute exact path='/user/recipes/edit/:id' userType={['ADMIN', 'SUPLIER']} component={EditRecipe} />
           <Route exact path='/recipe/:id' component={RecipePage} />
           <Route exact path='/basket' component={BasketPage} />
         </Switch>

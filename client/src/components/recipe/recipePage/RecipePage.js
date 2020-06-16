@@ -4,7 +4,7 @@ import axios from 'axios';
 import uuid from "uuid";
 
 import RecipeImage from '../commonRecipe/RecipeImage';
-import IngredientListItem from '../uploadRecipe/IngredientListItem';
+
 import Carousel from '../../imageCarousel/Carousel';
 
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
@@ -18,17 +18,13 @@ class RecipePage extends Component {
         super(props);
 
         this.state = {
-            editing: false,
             recipe: null,
             recipeImagesArray: [],
             recipeImageNumber: 0,
             quantity: 1
             }
         
-        this.onDeleteClick = this.onDeleteClick.bind(this);
-        this.editToggle = this.editToggle.bind(this);
-        this.setMainImage = this.setMainImage.bind(this);
-        this.removeImage = this.removeImage.bind(this);
+            this.editToggle = this.editToggle.bind(this);
     }
 
     async componentDidMount(){
@@ -52,13 +48,6 @@ class RecipePage extends Component {
 
     onClick = async (e) => {
 
-    //   const token = JSON.parse(localStorage.getItem('token'));
-    //   const config = {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer ${token}`
-    //     }
-    //   }
 
         const config = setHeader();
       
@@ -84,54 +73,12 @@ class RecipePage extends Component {
       this.props.setUser();
     }
 
-    async onDeleteClick(){
-        try {
-
-            const config = setHeader();
-
-            console.log('deleting')
-            const { data } = await axios.delete(`/recipe/${this.state.recipe._id}`, config)
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     editToggle(){
-        this.setState((prevState) => ({
-            editing: !prevState.editing
-        }));
-    }
-
-    setMainImage(id){
-        const newImageArray = this.state.recipeImagesArray.map((image) => {
-            if(id === image.id){
-                return {
-                    id: image.id,
-                    mainImage: true
-                }
-            } else {
-                return {
-                    id: image.id,
-                    mainImage: false
-                }
-            }
-        })
-
-        this.setState({
-            recipeImagesArray: newImageArray
-        })
-    }
-
-    removeImage(id){
-        this.setState((prevState) => ({
-            recipeImagesArray: prevState.recipeImagesArray.filter((image) => {
-                return image.id !== id
-            })
-        }))
+        this.props.history.push(`/user/recipes/edit/${this.state.recipe._id}`)
     }
 
 
+    
     render() {
 
         if(this.state.recipe){
@@ -173,7 +120,7 @@ class RecipePage extends Component {
                 )
             }
 
-            if(owner === this.props.auth.id && !this.state.editing){
+            if(owner === this.props.auth.id){
                 return (
                     <div>
                         <h1>{title}</h1>
@@ -201,117 +148,7 @@ class RecipePage extends Component {
                         
                     </div>
                 )
-            }
-
-            if(owner === this.props.auth.id && this.state.editing){
-                return (
-                    <div>
-                        <div>
-                            <h1>title</h1>
-                            <input 
-                                type="text"
-                                value={title}
-                            />
-                        </div>
-                        <div>
-                            <h3>description</h3>
-                            <input 
-                                type="text"
-                                value={description}
-                            />
-                        </div>
-                        <div>
-                            <h3>Vegetarian</h3>
-                            <input
-                                type="checkbox"  
-                                name="vegetarian" 
-                                checked={vegan}
-                            />
-                        </div>
-                        <div>
-                            <h3>Vegan</h3>
-                            <input
-                                type="checkbox"  
-                                name="vegan" 
-                                checked={vegan}
-                            />
-                        </div>
-                        <div>
-                            <h3>Cost Per Meal</h3>
-                            <input
-                                type="number" 
-                                placeholder="cost per meal" 
-                                name="costPerMeal" 
-                                min="1"
-                                value={costPerMeal}
-                            />
-                        </div>
-                        <div>
-                            <h3>Prep time for 1 meal</h3>
-                            <input 
-                                type="number" 
-                                name="basePrepTime"
-                                min="1"
-                                value={basePrepTime}
-                            />
-                        </div>
-                        <div>
-                            <h3>Additional Prep Time Per Meal</h3>
-                            <input 
-                                type="number"  
-                                name="additionalPrepTime"
-                                min="1" 
-                                value={additionalPrepTime}
-                            />
-                        </div>
-                        <div>
-                            <div>
-                                <input 
-                                    type="text"
-                                    placeholder="Add an Ingredient" 
-                                    name="ingredient"
-                                    onChange={this.inputOnChangeHandler}
-                                    value={this.state.ingredient}
-                                />
-                                
-                            </div>
-                            <button
-                            onClick={this.addIngredient}>add</button>
-                            {ingredients && ingredients.map((ingredient, i) => (
-                                <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
-                            ))}
-                            
-                        </div>
-                        <div>
-                            {this.state.recipeImagesArray && this.state.recipeImagesArray.map((imageObj) => {
-                                return <RecipeImage 
-                                    key={imageObj.id} 
-                                    image={imageObj.id} 
-                                    mainImage={false} 
-                                    highlightMainImage={imageObj.mainImage}
-                                    editView={true}
-                                    setMainImage={this.setMainImage}
-                                    removeImage={this.removeImage}
-                                    />
-                            })}
-                        </div>
-                        <div>
-                            <button>
-                                save changes 
-                            </button>
-                        </div>
-                        <div>
-                            <button
-                                onClick={this.onDeleteClick}
-                                >delete recipe
-                            </button>
-                        </div>
-                        
-                    </div>
-                )
-            }
-
-            
+            }           
         } else {
             return <p>Loading</p>
         }
