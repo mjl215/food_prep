@@ -15,23 +15,34 @@ class EditRecipe extends Component {
     super(props);
 
     this.state = {
-      recipeId: null,
-      owner: null,
-      title: "",
-      description: "",
-      ingredients: [],
-      vegan: null,
-      vegetarian: null,
-      costPerMeal: null,
-      basePrepTime: null,
-      additionalPrepTime: null,
-      recipeImagesArray: [],
-      recipeImageNumber: 0
+        recipeId: null,
+        owner: null,
+        originalOwner: null,
+        title: null,
+        originalTitle: null,
+        description: null,
+        originalDescription: null,
+        ingredients: [],
+        originalIngredients: [],
+        vegan: null,
+        originalVegan: null,
+        vegetarian: null,
+        originalVegetarian: null,
+        costPerMeal: null,
+        originalVegetarian: null,
+        basePrepTime: null,
+        originalBasePrepTime: null,
+        additionalPrepTime: null,
+        originalAdditionalPrepTime: null,
+        recipeImagesArray: [],
+        imagesEdited: false
     }  
     
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.setMainImage = this.setMainImage.bind(this);
     this.removeImage = this.removeImage.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.checkboxOnChangeHandler = this.checkboxOnChangeHandler.bind(this);
   }
 
   async componentDidMount(){
@@ -41,17 +52,30 @@ class EditRecipe extends Component {
     const recipeRes = await axios.get(`/recipe/${this.props.match.params.id}`);
     const imageListRes = await axios.get(`/recipe/image/getIds/${this.props.match.params.id}`);
 
+    const {_id, owner, title, description, ingredients, vegan, vegetarian,
+        costPerMeal, basePrepTime, additionalPrepTime
+    } = recipeRes.data;
+
     this.setState({
-        recipeId: recipeRes.data._id,
-        owner: recipeRes.data.owner,
-        title: recipeRes.data.title,
-        description: recipeRes.data.description,
-        ingredients: [...recipeRes.data.ingredients],
-        vegan: recipeRes.data.vegan,
-        vegetarian: recipeRes.data.vegetarian,
-        costPerMeal: recipeRes.data.costPerMeal,
-        basePrepTime: recipeRes.data.basePrepTime,
-        additionalPrepTime: recipeRes.data.additionalPrepTime,
+        recipeId: _id,
+        owner,
+        originalOwner: owner,
+        title,
+        originalTitle: title,
+        description,
+        originalDescription: description,
+        ingredients: [...ingredients],
+        originalIngredients: [...ingredients],
+        vegan,
+        originalVegan: vegan,
+        vegetarian,
+        originalVegetarian: vegetarian,
+        costPerMeal,
+        originalVegetarian: vegetarian,
+        basePrepTime,
+        originalBasePrepTime: basePrepTime,
+        additionalPrepTime,
+        originalAdditionalPrepTime: additionalPrepTime,
         recipeImagesArray: [...imageListRes.data]
     }, () => console.log('set the state'))
   }
@@ -97,125 +121,156 @@ class EditRecipe extends Component {
     }
 }
 
+    onChange(e){
+        this.setState({
+        [e.target.name]: e.target.value
+        })
+    }
 
-  render() {
+    checkboxOnChangeHandler = (e) => {
+        this.setState({
+            [e.target.name]: e.target.checked
+          })
+    }
 
-    const {recipeId, owner, title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state;
-    
-    if(owner === this.props.auth.id){
-      return (
-          <div>
-              <div>
-                  <h1>title</h1>
-                  <input 
-                      type="text"
-                      value={title}
-                      onChange={this.onChange}
-                  />
-              </div>
-              <div>
-                  <h3>description</h3>
-                  <input 
-                      type="text"
-                      value={description}
-                  />
-              </div>
-              <div>
-                  <h3>Vegetarian</h3>
-                  <input
-                      type="checkbox"  
-                      name="vegetarian" 
-                      checked={vegan}
-                  />
-              </div>
-              <div>
-                  <h3>Vegan</h3>
-                  <input
-                      type="checkbox"  
-                      name="vegan" 
-                      checked={vegan}
-                  />
-              </div>
-              <div>
-                  <h3>Cost Per Meal</h3>
-                  <input
-                      type="number" 
-                      placeholder="cost per meal" 
-                      name="costPerMeal" 
-                      min="1"
-                      value={costPerMeal}
-                  />
-              </div>
-              <div>
-                  <h3>Prep time for 1 meal</h3>
-                  <input 
-                      type="number" 
-                      name="basePrepTime"
-                      min="1"
-                      value={basePrepTime}
-                  />
-              </div>
-              <div>
-                  <h3>Additional Prep Time Per Meal</h3>
-                  <input 
-                      type="number"  
-                      name="additionalPrepTime"
-                      min="1" 
-                      value={additionalPrepTime}
-                  />
-              </div>
-              <div>
-                  <div>
-                      <input 
-                          type="text"
-                          placeholder="Add an Ingredient" 
-                          name="ingredient"
-                          onChange={this.inputOnChangeHandler}
-                          value={this.state.ingredient}
-                      />
-                      
-                  </div>
-                  <button
-                  onClick={this.addIngredient}>add</button>
-                  {ingredients && ingredients.map((ingredient, i) => (
-                      <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
-                  ))}
-                  
-              </div>
-              <div>
-                  {this.state.recipeImagesArray && this.state.recipeImagesArray.map((imageObj) => {
-                      return <RecipeImage 
-                          key={imageObj.id} 
-                          image={imageObj.id} 
-                          mainImage={false} 
-                          highlightMainImage={imageObj.mainImage}
-                          editView={true}
-                          setMainImage={this.setMainImage}
-                          removeImage={this.removeImage}
-                          />
-                  })}
-              </div>
-              <div>
-                  <button>
-                      save changes 
-                  </button>
-              </div>
-              <div>
-                  <button
-                      onClick={this.onDeleteClick}
-                      >delete recipe
-                  </button>
-              </div>
-              
-          </div>
-      )
-    } else {
-      return(
-        <div>no data</div>
-      )
-      }
+    async onSaveChanges(){
+        console.log('hi')
+    }
 
-  }
+    render() {
+
+        const {recipeId, owner, title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state;
+        
+        if(owner === this.props.auth.id){
+        return (
+            <div>
+                <div>
+                    <h1>title</h1>
+                    <input
+                        name="title"
+                        type="text"
+                        value={title}
+                        onChange={this.onChange}
+                    />
+                </div>
+                <div>
+                    <h3>description</h3>
+                    <input 
+                        name="description"
+                        type="text"
+                        value={description}
+                        onChange={this.onChange}
+                    />
+                </div>
+                <div>
+                    <h3>Vegetarian</h3>
+                    <input
+                        name="vegetarian"
+                        type="checkbox"  
+                        name="vegetarian"
+                        checked={vegetarian}
+                        onChange={this.checkboxOnChangeHandler}
+                    />
+                </div>
+                <div>
+                    <h3>Vegan</h3>
+                    <input
+                        name="vegan"
+                        type="checkbox"  
+                        name="vegan" 
+                        value={vegan}
+                        checked={vegan}
+                        onChange={this.checkboxOnChangeHandler}
+                    />
+                </div>
+                <div>
+                    <h3>Cost Per Meal</h3>
+                    <input
+                        name="costPerMeal"
+                        type="number" 
+                        placeholder="cost per meal" 
+                        name="costPerMeal" 
+                        min="1"
+                        value={costPerMeal}
+                        onChange={this.onChange}
+                    />
+                </div>
+                <div>
+                    <h3>Prep time for 1 meal</h3>
+                    <input
+                        name="basePrepTime"
+                        type="number" 
+                        name="basePrepTime"
+                        min="1"
+                        value={basePrepTime}
+                        onChange={this.onChange}
+                    />
+                </div>
+                <div>
+                    <h3>Additional Prep Time Per Meal</h3>
+                    <input 
+                        name="additionalPrepTime"
+                        type="number"  
+                        name="additionalPrepTime"
+                        min="1" 
+                        value={additionalPrepTime}
+                        onChange={this.onChange}
+                    />
+                </div>
+                <div>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Add an Ingredient" 
+                            name="ingredient"
+                            onChange={this.inputOnChangeHandler}
+                            value={this.state.ingredient}
+                        />
+                        
+                    </div>
+                    <button
+                    onClick={this.addIngredient}>add</button>
+                    {ingredients && ingredients.map((ingredient, i) => (
+                        <IngredientListItem key={i} ingredient={ingredient} removeIngredient={this.removeIngredient}/>
+                    ))}
+                    
+                </div>
+                <div>
+                    {this.state.recipeImagesArray && this.state.recipeImagesArray.map((imageObj) => {
+                        return <RecipeImage 
+                            key={imageObj.id} 
+                            image={imageObj.id} 
+                            mainImage={false} 
+                            highlightMainImage={imageObj.mainImage}
+                            editView={true}
+                            setMainImage={this.setMainImage}
+                            removeImage={this.removeImage}
+                            />
+                    })}
+                </div>
+                <div>
+                    <button
+                        onClick={this.onSaveChanges}
+                    >
+                        save changes 
+                    </button>
+                </div>
+                <div>
+                    <button
+                        onClick={this.onDeleteClick}
+                        >delete recipe
+                    </button>
+                </div>
+                
+            </div>
+        )
+        } else {
+        return(
+            <div>no data</div>
+        )
+        }
+
+    }
 }
 
 const mapStateToProps = (state) => ({
