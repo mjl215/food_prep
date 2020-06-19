@@ -207,6 +207,31 @@ export const deleteImageById = async (req: Request, res: Response, next: NextFun
     } 
 };
 
+export const updateRecipe = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // // console.log(req.user);
+        // // console.log(req.body);
+
+        // const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
+        //     new: true
+        //   });
+
+        if(req.user.id === req.body.owner){
+            const updatedRecipe = await Recipe.findByIdAndUpdate(req.body.recipe, req.body, {
+                new: true
+            })
+            console.log(req.body);
+            return res.send(updatedRecipe);
+        }
+
+        return res.send('error');
+        
+
+    } catch (e) {
+        res.send(400);
+    }
+}
+
 
 
 

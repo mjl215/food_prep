@@ -26,4 +26,6 @@ router.get('/get-recipe/owner', auth_1.auth, recipe_1.getRecipeByUser);
 //DELETE
 router.delete('/:id', auth_1.auth, recipe_1.deleteRecipeById, recipe_1.deleteImageByRecipeId);
 router.delete('/image/:id', recipe_1.deleteImageById); //ADD auth
+//PATCH 
+router.patch('/update', auth_1.auth, recipe_1.updateRecipe);
 exports.default = router;

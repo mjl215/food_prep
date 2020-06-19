@@ -43,6 +43,7 @@ class EditRecipe extends Component {
     this.removeImage = this.removeImage.bind(this);
     this.onChange = this.onChange.bind(this);
     this.checkboxOnChangeHandler = this.checkboxOnChangeHandler.bind(this);
+    this.onSaveChanges = this.onSaveChanges.bind(this);
   }
 
   async componentDidMount(){
@@ -59,7 +60,6 @@ class EditRecipe extends Component {
     this.setState({
         recipeId: _id,
         owner,
-        originalOwner: owner,
         title,
         originalTitle: title,
         description,
@@ -71,7 +71,7 @@ class EditRecipe extends Component {
         vegetarian,
         originalVegetarian: vegetarian,
         costPerMeal,
-        originalVegetarian: vegetarian,
+        originalCostPerMeal: costPerMeal,
         basePrepTime,
         originalBasePrepTime: basePrepTime,
         additionalPrepTime,
@@ -134,7 +134,48 @@ class EditRecipe extends Component {
     }
 
     async onSaveChanges(){
-        console.log('hi')
+
+        const config = setHeader();
+        let body = {};
+
+        if(this.state.title !== this.state.originalTitle){
+            body.title = this.state.title
+        }
+
+        if(this.state.description !== this.state.originalDescription){
+            body.description = this.state.description
+        }
+
+        if(this.state.vegetarian !== this.state.originalVegetarian){
+            body.vegetarian = this.state.vegetarian
+        }
+
+        if(this.state.vegan !== this.state.originalVegan){
+            body.vegan = this.state.vegan
+        }
+
+        if(this.state.costPerMeal !== this.state.originalCostPerMeal){
+            body.costPerMeal = this.state.costPerMeal
+        }
+
+        if(this.state.basePrepTime !== this.state.originalBasePrepTime){
+            body.basePrepTime = this.state.basePrepTime
+        }
+
+        if(this.state.additionalPrepTime !== this.state.originalAdditionalPrepTime){
+            body.additionalPrepTime = this.state.additionalPrepTime
+        }
+
+        if(Object.keys(body).length > 0){
+            body.owner = this.state.owner;
+            body.recipe = this.state.recipeId;
+            const res = await axios.patch('/recipe/update', body, config);
+            console.log(res);
+        } else {
+            console.log('no changes')
+        }
+
+        
     }
 
     render() {

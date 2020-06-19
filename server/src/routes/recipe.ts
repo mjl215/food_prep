@@ -4,7 +4,7 @@ import multer from 'multer';
 import {
     uploadRecipe ,uploadRecipeImage, uploadRecipeAdditionalImages, getAllRecipes, 
     getMainRecipeImage, getRecipeImageById,getAllImageIds, getRecipe, deleteRecipeById, 
-    deleteImageByRecipeId, deleteImageById, getRecipeByUser
+    deleteImageByRecipeId, deleteImageById, getRecipeByUser, updateRecipe
 } from '../controllers/recipe';
 import { auth } from '../middleware/auth';
 import { validateAddRecipe } from '../middleware/validate';
@@ -29,5 +29,7 @@ router.get('/get-recipe/owner', auth, getRecipeByUser);
 //DELETE
 router.delete('/:id', auth, deleteRecipeById, deleteImageByRecipeId );
 router.delete('/image/:id', deleteImageById); //ADD auth
+//PATCH 
+router.patch('/update', auth, updateRecipe);
 
 export default router;
