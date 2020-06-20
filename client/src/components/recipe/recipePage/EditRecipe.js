@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
+import _ from 'lodash'; //only import function later
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
 import { setUser } from '../../../actions/AuthActions';
 
@@ -22,6 +22,7 @@ class EditRecipe extends Component {
         originalTitle: null,
         description: null,
         originalDescription: null,
+        ingredient: undefined,
         ingredients: [],
         originalIngredients: [],
         vegan: null,
@@ -34,7 +35,7 @@ class EditRecipe extends Component {
         originalBasePrepTime: null,
         additionalPrepTime: null,
         originalAdditionalPrepTime: null,
-        recipeImagesArray: [],
+        originalRecipeImagesArray: [],
         imagesEdited: false
     }  
     
@@ -44,6 +45,8 @@ class EditRecipe extends Component {
     this.onChange = this.onChange.bind(this);
     this.checkboxOnChangeHandler = this.checkboxOnChangeHandler.bind(this);
     this.onSaveChanges = this.onSaveChanges.bind(this);
+    this.addIngredient = this.addIngredient.bind(this);
+    this.removeIngredient = this.removeIngredient.bind(this);
   }
 
   async componentDidMount(){
@@ -76,7 +79,8 @@ class EditRecipe extends Component {
         originalBasePrepTime: basePrepTime,
         additionalPrepTime,
         originalAdditionalPrepTime: additionalPrepTime,
-        recipeImagesArray: [...imageListRes.data]
+        recipeImagesArray: [...imageListRes.data],
+        originalRecipeImagesArray: [...imageListRes.data]
     }, () => console.log('set the state'))
   }
 
@@ -127,10 +131,30 @@ class EditRecipe extends Component {
         })
     }
 
-    checkboxOnChangeHandler = (e) => {
+    checkboxOnChangeHandler(e){
         this.setState({
             [e.target.name]: e.target.checked
           })
+    }
+
+    addIngredient(e){
+        e.preventDefault();
+        this.setState(prevState => ({
+            ingredients: [...prevState.ingredients, prevState.ingredient],
+            ingredient: ''
+        }))
+    }
+
+    removeIngredient(remove){
+
+        const newIngredients = this.state.ingredients.filter((ingredient) => {
+            return ingredient !== remove;
+        })
+
+        this.setState({
+            ingredients: newIngredients
+        })
+
     }
 
     async onSaveChanges(){
@@ -139,31 +163,35 @@ class EditRecipe extends Component {
         let body = {};
 
         if(this.state.title !== this.state.originalTitle){
-            body.title = this.state.title
+            body.title = this.state.title;
         }
 
         if(this.state.description !== this.state.originalDescription){
-            body.description = this.state.description
+            body.description = this.state.description;
         }
 
         if(this.state.vegetarian !== this.state.originalVegetarian){
-            body.vegetarian = this.state.vegetarian
+            body.vegetarian = this.state.vegetarian;
         }
 
         if(this.state.vegan !== this.state.originalVegan){
-            body.vegan = this.state.vegan
+            body.vegan = this.state.vegan;
         }
 
         if(this.state.costPerMeal !== this.state.originalCostPerMeal){
-            body.costPerMeal = this.state.costPerMeal
+            body.costPerMeal = this.state.costPerMeal;
         }
 
         if(this.state.basePrepTime !== this.state.originalBasePrepTime){
-            body.basePrepTime = this.state.basePrepTime
+            body.basePrepTime = this.state.basePrepTime;
         }
 
         if(this.state.additionalPrepTime !== this.state.originalAdditionalPrepTime){
-            body.additionalPrepTime = this.state.additionalPrepTime
+            body.additionalPrepTime = this.state.additionalPrepTime;
+        }
+
+        if(this.state.ingredients !== this.state.originalIngredients){
+            body.ingredients = [...this.state.ingredients];
         }
 
         if(Object.keys(body).length > 0){
@@ -173,6 +201,10 @@ class EditRecipe extends Component {
             console.log(res);
         } else {
             console.log('no changes')
+        }
+
+        if(_.isEqual(this.state.recipeImagesArray, this.state.originalRecipeImagesArray) === false){
+            console.log('images Changed')
         }
 
         
@@ -264,7 +296,7 @@ class EditRecipe extends Component {
                             type="text"
                             placeholder="Add an Ingredient" 
                             name="ingredient"
-                            onChange={this.inputOnChangeHandler}
+                            onChange={this.onChange}
                             value={this.state.ingredient}
                         />
                         
