@@ -203,3 +203,11 @@ exports.updateRecipe = async (req, res, next) => {
         res.send(400);
     }
 };
+exports.updateImage = async (req, res, next) => {
+    try {
+        return res.send('hi');
+    }
+    catch (e) {
+        res.send(400);
+    }
+};

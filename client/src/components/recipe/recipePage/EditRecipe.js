@@ -35,6 +35,7 @@ class EditRecipe extends Component {
         originalBasePrepTime: null,
         additionalPrepTime: null,
         originalAdditionalPrepTime: null,
+        recipeImagesArray: [],
         originalRecipeImagesArray: [],
         imagesEdited: false
     }  
@@ -59,6 +60,11 @@ class EditRecipe extends Component {
     const {_id, owner, title, description, ingredients, vegan, vegetarian,
         costPerMeal, basePrepTime, additionalPrepTime
     } = recipeRes.data;
+
+    imageListRes.data.forEach(e => {
+        e.deleted = false;
+        e.changesMade = false;
+    });
 
     this.setState({
         recipeId: _id,
@@ -88,13 +94,19 @@ class EditRecipe extends Component {
     const newImageArray = this.state.recipeImagesArray.map((image) => {
         if(id === image.id){
             return {
-                id: image.id,
+                ...image,
+                changesMade: true,
                 mainImage: true
+            }
+        } else if(id !== image.id && image.mainImage) {
+            return {
+                ...image,
+                changesMade: true,
+                mainImage: false
             }
         } else {
             return {
-                id: image.id,
-                mainImage: false
+                ...image
             }
         }
     })
@@ -105,11 +117,23 @@ class EditRecipe extends Component {
   }
 
   removeImage(id){
-    this.setState((prevState) => ({
-        recipeImagesArray: prevState.recipeImagesArray.filter((image) => {
-            return image.id !== id
+
+    this.setState((prevState) => {
+        const newArr = prevState.recipeImagesArray.map((image) => {
+            if(image.id === id){
+                return {
+                    ...image,
+                    deleted: true
+                }
+            } else {
+                return image
+            }
         })
-    }))
+
+        return ({
+        recipeImagesArray: [...newArr]
+    })}
+    )
   }
 
   async onDeleteClick(){
@@ -190,7 +214,7 @@ class EditRecipe extends Component {
             body.additionalPrepTime = this.state.additionalPrepTime;
         }
 
-        if(this.state.ingredients !== this.state.originalIngredients){
+        if(_.isEqual(this.state.ingredients, this.state.originalIngredients) === false){
             body.ingredients = [...this.state.ingredients];
         }
 
@@ -204,7 +228,21 @@ class EditRecipe extends Component {
         }
 
         if(_.isEqual(this.state.recipeImagesArray, this.state.originalRecipeImagesArray) === false){
-            console.log('images Changed')
+            console.log('images Changed');
+            const deletedImages = this.state.recipeImagesArray
+                .filter((img) => img.deleted === true)
+                .map(img => img.id);
+
+            console.log(deletedImages);
+
+            const updatedImages = this.state.recipeImagesArray.filter((img) => {
+                return !img.deleted && img.changesMade 
+            })
+
+            console.log(updatedImages);
+            
+            const res = await axios.patch('/recipe/image');
+            console.log(res);
         }
 
         
@@ -309,7 +347,8 @@ class EditRecipe extends Component {
                     
                 </div>
                 <div>
-                    {this.state.recipeImagesArray && this.state.recipeImagesArray.map((imageObj) => {
+                    {this.state.recipeImagesArray && this.state.recipeImagesArray.filter(imgObj => imgObj.deleted !== true)
+                    .map((imageObj) => {
                         return <RecipeImage 
                             key={imageObj.id} 
                             image={imageObj.id} 

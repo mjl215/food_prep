@@ -233,6 +233,19 @@ export const updateRecipe = async (req: Request, res: Response, next: NextFuncti
 }
 
 
+export const updateImage = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        
+
+        return res.send('hi');
+        
+
+    } catch (e) {
+        res.send(400);
+    }
+}
+
+
 
 
 
