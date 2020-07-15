@@ -233,15 +233,33 @@ export const updateRecipe = async (req: Request, res: Response, next: NextFuncti
 }
 
 
-export const updateImage = async (req: Request, res: Response, next: NextFunction) => {
+export const updateImageDelete = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        
+        console.log(req.body);
 
-        return res.send('hi');
+        if(req.body.delete != null){
+            await RecipeImage.deleteMany({_id: {$in: req.body.delete}});
+            return res.send('hi');
+        }
+        
+        return res.send('no images deleted')
+
+    } catch (e) {
+        res.send(e.message);
+    }
+}
+
+export const updateImage =  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log('update');
+
+        setTimeout(() => {
+            return res.send('update')
+        }, 5000)
         
 
     } catch (e) {
-        res.send(400);
+        res.send(e.message);
     }
 }
 

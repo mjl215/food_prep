@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash'; //only import function later
+import { forEach } from 'p-iteration';
+
 import { setSelectedRecipe } from '../../../actions/RecipeActions';
 import { setUser } from '../../../actions/AuthActions';
 
@@ -241,8 +243,30 @@ class EditRecipe extends Component {
 
             console.log(updatedImages);
             
-            const res = await axios.patch('/recipe/image');
-            console.log(res);
+
+            const body = {
+                delete: null,
+                update: null
+            }
+
+            if(deletedImages.length > 0){
+                body.delete = deletedImages
+            }
+
+            if(updatedImages.length > 0){
+                body.update = updatedImages
+            }
+            const config = setHeader();
+            
+            await axios.patch('/recipe/imageUpdateDelete', body, config);
+            
+
+            await forEach(updatedImages, async (image) => {
+                const asyncRes = await axios.patch('/recipe/image');
+                console.log(asyncRes);
+            })
+
+            console.log('done');
         }
 
         

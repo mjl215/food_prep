@@ -203,11 +203,27 @@ exports.updateRecipe = async (req, res, next) => {
         res.send(400);
     }
 };
-exports.updateImage = async (req, res, next) => {
+exports.updateImageDelete = async (req, res, next) => {
     try {
-        return res.send('hi');
+        console.log(req.body);
+        if (req.body.delete != null) {
+            await recipeImages_1.default.deleteMany({ _id: { $in: req.body.delete } });
+            return res.send('hi');
+        }
+        return res.send('no images deleted');
     }
     catch (e) {
-        res.send(400);
+        res.send(e.message);
+    }
+};
+exports.updateImage = async (req, res, next) => {
+    try {
+        console.log('update');
+        setTimeout(() => {
+            return res.send('update');
+        }, 5000);
+    }
+    catch (e) {
+        res.send(e.message);
     }
 };
