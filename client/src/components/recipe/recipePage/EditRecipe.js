@@ -262,7 +262,10 @@ class EditRecipe extends Component {
             
 
             await forEach(updatedImages, async (image) => {
-                const asyncRes = await axios.patch('/recipe/image');
+                const body = {
+                    update: image
+                }
+                const asyncRes = await axios.patch('/recipe/image', body);
                 console.log(asyncRes);
             })
 

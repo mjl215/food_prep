@@ -218,10 +218,12 @@ exports.updateImageDelete = async (req, res, next) => {
 };
 exports.updateImage = async (req, res, next) => {
     try {
-        console.log('update');
-        setTimeout(() => {
-            return res.send('update');
-        }, 5000);
+        console.log(req.body.update);
+        const updatedImage = await recipeImages_1.default.findByIdAndUpdate(req.body.update.id, req.body.update, {
+            new: true
+        });
+        console.log(updatedImage);
+        res.send(200);
     }
     catch (e) {
         res.send(e.message);

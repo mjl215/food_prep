@@ -251,12 +251,14 @@ export const updateImageDelete = async (req: Request, res: Response, next: NextF
 
 export const updateImage =  async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log('update');
+        console.log(req.body.update);
 
-        setTimeout(() => {
-            return res.send('update')
-        }, 5000)
+        const updatedImage = await RecipeImage.findByIdAndUpdate(req.body.update.id, req.body.update, {
+            new: true
+        })
         
+        console.log(updatedImage);
+        res.send(200);
 
     } catch (e) {
         res.send(e.message);
