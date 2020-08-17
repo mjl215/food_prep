@@ -9,6 +9,7 @@ import { setUser } from '../../../actions/AuthActions';
 
 import IngredientListItem from '../uploadRecipe/IngredientListItem';
 import RecipeImage from '../commonRecipe/RecipeImage';
+import PreviewImage from '../../common/PreviewImage';
 
 import setHeader from '../../../utils/setHeader';
 
@@ -39,7 +40,11 @@ class EditRecipe extends Component {
         originalAdditionalPrepTime: null,
         recipeImagesArray: [],
         originalRecipeImagesArray: [],
-        imagesEdited: false
+        imagesEdited: false,
+        additionalImage: null,
+        additionalImagesArray: [],
+        additionalImagesIdArray: [],
+        previewImage: ''
     }  
     
     this.onDeleteClick = this.onDeleteClick.bind(this);
@@ -50,6 +55,7 @@ class EditRecipe extends Component {
     this.onSaveChanges = this.onSaveChanges.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
+    this.setAdditionalImage = this.setAdditionalImage.bind(this);
   }
 
   async componentDidMount(){
@@ -275,6 +281,17 @@ class EditRecipe extends Component {
         
     }
 
+    setAdditionalImage = (e) => {        
+        const additionalImages = e.target.files
+       
+        this.setState((prevState) =>({
+            additionalImagesArray: [...prevState.additionalImagesArray, ...additionalImages]
+        }), () => {
+            document.getElementById("additionalRecipeImage").value = "";
+            console.log(this.state.additionalImagesArray);
+        })
+    }
+
     render() {
 
         const {recipeId, owner, title, description, ingredients, costPerMeal, image, vegan, vegetarian, basePrepTime, additionalPrepTime} = this.state;
@@ -386,6 +403,26 @@ class EditRecipe extends Component {
                             removeImage={this.removeImage}
                             />
                     })}
+                </div>
+                <div>
+                    <p>Add Extra Images</p>
+                    <div>
+                        <input 
+                            type="file" 
+                            multiple
+                            name="additionalFile"
+                            id="additionalRecipeImage"
+                            onChange={this.setAdditionalImage}
+                        />
+                        {/* <Alert /> */}
+                    </div>
+                    <button
+                        onClick={this.addAdditionalImage}
+                        >Add
+                    </button>
+                    {/* {this.state.additionalImagesArray && this.state.additionalImagesArray.map((image, i) => (
+                        <FileListItem key={i} fileName={image.name} />
+                    ))} */}
                 </div>
                 <div>
                     <button
