@@ -44,7 +44,7 @@ class EditRecipe extends Component {
         additionalImage: null,
         additionalImagesArray: [],
         additionalImagesIdArray: [],
-        previewImage: ''
+        previewImage: []
     }  
     
     this.onDeleteClick = this.onDeleteClick.bind(this);
@@ -281,14 +281,22 @@ class EditRecipe extends Component {
         
     }
 
-    setAdditionalImage = (e) => {        
-        const additionalImages = e.target.files
+    setAdditionalImage = (event) => {  
+        const additionalImages = event.target.files
+        
+        if (additionalImages && additionalImages[0]) {
+            this.setState((prevState) => ({
+              previewImage: [...prevState.previewImage, URL.createObjectURL(additionalImages[0])]
+            }));
+          }
+
+
+        
        
         this.setState((prevState) =>({
             additionalImagesArray: [...prevState.additionalImagesArray, ...additionalImages]
         }), () => {
             document.getElementById("additionalRecipeImage").value = "";
-            console.log(this.state.additionalImagesArray);
         })
     }
 
@@ -409,7 +417,6 @@ class EditRecipe extends Component {
                     <div>
                         <input 
                             type="file" 
-                            multiple
                             name="additionalFile"
                             id="additionalRecipeImage"
                             onChange={this.setAdditionalImage}
@@ -420,6 +427,10 @@ class EditRecipe extends Component {
                         onClick={this.addAdditionalImage}
                         >Add
                     </button>
+                    {this.state.previewImage.length > 0 && this.state.previewImage.map((img) => {
+                        return <PreviewImage img={img} />
+                    })}
+                    
                     {/* {this.state.additionalImagesArray && this.state.additionalImagesArray.map((image, i) => (
                         <FileListItem key={i} fileName={image.name} />
                     ))} */}
