@@ -282,7 +282,8 @@ class EditRecipe extends Component {
     }
 
     setAdditionalImage = (event) => {  
-        const additionalImages = event.target.files
+        const additionalImages = event.target.files;
+        console.log(additionalImages)
         
         if (additionalImages && additionalImages[0]) {
             this.setState((prevState) => ({
@@ -419,6 +420,7 @@ class EditRecipe extends Component {
                             type="file" 
                             name="additionalFile"
                             id="additionalRecipeImage"
+                            multiple
                             onChange={this.setAdditionalImage}
                         />
                         {/* <Alert /> */}
