@@ -284,16 +284,19 @@ class EditRecipe extends Component {
     setAdditionalImage = (event) => {  
         const additionalImages = event.target.files;
         console.log(additionalImages)
+
+        const filesToArray = [...additionalImages]
+        const urlArray = filesToArray.map(img => URL.createObjectURL(img));
+        console.log(urlArray);
         
         if (additionalImages && additionalImages[0]) {
             this.setState((prevState) => ({
-              previewImage: [...prevState.previewImage, URL.createObjectURL(additionalImages[0])]
+                previewImage: [...prevState.previewImage, ...urlArray]
             }));
-          }
+        }
 
 
         
-       
         this.setState((prevState) =>({
             additionalImagesArray: [...prevState.additionalImagesArray, ...additionalImages]
         }), () => {
@@ -429,8 +432,8 @@ class EditRecipe extends Component {
                         onClick={this.addAdditionalImage}
                         >Add
                     </button>
-                    {this.state.previewImage.length > 0 && this.state.previewImage.map((img) => {
-                        return <PreviewImage img={img} />
+                    {this.state.previewImage.length > 0 && this.state.previewImage.map((img, i) => {
+                        return <PreviewImage key={i} img={img} />
                     })}
                     
                     {/* {this.state.additionalImagesArray && this.state.additionalImagesArray.map((image, i) => (
