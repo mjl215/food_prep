@@ -13,7 +13,7 @@ export default class PreviewImage extends Component {
     return (
       <div>
         <p>hiiiiiiiiii</p>
-        <img src={this.props.img} />
+        <img className="preview__image--div" src={this.props.img} />
       </div>
     )
   }

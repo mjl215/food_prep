@@ -275,8 +275,21 @@ class EditRecipe extends Component {
                 console.log(asyncRes);
             })
 
+            
+
             console.log('done');
         }
+
+        await forEach(this.state.additionalImagesArray, async (img) => {
+
+            const newData = new FormData();
+                newData.append('mainImage', false);
+                newData.append('recipe', this.state.recipeId)
+                newData.append('upload', img);
+                
+                const { data } = await axios.post('/recipe/image', newData, config);
+                console.log(data)
+        })
 
         
     }
