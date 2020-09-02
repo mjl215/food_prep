@@ -9,7 +9,8 @@ export interface RecipeInterface extends Document {
     vegan: boolean;
     owner: mongoose.Schema.Types.ObjectId;
     basePrepTime: number,
-    additionalPrepTime: number
+    additionalPrepTime: number,
+    reviews: any[]
 }
 
 export interface RecipeModelInterface extends Model<RecipeInterface> {
@@ -55,7 +56,19 @@ const recipeSchema: Schema = new mongoose.Schema({
     additionalPrepTime: {
         type: Number,
         required: true
-    }
+    },
+    reviews: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true
+            },
+            rating: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
 })
 
 const Recipe = mongoose.model<RecipeInterface, RecipeModelInterface>("Recipe", recipeSchema);

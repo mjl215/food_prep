@@ -7,6 +7,8 @@ import {
     deleteImageByRecipeId, deleteImageById, getRecipeByUser, updateRecipe, updateImageDelete,
     updateImage
 } from '../controllers/recipe';
+
+import {PostRecipeReview} from '../controllers/recipeReview';
 import { auth } from '../middleware/auth';
 import { validateAddRecipe } from '../middleware/validate';
 
@@ -20,6 +22,7 @@ const upload = multer({
 router.post('', auth, validateAddRecipe, uploadRecipe);
 router.post('/image', auth, upload.single('upload'), uploadRecipeImage)
 router.post('/additional-image', upload.array('upload'), uploadRecipeAdditionalImages)
+router.post('/review', auth, PostRecipeReview);
 //GET
 router.get('', getAllRecipes);
 router.get('/:id', getRecipe);
@@ -34,5 +37,6 @@ router.delete('/image/:id', deleteImageById); //ADD auth
 router.patch('/update', auth, updateRecipe);
 router.patch('/imageUpdateDelete',auth, updateImageDelete)
 router.patch('/image', updateImage);
+
 
 export default router;

@@ -269,3 +269,6 @@ export const updateImage =  async (req: Request, res: Response, next: NextFuncti
 
 
 
+
+
+

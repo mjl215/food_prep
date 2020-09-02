@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const multer_1 = __importDefault(require("multer"));
 const recipe_1 = require("../controllers/recipe");
+const recipeReview_1 = require("../controllers/recipeReview");
 const auth_1 = require("../middleware/auth");
 const validate_1 = require("../middleware/validate");
 const router = express_1.Router();
@@ -16,6 +17,7 @@ const upload = multer_1.default({
 router.post('', auth_1.auth, validate_1.validateAddRecipe, recipe_1.uploadRecipe);
 router.post('/image', auth_1.auth, upload.single('upload'), recipe_1.uploadRecipeImage);
 router.post('/additional-image', upload.array('upload'), recipe_1.uploadRecipeAdditionalImages);
+router.post('/review', auth_1.auth, recipeReview_1.PostRecipeReview);
 //GET
 router.get('', recipe_1.getAllRecipes);
 router.get('/:id', recipe_1.getRecipe);

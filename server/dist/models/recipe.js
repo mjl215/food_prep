@@ -43,7 +43,19 @@ const recipeSchema = new mongoose_1.default.Schema({
     additionalPrepTime: {
         type: Number,
         required: true
-    }
+    },
+    reviews: [
+        {
+            user: {
+                type: mongoose_1.default.Schema.Types.ObjectId,
+                required: true
+            },
+            rating: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
 });
 const Recipe = mongoose_1.default.model("Recipe", recipeSchema);
 exports.default = Recipe;
