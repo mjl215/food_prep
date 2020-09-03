@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import RecipeReview from '../models/recipeReview';
 import User from '../models/user';
 
-export const PostRecipeReview =  async (req: Request, res: Response, next: NextFunction) => {
+export const postRecipeReview =  async (req: Request, res: Response, next: NextFunction) => {
   try {
       
       const user = await User.findById(req.user._id)
@@ -25,3 +25,60 @@ export const PostRecipeReview =  async (req: Request, res: Response, next: NextF
       res.send(e);
   }
 }
+
+export const getReviewsForRecipe =  async (req: Request, res: Response, next: NextFunction) => {
+  try {
+      
+      const reviews = await RecipeReview.find({recipeId: req.params.id})
+      res.send(reviews);
+
+  } catch (e) {
+      res.send(e);
+  }
+}
+
+export const getReviewsForUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    console.log(req.user._id)
+    res.send(req.params.id);
+
+} catch (e) {
+    res.send(e);
+}
+}
+
+
+
+
+export const deleteRecipeReview =  async (req: Request, res: Response, next: NextFunction) => {
+  try {
+      
+      const deletedReview = await RecipeReview.findOneAndDelete({_id: req.params.id, userId: req.user._id})
+    
+      res.send(deletedReview)
+
+  } catch (e) {
+      res.send(e);
+  }
+}
+
+export const updateRecipeReview =  async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+      const updatedReview = await RecipeReview.findOneAndUpdate({_id: req.params.id, userId: req.user._id}, 
+        req.body.update, 
+        {
+        new: true
+      })
+
+      if(!updatedReview){
+        return res.send('not found')
+      }
+      return res.send(updatedReview)
+
+  } catch (e) {
+      res.send(e);
+  }
+}
+
+

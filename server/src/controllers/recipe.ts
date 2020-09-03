@@ -153,6 +153,7 @@ export const deleteRecipeByUserId = async (req: Request, res: Response, next: Ne
 
 export const deleteRecipeById = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        //fix this to check for recipe owner
         console.log('in deleteRecipeById')
         const recipe = await Recipe.findByIdAndDelete(req.params.id);
         

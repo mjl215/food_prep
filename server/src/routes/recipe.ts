@@ -8,7 +8,9 @@ import {
     updateImage
 } from '../controllers/recipe';
 
-import {PostRecipeReview} from '../controllers/recipeReview';
+import { postRecipeReview, deleteRecipeReview, getReviewsForRecipe, 
+    updateRecipeReview, getReviewsForUser
+} from '../controllers/recipeReview';
 import { auth } from '../middleware/auth';
 import { validateAddRecipe } from '../middleware/validate';
 
@@ -22,7 +24,7 @@ const upload = multer({
 router.post('', auth, validateAddRecipe, uploadRecipe);
 router.post('/image', auth, upload.single('upload'), uploadRecipeImage)
 router.post('/additional-image', upload.array('upload'), uploadRecipeAdditionalImages)
-router.post('/review', auth, PostRecipeReview);
+router.post('/review', auth, postRecipeReview);
 //GET
 router.get('', getAllRecipes);
 router.get('/:id', getRecipe);
@@ -30,13 +32,17 @@ router.get('/mainImage/:id', getMainRecipeImage);
 router.get('/image/:id', getRecipeImageById)
 router.get('/image/getIds/:id', getAllImageIds);
 router.get('/get-recipe/owner', auth, getRecipeByUser);
+router.get('/review/:id', getReviewsForRecipe);
+router.get('/review/user/:id', auth, getReviewsForUser);
 //DELETE
 router.delete('/:id', auth, deleteRecipeById, deleteImageByRecipeId );
 router.delete('/image/:id', deleteImageById); //ADD auth
+router.delete('/review/:id', auth, deleteRecipeReview)
 //PATCH 
 router.patch('/update', auth, updateRecipe);
 router.patch('/imageUpdateDelete',auth, updateImageDelete)
-router.patch('/image', updateImage);
+router.patch('/image', updateImage); // ADD AUTH
+router.patch('/review/:id', auth, updateRecipeReview)
 
 
 export default router;
