@@ -34,7 +34,11 @@ exports.getReviewsForRecipe = async (req, res, next) => {
 exports.getReviewsForUser = async (req, res, next) => {
     try {
         console.log(req.user._id);
-        res.send(req.params.id);
+        if (req.user._id != req.params.id) {
+            return res.send('error');
+        }
+        const reviews = await recipeReview_1.default.find({ userId: req.params.id });
+        res.send(reviews);
     }
     catch (e) {
         res.send(e);

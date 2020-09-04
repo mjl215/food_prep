@@ -98,7 +98,7 @@ class UserDetails extends Component {
         const config = setHeader()
         const data = new FormData();
         data.append('upload', this.state.newProfilePicture);
-        const imageRes = await axios.patch('/user/profilePicture/1', data, config);
+        const imageRes = await axios.patch('/user/profilePicture', data, config);
         console.log(imageRes);
       }
       

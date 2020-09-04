@@ -37,7 +37,7 @@ export const uploadProfilePicture =  async (req: Request, res: Response, next: N
 
         const savedProfileImage = await profileImage.save();
 
-        res.send();
+        res.send(savedProfileImage);
     } catch (error) {
         console.log(error);
         res.status(400).send();

@@ -32,7 +32,7 @@ exports.uploadProfilePicture = async (req, res, next) => {
         profileImage.image = req.file.buffer;
         profileImage.user = req.body.user;
         const savedProfileImage = await profileImage.save();
-        res.send();
+        res.send(savedProfileImage);
     }
     catch (error) {
         console.log(error);

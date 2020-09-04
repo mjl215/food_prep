@@ -4,6 +4,7 @@ export interface RecipeReviewInterface extends Document {
   recipeId: mongoose.Schema.Types.ObjectId;
   userId: mongoose.Schema.Types.ObjectId;
   rating: number;
+  review: string;
 }
 
 export interface RecipeReviewModelInterface extends Model<RecipeReviewInterface> {
@@ -24,6 +25,9 @@ const recipeReviewSchema: Schema = new mongoose.Schema({
       required: true,
       min: 0,
       max: 5
+    },
+    review: {
+      type: String
     }
 })
 

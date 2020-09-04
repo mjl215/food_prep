@@ -18,6 +18,9 @@ const recipeReviewSchema = new mongoose_1.default.Schema({
         required: true,
         min: 0,
         max: 5
+    },
+    review: {
+        type: String
     }
 });
 const RecipeReview = mongoose_1.default.model("RecipeReview", recipeReviewSchema);

@@ -40,13 +40,20 @@ export const getReviewsForRecipe =  async (req: Request, res: Response, next: Ne
 export const getReviewsForUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(req.user._id)
-    res.send(req.params.id);
+    
+
+    if(req.user._id != req.params.id){
+      return res.send('error')
+    }
+
+    const reviews =  await RecipeReview.find({userId: req.params.id})
+
+    res.send(reviews)
 
 } catch (e) {
     res.send(e);
 }
 }
-
 
 
 

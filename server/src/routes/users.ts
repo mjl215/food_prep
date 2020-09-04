@@ -24,7 +24,7 @@ const upload = multer({
 router.post('/register', validateRegister, createUser);
 router.post('/profilePicture', upload.single('upload'), uploadProfilePicture); //add auth if possible
 router.get('/profilePicture/:id', getProfilePicture);
-router.patch('/profilePicture/:id', auth, upload.single('upload'), updateProfilePicture);
+router.patch('/profilePicture', auth, upload.single('upload'), updateProfilePicture);
 router.post('/login', loginUser);
 router.post('/logout', auth , logoutUser);
 router.post('/auth', auth, authUser);

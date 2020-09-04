@@ -4,14 +4,14 @@ import axios from 'axios';
 export const registerUser = (body, config, image) => async dispatch => {
   try {
     const res = await axios.post('/user/register', body, config);
-    console.log(res);
+    
     const data = new FormData();
     data.append('user', res.data.user._id);
     data.append('upload', image);
-    const imageRes = await axios.post('/user/profilePicture', data);
-    console.log(imageRes);
+    const imageRes = await axios.post('/user/profilePicture', data, config);
+   
     localStorage.setItem('token', JSON.stringify(res.data.token));
-    //const decoded = jwtDecode(res.data.token);
+    
 
     dispatch({
       type: action_types.REGISTER_SUCCESS,
