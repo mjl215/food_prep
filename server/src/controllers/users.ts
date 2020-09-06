@@ -66,18 +66,19 @@ export const getProfilePicture = async (req: Request, res: Response, next: NextF
 
 export const updateProfilePicture = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
+        console.log(req.user._id)
         const profilePicture = await ProfileImage.findOneAndUpdate({user: req.user._id}, {image: req.file.buffer})
         
         
         if(!profilePicture || !profilePicture.image){
+            
             throw new Error();
         }
 
         console.log(req.file.buffer);
 
         
-        res.send('hi from update profile pciture');
+        res.send('hi from update profile pciture'); // change this
     } catch (error) {
         console.log(error);
         res.status(400).send();
@@ -153,6 +154,24 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 
     } catch (e) {
         res.status(500).send();
+    }
+}
+
+//UPDATE USER
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // console.log(req.user);
+        // console.log(req.body);
+
+        const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
+            new: true
+          });
+
+
+        res.send(updatedUser);
+
+    } catch (e) {
+        res.send(400);
     }
 }
 
@@ -278,19 +297,4 @@ export const resetPasswordEdit = async (req: Request, res: Response, next: NextF
     }
 }
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        // console.log(req.user);
-        // console.log(req.body);
 
-        const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
-            new: true
-          });
-
-
-        res.send('hi');
-
-    } catch (e) {
-        res.send(400);
-    }
-}

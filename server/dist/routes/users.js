@@ -23,12 +23,13 @@ router.patch('/profilePicture', auth_1.auth, upload.single('upload'), users_1.up
 router.post('/login', users_1.loginUser);
 router.post('/logout', auth_1.auth, users_1.logoutUser);
 router.post('/auth', auth_1.auth, users_1.authUser);
+router.delete('', auth_1.auth, users_1.deleteUser, recipe_1.deleteImageByUserID, recipe_1.deleteRecipeByUserId); //Add Profile Images and orders
+router.patch('/update', auth_1.auth, users_1.updateUser);
+//PASSWORD RESET
 router.post('/forgotPassword', users_1.passwordEmailReset);
 router.get('/resetCheck', users_1.resetPasswordCheck);
 router.post('/resetPassword', users_1.resetPassword);
 router.post('/resetPasswordEdit', users_1.resetPasswordEdit);
-router.delete('', auth_1.auth, users_1.deleteUser, recipe_1.deleteImageByUserID, recipe_1.deleteRecipeByUserId);
-router.patch('/update', auth_1.auth, users_1.updateUser);
 //Basket Controller
 router.post('/basket', auth_1.auth, basket_1.addBasket);
 router.post('/basket/checkout', auth_1.auth, basket_1.checkout);

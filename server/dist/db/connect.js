@@ -8,7 +8,9 @@ exports.default = (db) => {
     const connect = () => {
         mongoose_1.default.connect(db, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+            useCreateIndex: true
         }).then(() => {
             return console.log(`connected to ${db}`);
         })

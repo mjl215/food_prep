@@ -4,7 +4,9 @@ export default (db:string) => {
     const connect = () => {
         mongoose.connect(db, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+            useCreateIndex: true
         }).then(() => {
                 return console.log(`connected to ${db}`)
             })

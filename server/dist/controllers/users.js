@@ -55,12 +55,13 @@ exports.getProfilePicture = async (req, res, next) => {
 };
 exports.updateProfilePicture = async (req, res, next) => {
     try {
+        console.log(req.user._id);
         const profilePicture = await profileImage_1.default.findOneAndUpdate({ user: req.user._id }, { image: req.file.buffer });
         if (!profilePicture || !profilePicture.image) {
             throw new Error();
         }
         console.log(req.file.buffer);
-        res.send('hi from update profile pciture');
+        res.send('hi from update profile pciture'); // change this
     }
     catch (error) {
         console.log(error);
@@ -125,6 +126,20 @@ exports.deleteUser = async (req, res, next) => {
     }
     catch (e) {
         res.status(500).send();
+    }
+};
+//UPDATE USER
+exports.updateUser = async (req, res, next) => {
+    try {
+        // console.log(req.user);
+        // console.log(req.body);
+        const updatedUser = await user_1.default.findByIdAndUpdate(req.user.id, req.body, {
+            new: true
+        });
+        res.send(updatedUser);
+    }
+    catch (e) {
+        res.send(400);
     }
 };
 //SEND RESET EMAIL
@@ -216,19 +231,6 @@ exports.resetPasswordEdit = async (req, res, next) => {
         user.password = newPassword;
         const updatedUser = await user.save();
         res.send(updatedUser);
-    }
-    catch (e) {
-        res.send(400);
-    }
-};
-exports.updateUser = async (req, res, next) => {
-    try {
-        // console.log(req.user);
-        // console.log(req.body);
-        const updatedUser = await user_1.default.findByIdAndUpdate(req.user.id, req.body, {
-            new: true
-        });
-        res.send('hi');
     }
     catch (e) {
         res.send(400);
