@@ -26,7 +26,7 @@ class ForgotPassword extends Component {
       const { data } = await axios.post('/user/forgotPassword', body);
 
     } catch (error) {
-      
+      console.log(error);
     }
 
   }

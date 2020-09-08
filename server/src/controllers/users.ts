@@ -178,13 +178,13 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
 //SEND RESET EMAIL
 export const passwordEmailReset = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
+        
         const user = await User.findOne({email: req.body.email});
 
         if(!user){
             return res.send('user not found')
         }
-
+       
         const passwordToken = crypto.randomBytes(20).toString('hex');
 
         user.passwordToken = passwordToken;
